@@ -43,8 +43,30 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)){
                 const wcSuiteInfo = json as WCSuiteInfo;
                 wcSuiteInfo.tags.forEach(tag => {
                     if(tag.selfResolvingModulePath) import(tag.selfResolvingModulePath);
-                    if(tag.properties !== undefined && tag.properties.find(prop => prop.testValues !== undefined)){
-                        tag.properties.for
+                    if(tag.testCaseNames !== undefined){
+                        tag.testCaseNames.forEach(testCaseName =>{
+                            const tagInstance = document.createElement(tag.name);
+                            if(tag.attributes !== undefined){
+                                tag.attributes.forEach(attrib =>{
+                                    if(attrib.testValues !== undefined){
+                                        if(attrib.testValues[testCaseName] !== undefined){
+                                            tagInstance.setAttribute(attrib.name, attrib.testValues[testCaseName])
+                                        }
+                                    }
+                                })
+                            }
+                            if(tag.properties !== undefined){
+                                tag.properties.forEach(prop =>{
+                                    if(prop.testValues !== undefined){
+                                        const propTestVal = prop.testValues[testCaseName];
+                                        if(propTestVal !== undefined){
+                                            (<any>tagInstance)[prop.name] = propTestVal;
+                                        }
+                                    }
+                                })
+                            }
+                            this.appendChild(tagInstance);
+                        });
                     }else{
                         const tagInstance = document.createElement(tag.name);
                         this.appendChild(tagInstance);
