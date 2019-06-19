@@ -43,8 +43,14 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)){
                 const wcSuiteInfo = json as WCSuiteInfo;
                 wcSuiteInfo.tags.forEach(tag => {
                     if(tag.selfResolvingModulePath) import(tag.selfResolvingModulePath);
+                    const h3 = document.createElement('h3');
+                    h3.textContent = tag.name;
+                    this.appendChild(h3);
                     if(tag.testCaseNames !== undefined){
                         tag.testCaseNames.forEach(testCaseName =>{
+                            const h4 = document.createElement('h4');
+                            h4.textContent = testCaseName + ', for instance';
+                            this.appendChild(h4);
                             const tagInstance = document.createElement(tag.name);
                             if(tag.attributes !== undefined){
                                 tag.attributes.forEach(attrib =>{
