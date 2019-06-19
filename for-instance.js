@@ -44,7 +44,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
                     this.appendChild(h3);
                     if (tag.testCaseNames !== undefined) {
                         tag.testCaseNames.forEach(testCaseName => {
-                            const h4 = document.createElement('h4');
+                            const h4 = document.createElement('mark');
                             h4.textContent = testCaseName + ', for instance';
                             this.appendChild(h4);
                             const tagInstance = document.createElement(tag.name);
