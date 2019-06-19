@@ -30,6 +30,9 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         this._c = true;
         this.onPropsChange();
     }
+    sendFailure(el) {
+        el.textContent = 'failed';
+    }
     onPropsChange() {
         if (!this._c || this._disabled || !this._href)
             return;
@@ -63,6 +66,45 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
                                         const propTestVal = prop.testValues[testCaseName];
                                         if (propTestVal !== undefined) {
                                             tagInstance[prop.name] = propTestVal;
+                                        }
+                                    }
+                                });
+                            }
+                            if (tag.customEvents !== undefined) {
+                                tag.customEvents.forEach(evt => {
+                                    if (evt.testExpectedValues !== undefined) {
+                                        const expectedVal = evt.testExpectedValues[testCaseName];
+                                        if (expectedVal !== undefined) {
+                                            const testDiv = document.createElement('div');
+                                            testDiv.textContent = 'Awaiting event ' + evt.name;
+                                            this.appendChild(testDiv);
+                                            tagInstance.addEventListener(evt.name, e => {
+                                                const detail = e.detail;
+                                                if (detail === undefined) {
+                                                    this.sendFailure(testDiv);
+                                                }
+                                                else {
+                                                    for (var key in expectedVal) {
+                                                        const detailField = detail[key];
+                                                        const expectedValField = expectedVal[key];
+                                                        if (typeof detailField !== typeof expectedValField) {
+                                                            this.sendFailure(testDiv);
+                                                        }
+                                                        switch (typeof detailField) {
+                                                            case 'object':
+                                                                const lhs = JSON.stringify(detailField);
+                                                                const rhs = JSON.stringify(expectedValField);
+                                                                if (lhs !== rhs) {
+                                                                    this.sendFailure(testDiv);
+                                                                }
+                                                                else {
+                                                                    testDiv.textContent = 'success';
+                                                                }
+                                                                break;
+                                                        }
+                                                    }
+                                                }
+                                            });
                                         }
                                     }
                                 });
