@@ -35,8 +35,15 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)){
         this._c = true;
         this.onPropsChange();
     }
-    sendFailure(el: HTMLElement){
-        el.textContent = 'failed';
+    sendFailure(el: HTMLElement, testName: string){
+        el.textContent = testName + ' failed.';
+        el.style.backgroundColor = 'red';
+        el.style.color = 'white';
+    }
+    sendSuccess(el: HTMLElement, testName: string){
+        el.textContent = testName + ' succeeded.';
+        el.style.backgroundColor = 'green';
+        el.style.color = 'white';
     }
     onPropsChange(){
         if(!this._c || this._disabled || !this._href) return; 
@@ -84,22 +91,22 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)){
                                             tagInstance.addEventListener(evt.name, e =>{
                                                 const detail = (<any>e).detail;
                                                 if(detail === undefined){
-                                                    this.sendFailure(testDiv);
+                                                    this.sendFailure(testDiv, testCaseName);
                                                 }else{
                                                     for(var key in expectedVal){
                                                         const detailField = detail[key];
                                                         const expectedValField = expectedVal[key];
                                                         if(typeof detailField !== typeof expectedValField){
-                                                            this.sendFailure(testDiv);
+                                                            this.sendFailure(testDiv, testCaseName);
                                                         }
                                                         switch(typeof detailField){
                                                             case 'object':
                                                                 const lhs = JSON.stringify(detailField);
                                                                 const rhs = JSON.stringify(expectedValField);
                                                                 if(lhs !== rhs){
-                                                                    this.sendFailure(testDiv);
+                                                                    this.sendFailure(testDiv, testCaseName);
                                                                 }else{
-                                                                    testDiv.textContent = 'success';
+                                                                    this.sendSuccess(testDiv, testCaseName)
                                                                 }
                                                                 break;
                                                         }
