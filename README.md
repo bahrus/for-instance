@@ -10,7 +10,7 @@ So for-instance attempts to compensate for this lack of support.  It does this b
 
 If a vendor and language-neutral way of describing a web component could be established, it would open the doors to a whole variety of applications, including browser extensions that work well with all web component libraries, visual designers, etc.  It could even be leveraged easily from web assembly.
 
-
+for-instance does not attempt to test anything beyond simple input / output mechanics.  In the case of web components, often that will be a rather trivial test -- often events are simply fired when a property changes.  Typically, in practice, that property will change due to a user action, like clicking on an internal button.  So one way to test that is simply pass an object to the property, and confirm that the corresponding event fires.  for-instance supports that without any additional automation tooling.  
 
 ## Syntax
 
