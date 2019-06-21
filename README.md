@@ -1,14 +1,18 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/for-instance)
+
+<a href="https://nodei.co/npm/for-instance/"><img src="https://nodei.co/npm/for-instance.png"></a>
+
 # for-instance
 
-I, *for-instance*, dream of serving as the Swagger of web components.  Or at least cheering on such a thing.
+I, *for-instance*, dream of serving as the Swagger of web components.  Or at least cheering on such a thing from those with more clout.
 
 Whereas Swagger rests on the OpenAPI schema, I validate a "contract," specified via the [wc-info schema](https://github.com/bahrus/wc-info), which is itself an extension of the (fledgling) VSCode [schema support for web components](https://code.visualstudio.com/updates/v1_31#_html-and-css-custom-data-support).  
 
 My most important mission is to allow one to "prove" that the custom event signatures specified in the json file are accurate.  I believe that there's a significant missing language (or custom element?) feature in JS that affects web components. My creator's [mother tongue supports](https://www.developer.com/net/vb/article.php/1430631/Declaring-and-Raising-Events-in-Visual-Basic-6.htm) the ability to declare "custom event" signatures spawned by the UI component in a standard way.
 
-So I attempt to compensate for this lack of support.  I do so by running tests, as specified in the html.json file.  I treat a web component as a function of its attributes / properties, where the output of those functions are events, and confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
+So I attempt to compensate for this lack of support.  I do so by running tests, as specified in the html.json file.  I treat a web component as a function of its attributes / properties (and light children, soon), where the output of those functions are events, and confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
 
-If a vendor and language-neutral way of describing a web component could be established, it would open the doors to a whole variety of applications, including browser extensions that work well with all web component libraries, visual designers, etc.  It could even be leveraged easily from web assembly.  Trying to do the same with JS reflection would require everyone conforming to a particular, static structure, a feat of cat-herding proportions.
+If a vendor and language-neutral way of describing a web component could be established, it would open the doors to a whole variety of applications, including browser extensions that work well with all web component libraries, visual designers, etc.  It could even be leveraged easily from web assembly.  Trying to do the same with JS reflection would require everyone conforming to a particular, static structure, a feat of cat-herding purrportions.
 
 It seems likely such a file could be used to generate a typescript *.d.ts which could be added to the definitelyTyped repository, and maybe even approach the clarity of my creator's mother tongue.
 
@@ -22,7 +26,41 @@ I do not attempt to test anything beyond simple input / output mechanics.  In th
     <for-instance href="https://unpkg.com/xtal-fetch@0.0.64/html.json"></for-instance>
 ```
 
+
 If you view the links specified by the href attributes above, you will see the JSON contains test information.  I then run those tests, which allows the user to a)  See the actual web component display some default, sample content (if applicable), and b)  Validate any tests (if available)
+
+
+## Demo
+
+<!--
+```
+<custom-element-demo>
+<template>
+    <div>
+    <for-instance href="https://unpkg.com/xtal-fetch@0.0.64/html.json"></for-instance>
+
+    <for-instance href="https://unpkg.com/xtal-frappe-chart@0.0.35/html.json"></for-instance>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.7/dist/es-module-shims.js"></script>
+    <script type="importmap-shim">
+    {
+        "imports": {
+            "xtal-element/": "https://cdn.jsdelivr.net/npm/xtal-element@0.0.60/",
+            "trans-render/": "https://cdn.jsdelivr.net/npm/trans-render@0.0.115/",
+            "wc-info": "https://cdn.jsdelivr.net/npm/wc-info@0.0.53/"
+        }
+    }
+    </script>
+    <script  type="module-shim">
+        import 'https://cdn.jsdelivr.net/npm/for-instance@0.0.1/for-instance.js';
+    </script>
+    </div>
+</template>
+</custom-element-demo>
+```
+-->
+
+## Tentative Schema
 
 ```TypeScript
 export interface WCSuiteInfo {
@@ -76,5 +114,11 @@ export interface CustomEventInfo extends Info {
 }
 
 
+```
+
+## Viewing Your Element (locally)
+
+```
+$ npm run serve
 ```
 
