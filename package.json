@@ -12,11 +12,11 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "wc-info": "0.0.53"
+    "wc-info": "0.0.61"
   },
   "peerDependencies": {
-    "xtal-element": "0.0.60",
-    "trans-render": "0.0.115"
+    "xtal-element": "0.0.76",
+    "trans-render": "0.0.126"
   },
   "devDependencies": {
     "xtal-test": "0.0.19"
