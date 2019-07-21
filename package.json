@@ -12,7 +12,8 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "wc-info": "0.0.61"
+    "wc-info": "0.0.65",
+    "swag-tag": "0.0.1"
   },
   "peerDependencies": {
     "xtal-element": "0.0.76",
