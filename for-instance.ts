@@ -2,7 +2,7 @@ import { define } from "trans-render/define.js";
 import { XtallatX } from "xtal-element/xtal-latx.js";
 import { hydrate, disabled } from "trans-render/hydrate.js";
 import { WCSuiteInfo } from "wc-info/types.d.js";
-import {SwagTag} from "swag-tag/swag-tag.js";
+import  "swag-tag/swag-tag.js";
 
 const href = "href";
 export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
@@ -61,17 +61,21 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
             // const summary = document.createElement('summary');
             // summary.textContent = 'tinker';
             // details.appendChild()
-            const details$ = /* html */`
-              <details>
-                <summary>Tinker with ${tag.name}'s properties.</summary>
-              </details>
-            `;
-            this.insertAdjacentHTML('beforeend', details$);
+
+            
             if (tag.testCaseNames !== undefined) {
               tag.testCaseNames.forEach(testCaseName => {
                 const h4 = document.createElement("mark");
                 h4.textContent = testCaseName + ", for instance";
                 this.appendChild(h4);
+
+                const details$ = /* html */`
+                <details>
+                  <summary>Tinker with ${tag.name}'s properties.</summary>
+                  <swag-tag href="${this._href}" tag=${tag.name} test=${testCaseName}></swag-tag>
+                </details>
+                `;
+                this.insertAdjacentHTML('beforeend', details$);
                 let tagInstance: HTMLElement | undefined;
                 try {
                   tagInstance = document.createElement(tag.name);
