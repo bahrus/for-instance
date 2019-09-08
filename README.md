@@ -37,23 +37,11 @@ If you view the links specified by the href attributes above, you will see the J
 <custom-element-demo>
 <template>
     <div>
-    <for-instance href="https://unpkg.com/xtal-fetch@0.0.64/html.json"></for-instance>
+    <for-instance href="https://unpkg.com/xtal-fetch@0.0.72/html.json"></for-instance>
 
-    <for-instance href="https://unpkg.com/xtal-frappe-chart@0.0.35/html.json"></for-instance>
+    <for-instance href="https://unpkg.com/xtal-frappe-chart@0.0.44/custom-elements.json"></for-instance>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.7/dist/es-module-shims.js"></script>
-    <script type="importmap-shim">
-    {
-        "imports": {
-            "xtal-element/": "https://cdn.jsdelivr.net/npm/xtal-element@0.0.60/",
-            "trans-render/": "https://cdn.jsdelivr.net/npm/trans-render@0.0.115/",
-            "wc-info": "https://cdn.jsdelivr.net/npm/wc-info@0.0.53/"
-        }
-    }
-    </script>
-    <script  type="module-shim">
-        import 'https://cdn.jsdelivr.net/npm/for-instance@0.0.1/for-instance.js';
-    </script>
+    <script type="module" href="https://unpkg.com/for-instance@0.0.4/for-instance.js?module"></script>
     </div>
 </template>
 </custom-element-demo>

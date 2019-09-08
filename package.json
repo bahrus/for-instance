@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "description": "",
   "main": "for-instance.js",
+  "module": "for-instance.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "node node_modules/xtal-test/serve.js"
