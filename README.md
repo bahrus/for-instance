@@ -2,6 +2,8 @@
 
 <a href="https://nodei.co/npm/for-instance/"><img src="https://nodei.co/npm/for-instance.png"></a>
 
+<img src="https://badgen.net/bundlephobia/minzip/for-instance">
+
 # for-instance
 
 I, *for-instance*, dream of serving as the Swagger of web components.  Or at least cheering on such a thing from those with more clout.
@@ -41,7 +43,7 @@ If you view the links specified by the href attributes above, you will see the J
 
     <for-instance href="https://unpkg.com/xtal-frappe-chart@0.0.44/custom-elements.json"></for-instance>
 
-    <script type="module" href="https://unpkg.com/for-instance@0.0.4/for-instance.js?module"></script>
+    <script type="module" src="https://unpkg.com/for-instance@0.0.5/for-instance.js?module"></script>
     </div>
 </template>
 </custom-element-demo>
