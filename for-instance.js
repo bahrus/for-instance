@@ -2,6 +2,8 @@ import { define } from "trans-render/define.js";
 import { XtallatX } from "xtal-element/xtal-latx.js";
 import { hydrate } from "trans-render/hydrate.js";
 import "swag-tag/swag-tag.js";
+import "if-diff/if-diff.js";
+import "p-et-alia/p-d.js";
 const href = "href";
 export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     constructor() {
@@ -67,8 +69,13 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
                                 this.appendChild(h4);
                                 const details$ = /* html */ `
                 <details>
+                  <p-d on=toggle to=[-if] val=target.open m=1 skip-init></p-d>
                   <summary>Tinker with ${tag.name}'s properties.</summary>
-                  <swag-tag href="${this._href}" tag=${tag.name} test=${testCaseName}></swag-tag>
+                  <if-diff -if data-key-name=open m=1></if-diff>
+                  <template data-open=0>
+                    <swag-tag href="${this._href}" tag=${tag.name} test=${testCaseName} ></swag-tag>
+                  </template>
+                  
                 </details>
                 `;
                                 this.insertAdjacentHTML('beforeend', details$);
