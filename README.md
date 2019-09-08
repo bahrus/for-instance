@@ -39,11 +39,34 @@ If you view the links specified by the href attributes above, you will see the J
 <custom-element-demo>
 <template>
     <div>
-    <for-instance href="https://unpkg.com/xtal-fetch@0.0.72/html.json"></for-instance>
+        <for-instance href="https://unpkg.com/xtal-fetch@0.0.72/html.json"></for-instance>
 
-    <for-instance href="https://unpkg.com/xtal-frappe-chart@0.0.44/custom-elements.json"></for-instance>
+        <for-instance href="https://unpkg.com/xtal-frappe-chart@0.0.44/custom-elements.json"></for-instance>
 
-    <script type="module" src="https://unpkg.com/for-instance@0.0.5/for-instance.js?module"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.7/dist/es-module-shims.js"></script>
+        <script type="importmap-shim">
+        {
+            "imports": {
+                
+                "xtal-element/": "https://cdn.jsdelivr.net/npm/xtal-element@0.0.82/",
+                "trans-render/": "https://cdn.jsdelivr.net/npm/trans-render@0.0.131/",
+                "if-diff/": "https://cdn.jsdelivr.net/npm/if-diff@0.0.36/",
+                "p-et-alia/": "https://cdn.jsdelivr.net/npm/p-et-alia@0.0.44/",
+                "wc-info": "https://cdn.jsdelivr.net/npm/wc-info@0.0.65/",
+                "swag-tag/": "https://cdn.jsdelivr.net/npm/swag-tag@0.0.3/",
+                "event-switch/": "https://cdn.jsdelivr.net/npm/event-switch@0.0.12/",
+                "hypo-link/": "https://cdn.jsdelivr.net/npm/hypo-link@0.0.14/",
+                "p-et-alia/": "https://cdn.jsdelivr.net/npm/p-et-alia@0.0.44/",
+                "xtal-json-editor/": "https://cdn.jsdelivr.net/npm/xtal-json-editor/",
+                "xtal-text-input-md/": "https://cdn.jsdelivr.net/npm/xtal-text-input-md/",
+                "xtal-checkbox-input-md/": "https://cdn.jsdelivr.net/npm/xtal-checkbox-input-md/",
+                "xtal-text-area-md/": "https://cdn.jsdelivr.net/npm/xtal-text-area-md/"
+            }
+        }
+        </script>
+        <script  type="module-shim">
+            import 'https://cdn.jsdelivr.net/npm/for-instance@0.0.5/for-instance.js';
+        </script>
     </div>
 </template>
 </custom-element-demo>
