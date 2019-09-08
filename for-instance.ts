@@ -76,9 +76,12 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
                   <p-d on=toggle to=[-if] val=target.open m=1 skip-init></p-d>
                   <summary>Tinker with ${tag.name}'s properties.</summary>
                   <if-diff -if data-key-name=open m=1></if-diff>
-                  <template data-open=0>
-                    <swag-tag href="${this._href}" tag=${tag.name} test=${testCaseName} ></swag-tag>
-                  </template>
+                  <div data-open=0>
+                    <template >
+                      <swag-tag href="${this._href}" tag=${tag.name} test=${testCaseName} ></swag-tag>
+                    </template>
+                  </div>
+
                   
                 </details>
                 `;
