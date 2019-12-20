@@ -54,40 +54,43 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         el.textContent = testName + " failed.";
         el.style.backgroundColor = "red";
         el.style.color = "white";
+        el.setAttribute('err', '');
     }
     sendSuccess(el, testName) {
         el.textContent = testName + " succeeded.";
         el.style.backgroundColor = "green";
         el.style.color = "white";
+        el.removeAttribute('err');
+        el.setAttribute('mark', '');
     }
-    onPropsChange() {
+    async onPropsChange() {
         if (!this._c || this._disabled || this._href === undefined || this._prop === undefined || this._tag === undefined)
             return;
-        fetch(this._href).then(resp => {
-            resp.json().then(json => {
-                const elementSetInfo = json;
-                const tag = elementSetInfo.tags.find(tag => tag.name === this._tag);
-                if (tag === undefined)
-                    return;
-                const prop = tag.properties.find(prop => prop.name === this._prop);
-                if (prop === undefined)
-                    return;
-                const contract = JSON.parse(prop.default);
-                const elem = document.createElement(tag.name);
-                elem.addEventListener(contract.expectedEvent.name, e => {
-                    debugger;
-                });
-                this.appendChild(elem);
-                const trigger = contract.trigger;
-                if (trigger != undefined) {
-                    const scr = document.createElement('script');
-                    scr.type = 'module';
-                    scr.innerHTML = trigger;
-                    document.head.appendChild(scr);
-                }
-            });
+        const resp = await fetch(this._href);
+        const json = await resp.json();
+        const elementSetInfo = json;
+        const tag = elementSetInfo.tags.find(tag => tag.name === this._tag);
+        if (tag === undefined)
+            return;
+        const prop = tag.properties.find(prop => prop.name === this._prop);
+        if (prop === undefined)
+            return;
+        const contract = JSON.parse(prop.default);
+        const elem = document.createElement(tag.name);
+        const result = document.createElement('div');
+        this.sendFailure(result, this._prop);
+        elem.addEventListener(contract.expectedEvent.name, e => {
+            this.sendSuccess(result, this._prop);
         });
+        this.appendChild(elem);
+        this.appendChild(result);
+        const trigger = contract.trigger;
+        if (trigger != undefined) {
+            const scr = document.createElement('script');
+            scr.type = 'module';
+            scr.innerHTML = trigger;
+            document.head.appendChild(scr);
+        }
     }
-    ;
 }
 define(ForInstance);
