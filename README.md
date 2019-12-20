@@ -6,20 +6,24 @@
 
 # for-instance
 
-I, *for-instance*, dream of serving as the Swagger of web components.  Or at least cheering on such a thing from those with more clout.
+I, *for-instance*, am cheered to see miraculous progress happening in what I call the "Swaggering of web components".
 
-Whereas Swagger rests on the OpenAPI schema, I validate a "contract," specified via the [wc-info schema](https://github.com/bahrus/wc-info), which is itself an extension of the (fledgling) VSCode [schema support for web components](https://code.visualstudio.com/updates/v1_31#_html-and-css-custom-data-support).  
+Swagger, a linchpin to making different micro-services from different teams work together, rests on the OpenAPI schema.
 
-My most important mission is to allow one to "prove" that the custom event signatures specified in the json file are accurate.  I believe that there's a significant missing language (or custom element?) feature in JS that affects web components. My creator's [mother tongue supports](https://www.developer.com/net/vb/article.php/1430631/Declaring-and-Raising-Events-in-Visual-Basic-6.htm) the ability to declare "custom event" signatures spawned by the UI component in a standard way.  Such support appears to be elusive currently with JS / Custom Elements.
+Likewise, work is well-underway to [define something similar](https://github.com/webcomponents/custom-elements-json/tree/schema-1) for micro-front ends in their purest form -- web components.  The [web component analyzer](https://www.npmjs.com/package/web-component-analyzer) can generate these JSON files automatically from the source code, based on JSDocs.  It includes support for documenting default values of properties, without which my mission would be impossible to fulfill.
 
-So I attempt to compensate for this lack of support.  I do so by running tests, as specified in the html.json file.  I treat a web component as a function of its attributes / properties (and light children, soon), where the output of those functions are events, and confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
+So how do I, *for-instance*, fit in? 
 
-If a vendor and language-neutral way of describing a web component could be established, it would open the doors to a whole variety of applications, including browser extensions that work well with all web component libraries, visual designers, etc.  It could even be leveraged easily from web assembly.  Trying to do the same with JS reflection would require everyone conforming to a particular, static structure, a feat of cat-herding purrportions.
+My vocation and avocation is to provide a way of validating a "contract" between web components. I, *for-instance*, allow one to document the custom events that a web component emits via examples, and to "prove" that the **custom event** signatures specified in the JSON file are accurate for the specified scenarios.  
 
-It seems likely such a file could be used to generate a typescript *.d.ts which could be added to the definitelyTyped repository, and maybe even approach the clarity of my creator's mother tongue.
+I believe there's a significant missing language (or custom element?) feature in JS that affects web components. My creator's [mother tongue supports](https://www.developer.com/net/vb/article.php/1430631/Declaring-and-Raising-Events-in-Visual-Basic-6.htm) the ability to declare "custom event" signatures spawned by the UI component in a standard way.  Such support appears to be elusive currently with JS / Custom Elements.
 
-I do not attempt to test anything beyond simple input / output mechanics.  In the case of web components, often that will be a rather trivial test -- often events are simply fired when a property changes.  Typically, in practice, that property will change due to a user action, like clicking on an internal button.  So one way to test that is simply to pass an object to the property, and confirm that the corresponding event fires. Almost guaranteed to succeed. I support that without any additional automation tooling.  More sophisticated tests could build on that, and automate user events in some way, which would trigger similar events.
+So I attempt to compensate for this lack of support.  I do so by running tests, as specified in the custom-elements.json file.  I treat a web component as a function of its attributes / properties / light children / user interactions, where the output of those "functions/web components" are events.  I confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
 
+Given a vendor and language-neutral way of describing a web component could be established, it can open the doors to a whole variety of applications, including [documentation / playground support](https://api-viewer-element.netlify.com/), [I](https://github.com/Microsoft/vscode-html-languageservice/blob/master/docs/customData.md)[D](https://github.com/JetBrains/web-types)[E](https://twitter.com/webcomp_dev/status/1201901343922937856)'s,  browser extensions that work well with all web component libraries, visual designers, etc.  It could even be leveraged easily from web assembly.  Trying to do the same with JS reflection would require everyone conforming to a particular, static structure, a feat of cat-herding purrportions.
+
+
+I do not attempt to test anything beyond simple input / output mechanics.  In the case of web components, often that will be a rather trivial test -- often events are simply fired when a property changes.  Typically, in practice, that property will change due to a user action, like clicking on an internal button.  
 ## Syntax
 
 ```html
