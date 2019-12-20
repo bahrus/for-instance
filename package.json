@@ -13,15 +13,15 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.82",
-    "trans-render": "0.0.131",
-    "if-diff": "0.0.36",
-    "p-et-alia": "0.0.44",
-    "wc-info": "0.0.65",
+    "xtal-element": "0.0.97",
+    "trans-render": "0.0.141",
+    "if-diff": "0.0.39",
+    "p-et-alia": "0.0.66",
+    "wc-info": "0.0.73",
     "swag-tag": "0.0.3"
   },
   "devDependencies": {
-    "xtal-test": "0.0.19"
+    "xtal-test": "0.0.31"
   },
   "author": "",
   "license": "MIT",
