@@ -8,9 +8,13 @@
 </head>
 <body>
 
-    <for-instance href="https://unpkg.com/xtal-fetch@0.0.72/html.json"></for-instance>
+    <!-- <for-instance href="https://unpkg.com/xtal-fetch@0.0.72/html.json"></for-instance> -->
 
-    <for-instance href="https://unpkg.com/xtal-frappe-chart@0.0.44/custom-elements.json"></for-instance>
+    <for-instance 
+        href=https://unpkg.com/xtal-frappe-chart@0.0.57/custom-elements-example1.json
+        prop=selectedElementContract
+        tag=xtal-frappe-chart-example1
+    ></for-instance>
 
     <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.7/dist/es-module-shims.js"></script>
     <script type="importmap-shim">
@@ -19,17 +23,7 @@
             
             "xtal-element/": "../node_modules/xtal-element/",
             "trans-render/": "../node_modules/trans-render/",
-            "if-diff/": "../node_modules/if-diff/",
-            "p-et-alia/": "../node_modules/p-et-alia/",
-            "wc-info": "../node_modules/wc-info/",
-            "swag-tag/": "../node_modules/swag-tag/",
-            "event-switch/": "../node_modules/event-switch/",
-            "hypo-link/": "https://cdn.jsdelivr.net/npm/hypo-link@0.0.14/",
-            "p-et-alia/": "../node_modules/p-et-alia/",
-            "xtal-json-editor/": "../node_modules/xtal-json-editor/",
-            "xtal-text-input-md/": "../node_modules/xtal-text-input-md/",
-            "xtal-checkbox-input-md/": "../node_modules/xtal-checkbox-input-md/",
-            "xtal-text-area-md/": "../node_modules/xtal-text-area-md/"
+            "api-viewer-element/": "../node_modules/api-viewer-element/"
         }
     }
     </script>
