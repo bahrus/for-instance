@@ -16,7 +16,7 @@ Likewise, work is well-underway to [define something similar](https://github.com
 
 So how do I, *for-instance*, fit in? 
 
-My vocation and avocation is to provide a way of validating a "contract" between web components. I suggest a way to document the structure of custom events that a web component emits via examples, and to "prove" that the **custom event** signatures specified in the JSON file are accurate for relevant scenarios.
+My vocation and avocation is to provide a way of validating a "contract" between web components. I suggest a way to document the structure of custom events that a web component emits via examples, and to "prove" that the custom event signatures specified in the JSON file are accurate for relevant scenarios.
 
 ## NO MASTER MIND
 
