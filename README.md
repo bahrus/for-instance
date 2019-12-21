@@ -8,7 +8,7 @@
 
 I, *for-instance*, am cheered to see miraculous progress happening in what I call the "[Swaggering](https://swagger.io/) of web components".
 
-Swagger, a linchpin to making different [micro-services from different teams work together](https://swagger.io/blog/api-strategy/microservices-apis-and-swagger/), rests on the OpenAPI schema.
+Swagger, a linchpin to making different [micro-services work together](https://swagger.io/blog/api-strategy/microservices-apis-and-swagger/), rests on the OpenAPI schema.
 
 ## INNUMERABLE ANTECEDENTS
 
@@ -16,11 +16,13 @@ Likewise, work is well-underway to [define something similar](https://github.com
 
 So how do I, *for-instance*, fit in? 
 
-My vocation and avocation is to provide a way of validating a "contract" between web components. I suggest a way to document the structure of custom events that a web component emits via examples, and to "prove" that the **custom event** signatures specified in the JSON file are accurate for relevant scenarios.  
+My vocation and avocation is to provide a way of validating a "contract" between web components. I suggest a way to document the structure of custom events that a web component emits via examples, and to "prove" that the **custom event** signatures specified in the JSON file are accurate for relevant scenarios.
+
+## NO MASTER MIND
 
 I believe there's a significant missing language (or custom element?) feature in JS that affects web components. My creator's [mother tongue supports](https://www.developer.com/net/vb/article.php/1430631/Declaring-and-Raising-Events-in-Visual-Basic-6.htm) the ability to declare "custom event" signatures spawned by the UI component in a standard way.  Such support appears to be elusive currently with JS / Custom Elements.
 
-## NO MASTER MIND -- WHAT TO DO?
+## WHAT TO DO?
 
 So I attempt to compensate for this lack of support.  I do so by running tests, as specified in a companion custom-elements.json file.  I treat a web component as a function of its attributes / properties / light children / user interactions, where the output of those "functions/web components" are events.  I confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
 
@@ -35,7 +37,10 @@ I, *for-instance* don't impose much, if any, requirements on the original custom
 
 But web components can be easily extended.
 
-For example, suppose you define
+For example, my creator has defined a custom element, xtal-frappe-chart, with class XtalFrappeChart.  It contains no default data, so adding an instance of xtal-frappe-chart, without specifying what data to chart, doesn't do anything.  Nothing will come of nothing.
+
+To provide 
+
 
 ```html
       <for-instance 
