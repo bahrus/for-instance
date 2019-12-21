@@ -17,7 +17,7 @@
     "trans-render": "0.0.141",
     "if-diff": "0.0.39",
     "p-et-alia": "0.0.66",
-    "api-viewer-element": "0.3.3"
+    "api-viewer-element": "0.3.4"
   },
   "devDependencies": {
     "xtal-test": "0.0.31"

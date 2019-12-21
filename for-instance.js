@@ -75,16 +75,16 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         const prop = tag.properties.find(prop => prop.name === this._prop);
         if (prop === undefined)
             return;
-        const contract = JSON.parse(prop.default);
+        const test = JSON.parse(prop.default);
         const elem = document.createElement(tag.name);
         const result = document.createElement('div');
         this.sendFailure(result, this._prop);
-        elem.addEventListener(contract.expectedEvent.name, e => {
+        elem.addEventListener(test.expectedEvent.name, e => {
             this.sendSuccess(result, this._prop);
         });
         this.appendChild(elem);
         this.appendChild(result);
-        const trigger = contract.trigger;
+        const trigger = test.trigger;
         if (trigger != undefined) {
             const scr = document.createElement('script');
             scr.type = 'module';

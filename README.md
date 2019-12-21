@@ -39,19 +39,134 @@ But web components can be easily extended.
 
 For example, my creator has defined a custom element, xtal-frappe-chart, with class XtalFrappeChart.  It contains no default data, so adding an instance of xtal-frappe-chart, without specifying what data to chart, doesn't do anything.  Nothing will come of nothing.
 
-To provide 
+To provide some sample data, why not extend the base class?:
+
+
+```JavaScript
+/**
+ * @element xtal-frappe-chart-example1
+ */
+export class XtalFrappeChartExample1 extends XtalFrappeChart {
+    static get is() { return 'xtal-frappe-chart-example1'; }
+    data = {
+        title: "My Awesome Chart",
+        data: {
+            labels: ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
+                "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
+            datasets: [
+                {
+                    name: "Some Data", "color": "light-blue",
+                    values: [25, 40, 30, 35, 8, 52, 17, -4]
+                },
+                {
+                    name: "Another Set", "color": "violet",
+                    values: [25, 50, 10, 15, 18, 32, 27, 14]
+                },
+                {
+                    name: "Yet Another", "color": "blue",
+                    values: [15, 20, 3, -15, 58, 12, -17, 37]
+                }
+            ]
+        } as TabularData,
+        type: "bar",
+        height: 250,
+        isNavigable: true
+    } as ChartOptions
+}
+```
+
+The web component analyzer tool captures this default value in the auto-generated json file (also kept separate).
+
+But this still doesn't answer the question of how to document the structure of custom events the web component spawns.  
+
+I, *for-instance*, also think that there is often a tight correlation between such events, and a read-only property associated with the event, where the value is also stored.
+
+To support this approach, I provide an interface to add course-grained properties onto the example component.  In TypeScript notation:
+
+```TypeScript
+export interface ExpectedEvent{
+    /** 
+     * Name (or "type") of (custom) event 
+     */
+    name: string,
+    /**
+     * detail object passed in custom event
+     */
+    detail?: any,
+    /**
+     * (Read-only) property where detail object is stored
+     */
+    associatedPropName?:  string,
+}
+
+export interface Test{
+    /**]
+     * Script needed to invoke evoke, including simulation of user-triggered events
+     */
+    trigger?: string,
+    /**
+     * Optional inner HTML (light children) to use
+     */
+    innerHTML?: string,
+    /**
+     * Event expected to be fired (possibly as a result of running the script specified by trigger property.)
+     */
+    expectedEvent: ExpectedEvent,
+}
+```
+
+The above structure is quite general.  But TypeScript now provides enough hooks where specific events can be enumerated, building on top of the general structure above:
+
+```TypeScript
+export interface SelectedElementEventDetail {
+    value: SelectedElement
+}
+
+export interface XtalFrappeChartEventNameMap {
+    'selected-element-changed': SelectedElementEventDetail;
+}
+
+interface XtalFrappeChartExpectedEvent<eventName extends keyof XtalFrappeChartEventNameMap, assocPropName extends keyof XtalFrappeChartIfc> extends ExpectedEvent{
+    name: eventName,
+    detail?: XtalFrappeChartEventNameMap[eventName],
+    associatedPropName?: assocPropName,
+}
+interface XtalFrappeChartTest<K extends keyof XtalFrappeChartEventNameMap, L extends keyof XtalFrappeChartIfc> extends Test{
+    trigger?: string,
+    expectedEvent: XtalFrappeChartExpectedEvent<K, L>,
+};
+```
+
+Even if you don't use all this fanatical typing with TypeScript, but stick to JavaScript, following the structure of tests above, resulting in JSON samples, [tools](https://jvilk.com/MakeTypes/) can be utilized to convert that JSON into TypeScript.
+
+
+Having created a test / example extending web component, for-instance can now be used to bind to it:
+
+```html
+  <for-instance 
+    href=https://unpkg.com/xtal-frappe-chart@0.0.60/custom-elements-example1.json
+    prop=selectedElementContract
+    tag=xtal-frappe-chart-example1
+></for-instance>
+```
+
+If you view the links specified by the href attributes above, you will see the JSON contains test information.  I then run those tests, which allows the user to a)  See the actual web component display some default, sample content (if applicable), and b)  Validate any tests (if available)
+
+If the expected event is observed, I emit a child tag:
 
 
 ```html
-      <for-instance 
-        href=https://unpkg.com/xtal-frappe-chart@0.0.60/custom-elements-example1.json
-        prop=selectedElementContract
-        tag=xtal-frappe-chart-example1
-    ></for-instance>
+<div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
+```
+
+if it does, I give a failing grade:
+
+```html
+<div err style="background-color: red; color: white;">selectedElementContract failed.</div>
 ```
 
 
-If you view the links specified by the href attributes above, you will see the JSON contains test information.  I then run those tests, which allows the user to a)  See the actual web component display some default, sample content (if applicable), and b)  Validate any tests (if available)
+I assume it will fail, so you might see the red tag appear for a bit, until I see the expected event, at which I switch colors.
 
 
 

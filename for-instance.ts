@@ -2,6 +2,7 @@ import { define } from "trans-render/define.js";
 import { XtallatX } from "xtal-element/xtal-latx.js";
 import { hydrate, disabled } from "trans-render/hydrate.js";
 import {ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
+import {Test} from './typings.d.js';
 // import "if-diff/if-diff.js";
 // import "p-et-alia/p-d.js";
 
@@ -81,16 +82,16 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     if(tag === undefined) return;
     const prop = tag.properties.find(prop => prop.name === this._prop);
     if(prop === undefined) return;
-    const contract = JSON.parse(prop.default as string);
+    const test = JSON.parse(prop.default as string) as Test;
     const elem = document.createElement(tag.name);
     const result = document.createElement('div');
     this.sendFailure(result, this._prop);
-    elem.addEventListener(contract.expectedEvent.name, e=>{
+    elem.addEventListener(test.expectedEvent.name, e=>{
       this.sendSuccess(result, this._prop!);
     });
     this.appendChild(elem);
     this.appendChild(result);
-    const trigger = contract.trigger;
+    const trigger = test.trigger;
     if(trigger != undefined){
       const scr = document.createElement('script');
       scr.type = 'module'
