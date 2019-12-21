@@ -2,7 +2,7 @@ import { define } from "trans-render/define.js";
 import { XtallatX } from "xtal-element/xtal-latx.js";
 import { hydrate, disabled } from "trans-render/hydrate.js";
 import {ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
-import {Test} from './typings.d.js';
+import {Test} from './types.js';
 // import "if-diff/if-diff.js";
 // import "p-et-alia/p-d.js";
 
@@ -87,6 +87,22 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     const result = document.createElement('div');
     this.sendFailure(result, this._prop);
     elem.addEventListener(test.expectedEvent.name, e=>{
+      if(test.expectedEvent.detail !== undefined){
+        const expectedDetailString = JSON.stringify(test.expectedEvent.detail);
+        const actualDetailString = JSON.stringify((<any>e).detail);
+        if(expectedDetailString !== actualDetailString){
+          return;
+        }
+        if(test.expectedEvent.associatedPropName !== undefined){
+          const propValString = JSON.stringify((<any>elem)[test.expectedEvent.associatedPropName]);
+          if(expectedDetailString !== propValString){
+            const expectedDetailValueString = JSON.stringify(test.expectedEvent.detail.value);
+            if(expectedDetailValueString !== propValString){
+              return;
+            }
+          }
+        }
+      }
       this.sendSuccess(result, this._prop!);
     });
     this.appendChild(elem);

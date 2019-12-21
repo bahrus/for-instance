@@ -14,7 +14,7 @@ export interface ExpectedEvent{
 }
 
 export interface Test{
-    /**]
+    /**
      * Script needed to invoke evoke, including simulation of user-triggered events
      */
     trigger?: string,

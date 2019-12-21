@@ -80,6 +80,22 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         const result = document.createElement('div');
         this.sendFailure(result, this._prop);
         elem.addEventListener(test.expectedEvent.name, e => {
+            if (test.expectedEvent.detail !== undefined) {
+                const expectedDetailString = JSON.stringify(test.expectedEvent.detail);
+                const actualDetailString = JSON.stringify(e.detail);
+                if (expectedDetailString !== actualDetailString) {
+                    return;
+                }
+                if (test.expectedEvent.associatedPropName !== undefined) {
+                    const propValString = JSON.stringify(elem[test.expectedEvent.associatedPropName]);
+                    if (expectedDetailString !== propValString) {
+                        const expectedDetailValueString = JSON.stringify(test.expectedEvent.detail.value);
+                        if (expectedDetailValueString !== propValString) {
+                            return;
+                        }
+                    }
+                }
+            }
             this.sendSuccess(result, this._prop);
         });
         this.appendChild(elem);

@@ -42,7 +42,7 @@ For example, my creator has defined a custom element, xtal-frappe-chart, with cl
 To provide some sample data, why not extend the base class?:
 
 
-```JavaScript
+```TypeScript
 /**
  * @element xtal-frappe-chart-example1
  */
@@ -100,7 +100,7 @@ export interface ExpectedEvent{
 }
 
 export interface Test{
-    /**]
+    /**
      * Script needed to invoke evoke, including simulation of user-triggered events
      */
     trigger?: string,
@@ -118,12 +118,24 @@ export interface Test{
 The above structure is quite general.  But TypeScript now provides enough hooks where specific events can be enumerated, building on top of the general structure above:
 
 ```TypeScript
+export interface SelectedElement {
+    label: string;
+    values: any[];
+    index: number;
+}
+
 export interface SelectedElementEventDetail {
     value: SelectedElement
 }
 
 export interface XtalFrappeChartEventNameMap {
     'selected-element-changed': SelectedElementEventDetail;
+}
+
+
+export interface XtalFrappeChartIfc{
+    data: ChartOptions;
+    readonly selectedElement: object,
 }
 
 interface XtalFrappeChartExpectedEvent<eventName extends keyof XtalFrappeChartEventNameMap, assocPropName extends keyof XtalFrappeChartIfc> extends ExpectedEvent{
@@ -140,7 +152,7 @@ interface XtalFrappeChartTest<K extends keyof XtalFrappeChartEventNameMap, L ext
 Even if you don't use all this fanatical typing with TypeScript, but stick to JavaScript, following the structure of tests above, resulting in JSON samples, [tools](https://jvilk.com/MakeTypes/) can be utilized to convert that JSON into TypeScript.
 
 
-Having created a test / example extending web component, for-instance can now be used to bind to it:
+Having created a test / example extending web component, I can now bind to it:
 
 ```html
   <for-instance 
@@ -150,7 +162,7 @@ Having created a test / example extending web component, for-instance can now be
 ></for-instance>
 ```
 
-If you view the links specified by the href attributes above, you will see the JSON contains test information.  I then run those tests, which allows the user to a)  See the actual web component display some default, sample content (if applicable), and b)  Validate any tests (if available)
+If you view the links specified by the href attributes above, you will see the JSON contains test information.  I then run those tests, which allow the user to a)  See the actual web component display some default, sample content (if applicable), and b)  Validate any tests (if available)
 
 If the expected event is observed, I emit a child tag:
 
@@ -166,7 +178,7 @@ if it does, I give a failing grade:
 ```
 
 
-I assume it will fail, so you might see the red tag appear for a bit, until I see the expected event, at which I switch colors.
+I assume, initially, the test will fail, so you might see the red tag appear for a bit, until I see the expected event, at which point I switch colors.
 
 
 
