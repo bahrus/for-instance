@@ -1,9 +1,10 @@
 {
   "name": "for-instance",
-  "version": "0.0.7",
-  "description": "",
+  "version": "0.0.9",
+  "description": "Push for the Swaggerization of Web Components",
   "main": "for-instance.js",
   "module": "for-instance.js",
+  "types": "types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "node node_modules/xtal-test/serve.js"
@@ -15,9 +16,7 @@
   "dependencies": {
     "xtal-element": "0.0.97",
     "trans-render": "0.0.141",
-    "if-diff": "0.0.39",
-    "p-et-alia": "0.0.66",
-    "api-viewer-element": "0.3.4"
+    "@alenaksu/json-viewer": "0.1.0"
   },
   "devDependencies": {
     "xtal-test": "0.0.31"
