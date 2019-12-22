@@ -6,16 +6,18 @@ import { hydrate } from "trans-render/hydrate.js";
 const href = 'href';
 const tag = 'tag';
 const prop = 'prop';
+const skip_imports = 'skip-imports';
 export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     constructor() {
         super(...arguments);
+        this._skipImports = false;
         this._c = false;
     }
     static get is() {
         return "for-instance";
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([href, tag, prop]);
+        return super.observedAttributes.concat([href, tag, prop, skip_imports]);
     }
     attributeChangedCallback(n, ov, nv) {
         switch (n) {
@@ -23,6 +25,9 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
             case href:
             case prop:
                 this['_' + n] = nv;
+                break;
+            case skip_imports:
+                this._skipImports = nv !== null;
                 break;
         }
         this.onPropsChange();
@@ -45,8 +50,14 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     set prop(nv) {
         this.attr(prop, nv);
     }
+    get skipImports() {
+        return this._skipImports;
+    }
+    set skipImports(nv) {
+        this.attr(skip_imports, nv, '');
+    }
     connectedCallback() {
-        this.propUp([href, tag]);
+        this.propUp([href, tag, prop, 'skipImports']);
         this._c = true;
         this.onPropsChange();
     }
@@ -100,10 +111,19 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         });
         this.appendChild(elem);
         this.appendChild(result);
-        const trigger = test.trigger;
+        let trigger = test.trigger;
         if (trigger != undefined) {
             const scr = document.createElement('script');
             scr.type = 'module';
+            if (this._skipImports) {
+                const split = trigger.split('\n');
+                split.forEach((line, idx) => {
+                    if (line.trimStart().startsWith('import ')) {
+                        split[idx] = '//' + line;
+                    }
+                });
+                trigger = split.join('\n');
+            }
             scr.innerHTML = trigger;
             document.head.appendChild(scr);
         }

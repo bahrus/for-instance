@@ -9,6 +9,7 @@ import {Test} from './types.js';
 const href = 'href';
 const tag = 'tag';
 const prop = 'prop';
+const skip_imports = 'skip-imports';
 
 export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
   static get is() {
@@ -16,7 +17,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
   }
 
   static get observedAttributes() {
-    return super.observedAttributes.concat([href, tag, prop]);
+    return super.observedAttributes.concat([href, tag, prop, skip_imports]);
   }
 
   attributeChangedCallback(n: string, ov: string, nv: string) {
@@ -25,6 +26,9 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
       case href:
       case prop:
         (<any>this)['_' + n] = nv;
+        break;
+      case skip_imports:
+        this._skipImports = nv !== null;
         break;
     }
     this.onPropsChange();
@@ -54,9 +58,17 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     this.attr(prop, nv!);
   }
 
+  _skipImports = false;
+  get skipImports(){
+    return this._skipImports;
+  }
+  set skipImports(nv){
+    this.attr(skip_imports, nv, '');
+  }
+
   _c = false;
   connectedCallback() {
-    this.propUp([href, tag]);
+    this.propUp([href, tag, prop, 'skipImports']);
     this._c = true;
     this.onPropsChange();
   }
@@ -107,10 +119,19 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     });
     this.appendChild(elem);
     this.appendChild(result);
-    const trigger = test.trigger;
+    let trigger = test.trigger;
     if(trigger != undefined){
       const scr = document.createElement('script');
-      scr.type = 'module'
+      scr.type = 'module';
+      if(this._skipImports){
+        const split = trigger.split('\n');
+        split.forEach((line, idx) =>{
+          if(line.trimStart().startsWith('import ')){
+            split[idx] = '//' + line;
+          }
+        });
+        trigger = split.join('\n');
+      }
       scr.innerHTML = trigger;
       document.head.appendChild(scr);
     }
