@@ -10,6 +10,26 @@ I, *for-instance*, am cheered to see miraculous progress happening in what I cal
 
 Swagger, a linchpin to making different [micro-services work together](https://swagger.io/blog/api-strategy/microservices-apis-and-swagger/), rests on the OpenAPI schema.
 
+## [Demo](https://jsfiddle.net/bahrus/r8uhgsft/1/)
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <div>
+        <for-instance href=https://unpkg.com/xtal-frappe-chart@0.0.62/custom-elements-example1.json
+            prop=selectedElementContract tag=xtal-frappe-chart-example1></for-instance>
+        <a
+            href="https://bahrus.github.io/api-viewer/index.html?npmPackage=xtal-frappe-chart&jsPath=xtal-frappe-chart-example1.js&jsonPath=custom-elements-example1.json">api
+            viewer</a>
+
+        <script type=module src=https://unpkg.com/for-instance@0.0.10/for-instance.js?module> </script> 
+    </div> 
+  </template>
+</custom-element-demo>
+```
+-->
+
 ## INNUMERABLE ANTECEDENTS
 
 Likewise, work is well-underway to [define something similar](https://github.com/webcomponents/custom-elements-json/tree/schema-1) for micro-front ends in their purest form -- web components.  The [web component analyzer](https://www.npmjs.com/package/web-component-analyzer) can generate these JSON files automatically from the source code, based on JSDocs.  It includes support for documenting default values of properties, without which my mission would be impossible to fulfill.
@@ -18,7 +38,7 @@ So how do I, *for-instance*, fit in?
 
 My vocation and avocation is to provide a way of validating a "contract" between web components. I suggest a way to document the structure of custom events that a web component emits via examples, and to "prove" that the custom event signatures specified in the JSON file are accurate for relevant scenarios.
 
-## NO MASTER MIND
+## NO COMMON EVENT PROPERTY
 
 I believe there's a significant missing language (or custom element?) feature in JS that affects web components. My creator's [mother tongue supports](https://www.developer.com/net/vb/article.php/1430631/Declaring-and-Raising-Events-in-Visual-Basic-6.htm) the ability to declare "custom event" signatures spawned by the UI component in a standard way.  Such support appears to be elusive currently with JS / Custom Elements.
 
