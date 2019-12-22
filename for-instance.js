@@ -1,8 +1,7 @@
-import { define } from "trans-render/define.js";
-import { XtallatX } from "xtal-element/xtal-latx.js";
-import { hydrate } from "trans-render/hydrate.js";
-// import "if-diff/if-diff.js";
-// import "p-et-alia/p-d.js";
+import { define } from 'trans-render/define.js';
+import { XtallatX } from 'xtal-element/xtal-latx.js';
+import { hydrate } from 'trans-render/hydrate.js';
+import '@alenaksu/json-viewer/build/index.js';
 const href = 'href';
 const tag = 'tag';
 const prop = 'prop';
@@ -87,6 +86,9 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         if (prop === undefined)
             return;
         const test = JSON.parse(prop.default);
+        const jsonViewer = document.createElement('json-viewer');
+        jsonViewer.data = { expectedEvent: test.expectedEvent };
+        this.appendChild(jsonViewer);
         const elem = document.createElement(tag.name);
         const result = document.createElement('div');
         this.sendFailure(result, this._prop);
