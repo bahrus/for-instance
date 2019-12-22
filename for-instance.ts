@@ -86,6 +86,10 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
   }
   async onPropsChange() {
     if (!this._c || this._disabled || this._href === undefined || this._prop === undefined || this._tag === undefined) return;
+    this.innerHTML = '';
+    const mark = document.createElement('mark');
+    mark.innerHTML = `${this.tag}, for instance`;
+    this.appendChild(mark);
     const resp = await fetch(this._href);
     const json =  await resp.json();
     const elementSetInfo = json as ElementSetInfo;
