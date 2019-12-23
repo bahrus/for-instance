@@ -135,7 +135,48 @@ export interface Test{
 }
 ```
 
-The above structure is quite general.  But TypeScript now provides enough hooks where specific events can be enumerated, building on top of the general structure above:
+
+The above structure is quite general.  But TypeScript now provides enough hooks where specific events can be enumerated, building on top of the general structure above.
+
+We define the contract as follows:
+
+```TypeScript
+/**
+ * @element xtal-frappe-chart-example1
+ */
+export class XtalFrappeChartExample1 extends XtalFrappeChart {
+    static get is() { return 'xtal-frappe-chart-example1'; }
+    ...
+
+    selectedElementContract: XtalFrappeChartTest<'selected-element-changed', 'selectedElement'> = {
+        trigger: /* JS */`
+        import 'https://unpkg.com/xtal-shell@0.0.25/$hell.js?module';
+        import 'https://unpkg.com/xtal-frappe-chart@0.0.58/xtal-frappe-chart-example1.js?module';
+        setTimeout(() =>{
+            $hell.$0=document.querySelector('xtal-frappe-chart-example1');
+            $hell.cd('div#target/div/svg/g[0]/g[2]/rect[2]');
+            setTimeout(() =>{
+              $hell.$0.dispatchEvent(new Event('click'));
+            }, 500);
+            
+          }, 3000);
+        `,
+        expectedEvent:{
+            name: 'selected-element-changed',
+            detail: {
+                value: {
+                    values: [30, 10, 3],
+                    label: "6am-9am",
+                    index: 2,
+                }
+            },
+            associatedPropName: 'selectedElement'
+        }
+    }
+}
+```
+
+where:
 
 ```TypeScript
 export interface SelectedElement {
