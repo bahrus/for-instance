@@ -4,6 +4,7 @@ import { hydrate, disabled } from 'trans-render/hydrate.js';
 import {ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
 import {Test} from './types.js';
 import '@alenaksu/json-viewer/build/index.js';
+import {appendTag} from 'trans-render/appendTag.js';
 
 const href = 'href';
 const tag = 'tag';
@@ -136,10 +137,10 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     const result = document.createElement('div');
     this.sendFailure(result, this._contractProp);
     elem.addEventListener(test.expectedEvent.name, e => {
-      const details = document.createElement('details');
-      this.appendChild(details);
-      const summary = document.createElement('summary');
-      summary.textContent = 'Event Details';
+      const details= appendTag(this, 'details', {});
+      const summary = appendTag(details, 'summary',{
+        propVals:{textContent: 'Event Details'}
+      });
       details.appendChild(summary);
       const lhs = document.createElement('json-viewer') as any;
       lhs.data = test.expectedEvent.detail;

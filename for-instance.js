@@ -2,6 +2,7 @@ import { define } from 'trans-render/define.js';
 import { XtallatX } from 'xtal-element/xtal-latx.js';
 import { hydrate } from 'trans-render/hydrate.js';
 import '@alenaksu/json-viewer/build/index.js';
+import { appendTag } from 'trans-render/appendTag.js';
 const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
@@ -132,10 +133,10 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         const result = document.createElement('div');
         this.sendFailure(result, this._contractProp);
         elem.addEventListener(test.expectedEvent.name, e => {
-            const details = document.createElement('details');
-            this.appendChild(details);
-            const summary = document.createElement('summary');
-            summary.textContent = 'Event Details';
+            const details = appendTag(this, 'details', {});
+            const summary = appendTag(details, 'summary', {
+                propVals: { textContent: 'Event Details' }
+            });
             details.appendChild(summary);
             const lhs = document.createElement('json-viewer');
             lhs.data = test.expectedEvent.detail;
