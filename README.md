@@ -44,7 +44,7 @@ I believe there's a significant missing language (or custom element?) feature in
 
 ## WHAT TO DO?
 
-So I attempt to compensate for this lack of support.  I do so by running tests, as specified in a companion custom-elements.json file.  I treat a web component as a function of its attributes / properties / light children / user interactions, where the output of those "functions/web components" are events.  I confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
+So I attempt to compensate for this lack of support.  I do so by running tests, as specified in a companion json file.  I treat a web component as a function of its attributes / properties / light children / user interactions, where the output of those "functions/web components" are events.  I confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
 
 If a vendor and language-neutral way of describing a web component could be established, it can open the doors to a whole variety of applications, including [documentation / playground support](https://api-viewer-element.netlify.com/), [I](https://github.com/Microsoft/vscode-html-languageservice/blob/master/docs/customData.md)[D](https://github.com/JetBrains/web-types)[E](https://twitter.com/webcomp_dev/status/1201901343922937856)'s,  browser extensions that work well with all web component libraries, visual designers, etc.  It could even be leveraged easily from web assembly.  Trying to do the same with JS reflection would require everyone conforming to a particular, static structure, a feat of cat-herding purrportions.
 
@@ -98,8 +98,32 @@ export class XtalFrappeChartExample1 extends XtalFrappeChart {
 
 }
 ```
+<details>
+    <summary>Some delicate nuances to consider</summary>
 
-The web component analyzer tool captures this default value in the auto-generated json file (also kept separate).
+At first, I thought that data should be set via a simple property override:
+
+```TypeScript
+/**
+ * @element xtal-frappe-chart-example1
+ */
+export class XtalFrappeChartExample1 extends XtalFrappeChart {
+    static get is() { return 'xtal-frappe-chart-example1'; }
+    data = {
+        labels: ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
+                    "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
+        ...
+    }
+    ...
+}
+```
+
+Doing so would result in the web component analyzer tool capturing this default value in the auto-generated json file (also kept separate).  Due to my initial fuzzy thinking, this seemed like a good thing.  But actually:
+
+1.  We really don't need the default initial data captured in the JSON file.  If anything, it just bloats the file size automatically.  The default data is encoded in the example component, that's all we need. (What we do need is the contract property only, discussed below).
+2.  If properties get reflected to attributes, this will actually spawn a browser error (setting attributes from a custom element's constructor seems to be verboten).  Hence it is better to set these values in the overridden connectedCallback(), as far as I can see.
+
+</details>
 
 But this still doesn't answer the question of how to document the structure of custom events the web component spawns.  
 
@@ -142,7 +166,7 @@ export interface Test{
 
 The above structure is quite general.  But TypeScript now provides enough hooks where specific events can be enumerated, building on top of the general structure above.
 
-We define the contract as follows:
+We define the contract as follows, which the [web component analyzer](https://www.npmjs.com/package/web-component-analyzer) is able to serialize perfectly into JSON:
 
 ```TypeScript
 /**
@@ -222,7 +246,7 @@ Having created a test / example extending web component, I can now bind to it:
 ```html
   <for-instance 
     href=https://unpkg.com/xtal-frappe-chart@0.0.60/custom-elements-example1.json
-    prop=selectedElementContract
+    contract-prop=selectedElementContract
     tag=xtal-frappe-chart-example1
 ></for-instance>
 ```
@@ -244,7 +268,6 @@ if it does, I give a failing grade:
 
 
 I assume, initially, the test will fail, so you might see the red tag appear for a bit, until I see the expected event, at which point I switch colors.
-
 
 
 

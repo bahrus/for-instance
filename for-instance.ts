@@ -4,27 +4,30 @@ import { hydrate, disabled } from 'trans-render/hydrate.js';
 import {ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
 import {Test} from './types.js';
 import '@alenaksu/json-viewer/build/index.js';
+import {appendTag} from 'trans-render/appendTag.js';
 
 const href = 'href';
 const tag = 'tag';
-const prop = 'prop';
+const contract_prop = 'contract-prop';
 const skip_imports = 'skip-imports';
-
+//TODO -- switch to XtalElement
 export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
   static get is() {
-    return "for-instance";
+    return 'for-instance';
   }
 
   static get observedAttributes() {
-    return super.observedAttributes.concat([href, tag, prop, skip_imports]);
+    return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
   }
 
   attributeChangedCallback(n: string, ov: string, nv: string) {
     switch (n) {
       case tag:
       case href:
-      case prop:
         (<any>this)['_' + n] = nv;
+        break;
+      case contract_prop:
+        this._contractProp = nv;
         break;
       case skip_imports:
         this._skipImports = nv !== null;
@@ -49,12 +52,12 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     this.attr(tag, nv!);
   }
 
-  _prop: string | undefined;
-  get prop(){
-    return this._prop;
+  _contractProp: string | undefined;
+  get contractProp(){
+    return this._contractProp;
   }
-  set prop(nv){
-    this.attr(prop, nv!);
+  set contractProp(nv){
+    this.attr(contract_prop, nv!);
   }
 
   _skipImports = false;
@@ -67,7 +70,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
 
   _c = false;
   connectedCallback() {
-    this.propUp([href, tag, prop, 'skipImports']);
+    this.propUp([href, tag, contract_prop, 'skipImports']);
     this._c = true;
     this.onPropsChange();
   }
@@ -114,7 +117,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
   };
 
   async onPropsChange() {
-    if (!this._c || this._disabled || this._href === undefined || this._prop === undefined || this._tag === undefined) return;
+    if (!this._c || this._disabled || this._href === undefined || this._contractProp === undefined || this._tag === undefined) return;
     this.innerHTML = '';
     const mark = document.createElement('mark');
     mark.innerHTML = `${this.tag}, for instance`;
@@ -124,7 +127,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     const elementSetInfo = json as ElementSetInfo;
     const tag = elementSetInfo.tags.find(tag => tag.name === this._tag);
     if(tag === undefined) return;
-    const prop = tag.properties.find(prop => prop.name === this._prop);
+    const prop = tag.properties.find(prop => prop.name === this._contractProp);
     if(prop === undefined) return;
     const test = JSON.parse(prop.default as string) as Test;
     const jsonViewer = document.createElement('json-viewer') as any;
@@ -132,8 +135,29 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     this.appendChild(jsonViewer);
     const elem = document.createElement(tag.name);
     const result = document.createElement('div');
-    this.sendFailure(result, this._prop);
-    elem.addEventListener(test.expectedEvent.name, e=>{
+    this.sendFailure(result, this._contractProp);
+    elem.addEventListener(test.expectedEvent.name, e => {
+      const details= appendTag(this, 'details', {});
+      appendTag(details, 'summary',{
+        propVals:{textContent: 'Event Details'}
+      });
+      appendTag(details, 'div', {
+        propVals:{textContent: "Expected Event Detail"}
+      });
+      appendTag(details, 'json-viewer', {
+        propVals:{
+          data: test.expectedEvent.detail
+        }
+      });
+      appendTag(details, 'div', {
+        propVals:{textContent: 'Actual Event Detail'}
+      });
+      appendTag(details, 'json-viewer', {
+        propVals:{
+          data: (<any>e).detail
+        }
+      });
+      
       if(test.expectedEvent.detail !== undefined){
         if(!this.compare(test.expectedEvent.detail, (<any>e).detail)) return;
         if(test.expectedEvent.associatedPropName !== undefined){
@@ -141,7 +165,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
           if(!this.compare(lhs, test.expectedEvent.detail) && !this.compare(lhs, test.expectedEvent.detail.value)) return;
         }
       }
-      this.sendSuccess(result, this._prop!);
+      this.sendSuccess(result, this._contractProp!);
     });
     this.appendChild(elem);
     this.appendChild(result);
