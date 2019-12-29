@@ -218,7 +218,7 @@ Having created a test / example extending web component, I can now bind to it:
 ```html
   <for-instance 
     href=https://unpkg.com/xtal-frappe-chart@0.0.60/custom-elements-example1.json
-    prop=selectedElementContract
+    contract-prop=selectedElementContract
     tag=xtal-frappe-chart-example1
 ></for-instance>
 ```
