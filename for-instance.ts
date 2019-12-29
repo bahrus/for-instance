@@ -84,6 +84,35 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     el.removeAttribute('err');
     el.setAttribute('mark', '');
   }
+  //from https://gist.github.com/nicbell/6081098
+ compare(obj1: any, obj2: any) {
+    //Loop through properties in object 1
+    for (const p in obj1) {
+      //Check property exists on both objects
+      if (obj1.hasOwnProperty(p) !== obj2.hasOwnProperty(p)) return false;
+   
+      switch (typeof (obj1[p])) {
+        //Deep compare objects
+        case 'object':
+          if (!this.compare(obj1[p], obj2[p])) return false;
+          break;
+        //Compare function code
+        case 'function':
+          if (typeof (obj2[p]) == 'undefined' || (p != 'compare' && obj1[p].toString() != obj2[p].toString())) return false;
+          break;
+        //Compare values
+        default:
+          if (obj1[p] != obj2[p]) return false;
+      }
+    }
+   
+    //Check object 2 for any extra properties
+    for (var p in obj2) {
+      if (typeof (obj1[p]) == 'undefined') return false;
+    }
+    return true;
+  };
+
   async onPropsChange() {
     if (!this._c || this._disabled || this._href === undefined || this._prop === undefined || this._tag === undefined) return;
     this.innerHTML = '';
@@ -106,19 +135,10 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     this.sendFailure(result, this._prop);
     elem.addEventListener(test.expectedEvent.name, e=>{
       if(test.expectedEvent.detail !== undefined){
-        const expectedDetailString = JSON.stringify(test.expectedEvent.detail);
-        const actualDetailString = JSON.stringify((<any>e).detail);
-        if(expectedDetailString !== actualDetailString){
-          return;
-        }
+        if(!this.compare(test.expectedEvent.detail, (<any>e).detail)) return;
         if(test.expectedEvent.associatedPropName !== undefined){
-          const propValString = JSON.stringify((<any>elem)[test.expectedEvent.associatedPropName]);
-          if(expectedDetailString !== propValString){
-            const expectedDetailValueString = JSON.stringify(test.expectedEvent.detail.value);
-            if(expectedDetailValueString !== propValString){
-              return;
-            }
-          }
+          const lhs = (<any>elem)[test.expectedEvent.associatedPropName];
+          if(!this.compare(lhs, test.expectedEvent.detail) && !this.compare(lhs, test.expectedEvent.detail.value)) return;
         }
       }
       this.sendSuccess(result, this._prop!);
