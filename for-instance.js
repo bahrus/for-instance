@@ -134,16 +134,25 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         this.sendFailure(result, this._contractProp);
         elem.addEventListener(test.expectedEvent.name, e => {
             const details = appendTag(this, 'details', {});
-            const summary = appendTag(details, 'summary', {
+            appendTag(details, 'summary', {
                 propVals: { textContent: 'Event Details' }
             });
-            details.appendChild(summary);
-            const lhs = document.createElement('json-viewer');
-            lhs.data = test.expectedEvent.detail;
-            details.appendChild(lhs);
-            const rhs = document.createElement('json-viewer');
-            rhs.data = e.detail;
-            details.appendChild(rhs);
+            appendTag(details, 'div', {
+                propVals: { textContent: "Expected Event Detail" }
+            });
+            appendTag(details, 'json-viewer', {
+                propVals: {
+                    data: test.expectedEvent.detail
+                }
+            });
+            appendTag(details, 'div', {
+                propVals: { textContent: 'Actual Event Detail' }
+            });
+            appendTag(details, 'json-viewer', {
+                propVals: {
+                    data: e.detail
+                }
+            });
             if (test.expectedEvent.detail !== undefined) {
                 if (!this.compare(test.expectedEvent.detail, e.detail))
                     return;
