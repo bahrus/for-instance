@@ -99,7 +99,7 @@ export class XtalFrappeChartExample1 extends XtalFrappeChart {
 }
 ```
 <details>
-    <summary>Some delicate concepts to consider</summary>
+    <summary>Some delicate nuances to consider</summary>
 
 At first, I thought that data should be set via a simple property override:
 
@@ -118,10 +118,10 @@ export class XtalFrappeChartExample1 extends XtalFrappeChart {
 }
 ```
 
-Doing so would result in The web component analyzer tool captures this default value in the auto-generated json file (also kept separate).  Due to my initial fuzzy thinking, this seemed like a good thing.  But actually:
+Doing so would result in the web component analyzer tool capturing this default value in the auto-generated json file (also kept separate).  Due to my initial fuzzy thinking, this seemed like a good thing.  But actually:
 
-1.  We really don't need the default initial data captured in the JSON file.  If anything, it just bloats the file size automatically.  The default data is encoded in the example component, that's all we need.
-2.  If properties get reflected to attributes, this will actually spawn a browser error (setting attributes from a custom element's constructor seems to be verboten).  Hence it is better to set these values in the overridden connectionCallback(), as far as I can see.
+1.  We really don't need the default initial data captured in the JSON file.  If anything, it just bloats the file size automatically.  The default data is encoded in the example component, that's all we need. (What we do need is the contract property only, discussed below).
+2.  If properties get reflected to attributes, this will actually spawn a browser error (setting attributes from a custom element's constructor seems to be verboten).  Hence it is better to set these values in the overridden connectedCallback(), as far as I can see.
 
 </details>
 
@@ -166,7 +166,7 @@ export interface Test{
 
 The above structure is quite general.  But TypeScript now provides enough hooks where specific events can be enumerated, building on top of the general structure above.
 
-We define the contract as follows:
+We define the contract as follows, which the [web component analyzer](https://www.npmjs.com/package/web-component-analyzer) is able to serialize perfectly into JSON:
 
 ```TypeScript
 /**
