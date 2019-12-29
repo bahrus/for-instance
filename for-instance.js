@@ -4,8 +4,9 @@ import { hydrate } from 'trans-render/hydrate.js';
 import '@alenaksu/json-viewer/build/index.js';
 const href = 'href';
 const tag = 'tag';
-const prop = 'prop';
+const contract_prop = 'contract-prop';
 const skip_imports = 'skip-imports';
+//TODO -- switch to XtalElement
 export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     constructor() {
         super(...arguments);
@@ -13,17 +14,19 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         this._c = false;
     }
     static get is() {
-        return "for-instance";
+        return 'for-instance';
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([href, tag, prop, skip_imports]);
+        return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
     }
     attributeChangedCallback(n, ov, nv) {
         switch (n) {
             case tag:
             case href:
-            case prop:
                 this['_' + n] = nv;
+                break;
+            case contract_prop:
+                this._contractProp = nv;
                 break;
             case skip_imports:
                 this._skipImports = nv !== null;
@@ -43,11 +46,11 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     set tag(nv) {
         this.attr(tag, nv);
     }
-    get prop() {
-        return this._prop;
+    get contractProp() {
+        return this._contractProp;
     }
-    set prop(nv) {
-        this.attr(prop, nv);
+    set contractProp(nv) {
+        this.attr(contract_prop, nv);
     }
     get skipImports() {
         return this._skipImports;
@@ -56,7 +59,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         this.attr(skip_imports, nv, '');
     }
     connectedCallback() {
-        this.propUp([href, tag, prop, 'skipImports']);
+        this.propUp([href, tag, contract_prop, 'skipImports']);
         this._c = true;
         this.onPropsChange();
     }
@@ -106,7 +109,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     }
     ;
     async onPropsChange() {
-        if (!this._c || this._disabled || this._href === undefined || this._prop === undefined || this._tag === undefined)
+        if (!this._c || this._disabled || this._href === undefined || this._contractProp === undefined || this._tag === undefined)
             return;
         this.innerHTML = '';
         const mark = document.createElement('mark');
@@ -118,7 +121,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         const tag = elementSetInfo.tags.find(tag => tag.name === this._tag);
         if (tag === undefined)
             return;
-        const prop = tag.properties.find(prop => prop.name === this._prop);
+        const prop = tag.properties.find(prop => prop.name === this._contractProp);
         if (prop === undefined)
             return;
         const test = JSON.parse(prop.default);
@@ -127,8 +130,19 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
         this.appendChild(jsonViewer);
         const elem = document.createElement(tag.name);
         const result = document.createElement('div');
-        this.sendFailure(result, this._prop);
+        this.sendFailure(result, this._contractProp);
         elem.addEventListener(test.expectedEvent.name, e => {
+            const details = document.createElement('details');
+            this.appendChild(details);
+            const summary = document.createElement('summary');
+            summary.textContent = 'Event Details';
+            details.appendChild(summary);
+            const lhs = document.createElement('json-viewer');
+            lhs.data = test.expectedEvent.detail;
+            details.appendChild(lhs);
+            const rhs = document.createElement('json-viewer');
+            rhs.data = e.detail;
+            details.appendChild(rhs);
             if (test.expectedEvent.detail !== undefined) {
                 if (!this.compare(test.expectedEvent.detail, e.detail))
                     return;
@@ -138,7 +152,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
                         return;
                 }
             }
-            this.sendSuccess(result, this._prop);
+            this.sendSuccess(result, this._contractProp);
         });
         this.appendChild(elem);
         this.appendChild(result);

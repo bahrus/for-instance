@@ -9,7 +9,7 @@ const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
 const skip_imports = 'skip-imports';
-
+//TODO -- switch to XtalElement
 export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
   static get is() {
     return 'for-instance';
@@ -135,7 +135,18 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     const elem = document.createElement(tag.name);
     const result = document.createElement('div');
     this.sendFailure(result, this._contractProp);
-    elem.addEventListener(test.expectedEvent.name, e=>{
+    elem.addEventListener(test.expectedEvent.name, e => {
+      const details = document.createElement('details');
+      this.appendChild(details);
+      const summary = document.createElement('summary');
+      summary.textContent = 'Event Details';
+      details.appendChild(summary);
+      const lhs = document.createElement('json-viewer') as any;
+      lhs.data = test.expectedEvent.detail;
+      details.appendChild(lhs);
+      const rhs = document.createElement('json-viewer') as any;
+      rhs.data = (<any>e).detail;
+      details.appendChild(rhs);
       if(test.expectedEvent.detail !== undefined){
         if(!this.compare(test.expectedEvent.detail, (<any>e).detail)) return;
         if(test.expectedEvent.associatedPropName !== undefined){
