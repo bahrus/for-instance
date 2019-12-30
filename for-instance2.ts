@@ -4,11 +4,25 @@ import {ElementInfo, ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
 import {createTemplate, newRenderContext} from 'xtal-element/utils.js';
 import {init} from 'trans-render/init.js';
 import '@alenaksu/json-viewer/build/index.js';
+import {PD} from 'p-et-alia/p-d.js';
 import {Test} from './types.js';
+import {appendTag} from 'trans-render/appendTag.js';
+
 
 const mainTemplate = createTemplate(/* html */`
 <mark></mark>
 <json-viewer></json-viewer>
+<main></main>
+<p-d to=details care-of=[-data] val=detail m=1></p-d>
+<details>
+    <summary>Event Details</summary>
+    <section data-lhs>
+        <json-viewer></json-viewer>
+    </section>
+    <section>
+        <json-viewer -data></json-viewer>
+    </section>
+</details>
 `);
 const href = 'href';
 const tag = 'tag';
@@ -45,8 +59,15 @@ export class ForInstance2 extends XtalViewElement<ElementInfo>{
         const test = JSON.parse(contractProp.default as string) as Test;
         return newRenderContext({
             mark: this._tag! + ', for instance.',
-            'json-viewer': ({target}) =>{
+            'json-viewer': ({target})=>{
                 (<any>target).data = test.expectedEvent;
+            },
+            main:  ({target}) => {
+                appendTag(target, this._tag!, {})
+            },
+            [PD.is]: ({target}) =>{
+                const pd = target as PD;
+                pd.on = test.expectedEvent.name;
             }
         });
     }

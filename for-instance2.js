@@ -2,9 +2,22 @@ import { define } from 'trans-render/define.js';
 import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
 import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
 import '@alenaksu/json-viewer/build/index.js';
+import { PD } from 'p-et-alia/p-d.js';
+import { appendTag } from 'trans-render/appendTag.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
 <json-viewer></json-viewer>
+<main></main>
+<p-d to=details care-of=[-data] val=detail m=1></p-d>
+<details>
+    <summary>Event Details</summary>
+    <section data-lhs>
+        <json-viewer></json-viewer>
+    </section>
+    <section>
+        <json-viewer -data></json-viewer>
+    </section>
+</details>
 `);
 const href = 'href';
 const tag = 'tag';
@@ -45,6 +58,13 @@ export class ForInstance2 extends XtalViewElement {
             mark: this._tag + ', for instance.',
             'json-viewer': ({ target }) => {
                 target.data = test.expectedEvent;
+            },
+            main: ({ target }) => {
+                appendTag(target, this._tag, {});
+            },
+            [PD.is]: ({ target }) => {
+                const pd = target;
+                pd.on = test.expectedEvent.name;
             }
         });
     }

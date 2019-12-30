@@ -16,7 +16,8 @@
   "dependencies": {
     "xtal-element": "0.0.97",
     "trans-render": "0.0.141",
-    "@alenaksu/json-viewer": "0.1.0"
+    "@alenaksu/json-viewer": "0.1.0",
+    "p-et-alia": "0.0.66"
   },
   "devDependencies": {
     "xtal-test": "0.0.31"
