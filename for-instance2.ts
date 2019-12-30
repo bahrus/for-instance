@@ -3,9 +3,12 @@ import {XtalViewElement} from 'xtal-element/xtal-view-element.js';
 import {ElementInfo, ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
 import {createTemplate, newRenderContext} from 'xtal-element/utils.js';
 import {init} from 'trans-render/init.js';
+import '@alenaksu/json-viewer/build/index.js';
+import {Test} from './types.js';
 
 const mainTemplate = createTemplate(/* html */`
 <mark></mark>
+<json-viewer></json-viewer>
 `);
 const href = 'href';
 const tag = 'tag';
@@ -37,8 +40,14 @@ export class ForInstance2 extends XtalViewElement<ElementInfo>{
       }
 
     get initRenderContext(){
+        const contractProp = this._viewModel.properties.find(prop => prop.name === this._contractProp);
+        if(contractProp === undefined) throw 'No contract found for contract prop: ' + this._contractProp;
+        const test = JSON.parse(contractProp.default as string) as Test;
         return newRenderContext({
-            mark: this._tag!
+            mark: this._tag! + ', for instance.',
+            'json-viewer': ({target}) =>{
+                (<any>target).data = test.expectedEvent;
+            }
         });
     }
 

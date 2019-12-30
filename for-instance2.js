@@ -1,8 +1,10 @@
 import { define } from 'trans-render/define.js';
 import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
 import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
+import '@alenaksu/json-viewer/build/index.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
+<json-viewer></json-viewer>
 `);
 const href = 'href';
 const tag = 'tag';
@@ -35,8 +37,15 @@ export class ForInstance2 extends XtalViewElement {
         super.attributeChangedCallback(n, ov, nv);
     }
     get initRenderContext() {
+        const contractProp = this._viewModel.properties.find(prop => prop.name === this._contractProp);
+        if (contractProp === undefined)
+            throw 'No contract found for contract prop: ' + this._contractProp;
+        const test = JSON.parse(contractProp.default);
         return newRenderContext({
-            mark: this._tag
+            mark: this._tag + ', for instance.',
+            'json-viewer': ({ target }) => {
+                target.data = test.expectedEvent;
+            }
         });
     }
     get mainTemplate() {
