@@ -54,6 +54,22 @@ export class ForInstance2 extends XtalViewElement {
         if (contractProp === undefined)
             throw 'No contract found for contract prop: ' + this._contractProp;
         const test = JSON.parse(contractProp.default);
+        let trigger = test.trigger;
+        if (trigger != undefined) {
+            const scr = document.createElement('script');
+            scr.type = 'module';
+            if (this._skipImports) {
+                const split = trigger.split('\n');
+                split.forEach((line, idx) => {
+                    if (line.trimStart().startsWith('import ')) {
+                        split[idx] = '//' + line;
+                    }
+                });
+                trigger = split.join('\n');
+            }
+            scr.innerHTML = trigger;
+            document.head.appendChild(scr);
+        }
         return newRenderContext({
             mark: this._tag + ', for instance.',
             'json-viewer': ({ target }) => {
