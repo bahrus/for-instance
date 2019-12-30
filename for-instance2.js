@@ -12,9 +12,11 @@ const mainTemplate = createTemplate(/* html */ `
 <details>
     <summary>Event Details</summary>
     <section data-lhs>
+        <h4>Expected Event Detail</h4>
         <json-viewer></json-viewer>
     </section>
     <section>
+        <h4>Actual Event Detail</h4>
         <json-viewer -data></json-viewer>
     </section>
 </details>
@@ -74,7 +76,7 @@ export class ForInstance2 extends XtalViewElement {
         return newRenderContext({
             mark: this._tag + ', for instance.',
             'json-viewer': ({ target }) => {
-                target.data = test.expectedEvent;
+                target.data = test;
             },
             main: ({ target }) => {
                 appendTag(target, this._tag, {});
@@ -82,6 +84,13 @@ export class ForInstance2 extends XtalViewElement {
             [PD.is]: ({ target }) => {
                 const pd = target;
                 pd.on = test.expectedEvent.name;
+            },
+            details: {
+                'section[data-lhs]': {
+                    'json-viewer': ({ target }) => {
+                        target.data = test.expectedEvent.detail;
+                    }
+                }
             }
         });
     }
