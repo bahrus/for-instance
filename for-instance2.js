@@ -3,12 +3,14 @@ import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
 import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
 import '@alenaksu/json-viewer/build/index.js';
 import { PD } from 'p-et-alia/p-d.js';
+import { IfDiffThenStiff } from 'if-diff/if-diff-then-stiff.js';
 import { appendTag } from 'trans-render/appendTag.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
 <json-viewer></json-viewer>
 <main></main>
 <p-d to=details care-of=[-data] val=detail m=1></p-d>
+<p-d to=[-lhs] val=detail m=1></p-d> 
 <details>
     <summary>Event Details</summary>
     <section data-lhs>
@@ -20,6 +22,12 @@ const mainTemplate = createTemplate(/* html */ `
         <json-viewer -data></json-viewer>
     </section>
 </details>
+<if-diff-then-stiff if -lhs equals -rhs data-key-name=success></if-diff-then-stiff>
+<div data-success=0>
+    <template>
+        <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
+    </template>
+</div>
 `);
 const href = 'href';
 const tag = 'tag';
@@ -85,7 +93,11 @@ export class ForInstance2 extends XtalViewElement {
                 const pd = target;
                 pd.on = test.expectedEvent.name;
             },
-            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = test.expectedEvent.detail; } } }
+            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = test.expectedEvent.detail; } } },
+            [IfDiffThenStiff.is]: ({ target }) => {
+                const ifdiff = target;
+                ifdiff.rhs = test.expectedEvent.detail;
+            }
         });
     }
     get mainTemplate() {
