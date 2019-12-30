@@ -96,13 +96,11 @@ export class ForInstance extends XtalViewElement {
                 appendTag(target, this._tag, {});
             },
             [PD.is]: ({ target }) => {
-                const pd = target;
-                pd.on = test.expectedEvent.name;
+                target.on = test.expectedEvent.name;
             },
             details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = test.expectedEvent.detail; } } },
             [IfDiffThenStiff.is]: ({ target }) => {
-                const ifdiff = target;
-                ifdiff.rhs = test.expectedEvent.detail;
+                target.rhs = test.expectedEvent.detail;
             }
         });
     }

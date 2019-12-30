@@ -48,13 +48,10 @@ export class ForInstance extends XtalViewElement<ElementInfo>{
     static get is() {
         return 'for-instance';
     }
-
     static get observedAttributes() {
         return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
     }
-
     get noShadow(){return true;}
-
     attributeChangedCallback(n: string, ov: string, nv: string) {
         switch (n) {
           case tag:
@@ -100,13 +97,11 @@ export class ForInstance extends XtalViewElement<ElementInfo>{
                 appendTag(target, this._tag!, {});
             },
             [PD.is]: ({target}) =>{
-                const pd = target as PD;
-                pd.on = test.expectedEvent.name;
+                (target as PD).on = test.expectedEvent.name;
             },
             details:{'section[data-lhs]':{'json-viewer': ({target}) =>{(<any>target).data = test.expectedEvent.detail;}}},
             [IfDiffThenStiff.is]: ({target}) =>{
-                const ifdiff = target as IfDiffThenStiff;
-                ifdiff.rhs = test.expectedEvent.detail;
+                (target as IfDiffThenStiff).rhs = test.expectedEvent.detail;
             }
         });
     }
