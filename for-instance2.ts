@@ -37,6 +37,8 @@ export class ForInstance2 extends XtalViewElement<ElementInfo>{
         return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
     }
 
+    get noShadow(){return true;}
+
     attributeChangedCallback(n: string, ov: string, nv: string) {
         switch (n) {
           case tag:
