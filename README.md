@@ -120,7 +120,7 @@ export class XtalFrappeChartExample1 extends XtalFrappeChart {
 
 Doing so would result in the web component analyzer tool capturing this default value in the auto-generated json file (also kept separate).  Due to my initial fuzzy thinking, this seemed like a good thing.  But actually:
 
-1.  We really don't need the default initial data captured in the JSON file.  If anything, it just bloats the file size automatically.  The default data is encoded in the example component, that's all we need. (What we do need is the contract property only, discussed below).
+1.  We really don't need the default initial data captured in the JSON file, in order to document events.  The only benefit I can see of having the default values stored in JSON is it would allow non TypeScript consumers to see examples of valid default data.
 2.  If properties get reflected to attributes, this will actually spawn a browser error (setting attributes from a custom element's constructor seems to be verboten).  Hence it is better to set these values in the overridden connectedCallback(), as far as I can see.
 
 </details>
