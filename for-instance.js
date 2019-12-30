@@ -1,18 +1,48 @@
 import { define } from 'trans-render/define.js';
-import { XtallatX } from 'xtal-element/xtal-latx.js';
-import { hydrate } from 'trans-render/hydrate.js';
+import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
+import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
 import '@alenaksu/json-viewer/build/index.js';
+import { PD } from 'p-et-alia/p-d.js';
+import { IfDiffThenStiff } from 'if-diff/if-diff-then-stiff.js';
 import { appendTag } from 'trans-render/appendTag.js';
+const mainTemplate = createTemplate(/* html */ `
+<mark></mark>
+<json-viewer></json-viewer>
+<main></main>
+<p-d to=details care-of=[-data] val=detail m=1></p-d>
+<p-d to=[-lhs] val=detail m=2></p-d> 
+<details>
+    <summary>Event Details</summary>
+    <section data-lhs>
+        <h4>Expected Event Detail</h4>
+        <json-viewer></json-viewer>
+    </section>
+    <section>
+        <h4>Actual Event Detail</h4>
+        <json-viewer -data></json-viewer>
+    </section>
+</details>
+<if-diff-then-stiff if -lhs equals -rhs data-key-name=success></if-diff-then-stiff>
+<if-diff-then-stiff if -lhs not_equals -rhs data-key-name=failure></if-diff-then-stiff>
+<div data-success=0>
+    <template>
+        <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
+    </template>
+</div>
+<div data-failure=0>
+    <template>
+      <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
+    </template>
+</div>
+`);
 const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
 const skip_imports = 'skip-imports';
-//TODO -- switch to XtalElement
-export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
+export class ForInstance extends XtalViewElement {
     constructor() {
         super(...arguments);
         this._skipImports = false;
-        this._c = false;
     }
     static get is() {
         return 'for-instance';
@@ -20,6 +50,7 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     static get observedAttributes() {
         return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
     }
+    get noShadow() { return true; }
     attributeChangedCallback(n, ov, nv) {
         switch (n) {
             case tag:
@@ -33,7 +64,50 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
                 this._skipImports = nv !== null;
                 break;
         }
-        this.onPropsChange();
+        super.attributeChangedCallback(n, ov, nv);
+    }
+    get initRenderContext() {
+        const contractProp = this._viewModel.properties.find(prop => prop.name === this._contractProp);
+        if (contractProp === undefined)
+            throw 'No contract found for contract prop: ' + this._contractProp;
+        const test = JSON.parse(contractProp.default);
+        let trigger = test.trigger;
+        if (trigger != undefined) {
+            const scr = document.createElement('script');
+            scr.type = 'module';
+            if (this._skipImports) {
+                const split = trigger.split('\n');
+                split.forEach((line, idx) => {
+                    if (line.trimStart().startsWith('import ')) {
+                        split[idx] = '//' + line;
+                    }
+                });
+                trigger = split.join('\n');
+            }
+            scr.innerHTML = trigger;
+            document.head.appendChild(scr);
+        }
+        return newRenderContext({
+            mark: this._tag + ', for instance.',
+            'json-viewer': ({ target }) => {
+                target.data = test;
+            },
+            main: ({ target }) => {
+                appendTag(target, this._tag, {});
+            },
+            [PD.is]: ({ target }) => {
+                const pd = target;
+                pd.on = test.expectedEvent.name;
+            },
+            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = test.expectedEvent.detail; } } },
+            [IfDiffThenStiff.is]: ({ target }) => {
+                const ifdiff = target;
+                ifdiff.rhs = test.expectedEvent.detail;
+            }
+        });
+    }
+    get mainTemplate() {
+        return mainTemplate;
     }
     get href() {
         return this._href;
@@ -59,129 +133,26 @@ export class ForInstance extends XtallatX(hydrate(HTMLElement)) {
     set skipImports(nv) {
         this.attr(skip_imports, nv, '');
     }
-    connectedCallback() {
-        this.propUp([href, tag, contract_prop, 'skipImports']);
-        this._c = true;
-        this.onPropsChange();
-    }
-    sendFailure(el, testName) {
-        el.textContent = testName + " failed.";
-        el.style.backgroundColor = "red";
-        el.style.color = "white";
-        el.setAttribute('err', '');
-    }
-    sendSuccess(el, testName) {
-        el.textContent = testName + " succeeded.";
-        el.style.backgroundColor = "green";
-        el.style.color = "white";
-        el.removeAttribute('err');
-        el.setAttribute('mark', '');
-    }
-    //from https://gist.github.com/nicbell/6081098
-    compare(obj1, obj2) {
-        //Loop through properties in object 1
-        for (const p in obj1) {
-            //Check property exists on both objects
-            if (obj1.hasOwnProperty(p) !== obj2.hasOwnProperty(p))
-                return false;
-            switch (typeof (obj1[p])) {
-                //Deep compare objects
-                case 'object':
-                    if (!this.compare(obj1[p], obj2[p]))
-                        return false;
-                    break;
-                //Compare function code
-                case 'function':
-                    if (typeof (obj2[p]) == 'undefined' || (p != 'compare' && obj1[p].toString() != obj2[p].toString()))
-                        return false;
-                    break;
-                //Compare values
-                default:
-                    if (obj1[p] != obj2[p])
-                        return false;
-            }
-        }
-        //Check object 2 for any extra properties
-        for (var p in obj2) {
-            if (typeof (obj1[p]) == 'undefined')
-                return false;
-        }
-        return true;
-    }
-    ;
-    async onPropsChange() {
-        if (!this._c || this._disabled || this._href === undefined || this._contractProp === undefined || this._tag === undefined)
-            return;
-        this.innerHTML = '';
-        const mark = document.createElement('mark');
-        mark.innerHTML = `${this.tag}, for instance`;
-        this.appendChild(mark);
-        const resp = await fetch(this._href);
-        const json = await resp.json();
-        const elementSetInfo = json;
-        const tag = elementSetInfo.tags.find(tag => tag.name === this._tag);
-        if (tag === undefined)
-            return;
-        const prop = tag.properties.find(prop => prop.name === this._contractProp);
-        if (prop === undefined)
-            return;
-        const test = JSON.parse(prop.default);
-        const jsonViewer = document.createElement('json-viewer');
-        jsonViewer.data = { expectedEvent: test.expectedEvent };
-        this.appendChild(jsonViewer);
-        const elem = document.createElement(tag.name);
-        const result = document.createElement('div');
-        this.sendFailure(result, this._contractProp);
-        elem.addEventListener(test.expectedEvent.name, e => {
-            const details = appendTag(this, 'details', {});
-            appendTag(details, 'summary', {
-                propVals: { textContent: 'Event Details' }
-            });
-            appendTag(details, 'div', {
-                propVals: { textContent: "Expected Event Detail" }
-            });
-            appendTag(details, 'json-viewer', {
-                propVals: {
-                    data: test.expectedEvent.detail
-                }
-            });
-            appendTag(details, 'div', {
-                propVals: { textContent: 'Actual Event Detail' }
-            });
-            appendTag(details, 'json-viewer', {
-                propVals: {
-                    data: e.detail
-                }
-            });
-            if (test.expectedEvent.detail !== undefined) {
-                if (!this.compare(test.expectedEvent.detail, e.detail))
-                    return;
-                if (test.expectedEvent.associatedPropName !== undefined) {
-                    const lhs = elem[test.expectedEvent.associatedPropName];
-                    if (!this.compare(lhs, test.expectedEvent.detail) && !this.compare(lhs, test.expectedEvent.detail.value))
-                        return;
-                }
-            }
-            this.sendSuccess(result, this._contractProp);
-        });
-        this.appendChild(elem);
-        this.appendChild(result);
-        let trigger = test.trigger;
-        if (trigger != undefined) {
-            const scr = document.createElement('script');
-            scr.type = 'module';
-            if (this._skipImports) {
-                const split = trigger.split('\n');
-                split.forEach((line, idx) => {
-                    if (line.trimStart().startsWith('import ')) {
-                        split[idx] = '//' + line;
+    async init() {
+        return new Promise((resolve, reject) => {
+            fetch(this._href).then(resp => {
+                resp.json().then(data => {
+                    const esi = data;
+                    const ei = esi.tags.find(tag => tag.name === this._tag);
+                    if (ei === undefined) {
+                        reject(this._tag + ' not found.');
                     }
+                    resolve(ei);
                 });
-                trigger = split.join('\n');
-            }
-            scr.innerHTML = trigger;
-            document.head.appendChild(scr);
-        }
+            });
+        });
+    }
+    async update() {
+        this.innerHTML = '';
+        return this.init();
+    }
+    get readyToInit() {
+        return this._href !== undefined && this._tag !== undefined && this._contractProp !== undefined;
     }
 }
 define(ForInstance);
