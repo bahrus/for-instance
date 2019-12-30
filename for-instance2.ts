@@ -15,7 +15,7 @@ const mainTemplate = createTemplate(/* html */`
 <json-viewer></json-viewer>
 <main></main>
 <p-d to=details care-of=[-data] val=detail m=1></p-d>
-<p-d to=[-lhs] val=detail m=1></p-d> 
+<p-d to=[-lhs] val=detail m=2></p-d> 
 <details>
     <summary>Event Details</summary>
     <section data-lhs>
@@ -28,9 +28,15 @@ const mainTemplate = createTemplate(/* html */`
     </section>
 </details>
 <if-diff-then-stiff if -lhs equals -rhs data-key-name=success></if-diff-then-stiff>
+<if-diff-then-stiff if -lhs not_equals -rhs data-key-name=failure></if-diff-then-stiff>
 <div data-success=0>
     <template>
         <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
+    </template>
+</div>
+<div data-failure=0>
+    <template>
+      <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
     </template>
 </div>
 `);
