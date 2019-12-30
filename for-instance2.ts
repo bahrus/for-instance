@@ -89,14 +89,7 @@ export class ForInstance2 extends XtalViewElement<ElementInfo>{
                 const pd = target as PD;
                 pd.on = test.expectedEvent.name;
             },
-            details:{
-                'section[data-lhs]':{
-                    'json-viewer': ({target}) =>{
-                        (<any>target).data = test.expectedEvent.detail;
-                    }
-                }
-            }
-
+            details:{'section[data-lhs]':{'json-viewer': ({target}) =>{(<any>target).data = test.expectedEvent.detail;}}}
         });
     }
 
