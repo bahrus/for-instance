@@ -67,18 +67,14 @@ export class ForInstance extends XtalViewElement {
         super.attributeChangedCallback(n, ov, nv);
     }
     get initRenderContext() {
-        const contractProp = this._viewModel.properties.find(prop => prop.name === this._contractProp);
-        if (contractProp === undefined)
-            throw 'No contract found for contract prop: ' + this._contractProp;
-        const test = JSON.parse(contractProp.default);
-        let trigger = test.trigger;
+        let trigger = this._viewModel.trigger;
         if (trigger != undefined) {
             const scr = document.createElement('script');
             scr.type = 'module';
             if (this._skipImports) {
                 const split = trigger.split('\n');
                 split.forEach((line, idx) => {
-                    if (line.trimStart().startsWith('import ')) {
+                    if (line.trim().startsWith('import ')) {
                         split[idx] = '//' + line;
                     }
                 });
@@ -90,17 +86,17 @@ export class ForInstance extends XtalViewElement {
         return newRenderContext({
             mark: this._tag + ', for instance.',
             'json-viewer': ({ target }) => {
-                target.data = test;
+                target.data = this._viewModel;
             },
             main: ({ target }) => {
                 appendTag(target, this._tag, {});
             },
             [PD.is]: ({ target }) => {
-                target.on = test.expectedEvent.name;
+                target.on = this._viewModel.expectedEvent.name;
             },
-            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = test.expectedEvent.detail; } } },
+            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = this._viewModel.expectedEvent.detail; } } },
             [IfDiffThenStiff.is]: ({ target }) => {
-                target.rhs = test.expectedEvent.detail;
+                target.rhs = this._viewModel.expectedEvent.detail;
             }
         });
     }
@@ -135,12 +131,13 @@ export class ForInstance extends XtalViewElement {
         return new Promise((resolve, reject) => {
             fetch(this._href).then(resp => {
                 resp.json().then(data => {
+                    var _a, _b;
                     const esi = data;
-                    const ei = esi.tags.find(tag => tag.name === this._tag);
+                    const ei = (_b = (_a = esi.tags.find(tag => tag.name === this._tag)) === null || _a === void 0 ? void 0 : _a.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
                     if (ei === undefined) {
-                        reject(this._tag + ' not found.');
+                        reject('No contract found');
                     }
-                    resolve(ei);
+                    resolve(JSON.parse(ei));
                 });
             });
         });
