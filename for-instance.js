@@ -1,9 +1,6 @@
 import { define } from 'trans-render/define.js';
 import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
 import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
-import '@alenaksu/json-viewer/build/index.js';
-import { PD } from 'p-et-alia/p-d.js';
-import { IfDiffThenStiff } from 'if-diff/if-diff-then-stiff.js';
 import { appendTag } from 'trans-render/appendTag.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
@@ -67,6 +64,9 @@ export class ForInstance extends XtalViewElement {
         super.attributeChangedCallback(n, ov, nv);
     }
     get initRenderContext() {
+        import('p-et-alia/p-d.js');
+        import('@alenaksu/json-viewer/build/index.js');
+        import('if-diff/if-diff-then-stiff.js');
         let trigger = this._viewModel.trigger;
         if (trigger != undefined) {
             const scr = document.createElement('script');
@@ -91,11 +91,11 @@ export class ForInstance extends XtalViewElement {
             main: ({ target }) => {
                 appendTag(target, this._tag, {});
             },
-            [PD.is]: ({ target }) => {
+            'p-d': ({ target }) => {
                 target.on = this._viewModel.expectedEvent.name;
             },
             details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = this._viewModel.expectedEvent.detail; } } },
-            [IfDiffThenStiff.is]: ({ target }) => {
+            'if-diff-then-stiff': ({ target }) => {
                 target.rhs = this._viewModel.expectedEvent.detail;
             }
         });

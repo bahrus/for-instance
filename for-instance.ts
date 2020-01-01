@@ -2,9 +2,10 @@ import { define } from 'trans-render/define.js';
 import {XtalViewElement} from 'xtal-element/xtal-view-element.js';
 import {ElementInfo, ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
 import {createTemplate, newRenderContext} from 'xtal-element/utils.js';
-import '@alenaksu/json-viewer/build/index.js';
-import {PD} from 'p-et-alia/p-d.js';
-import {IfDiffThenStiff} from 'if-diff/if-diff-then-stiff.js';
+// import '@alenaksu/json-viewer/build/index.js';
+import {PDProps} from 'p-et-alia/types.d.js';
+//import {IfDiffThenStiff} from 'if-diff/if-diff-then-stiff.js';
+import {IfDiffProps} from 'if-diff/types.d.js';
 import {Test} from './types.js';
 import {appendTag} from 'trans-render/appendTag.js';
 
@@ -68,7 +69,9 @@ export class ForInstance extends XtalViewElement<Test>{
       }
 
     get initRenderContext(){
-        
+        import('p-et-alia/p-d.js');
+        import ('@alenaksu/json-viewer/build/index.js');
+        import ('if-diff/if-diff-then-stiff.js');
         let trigger = this._viewModel.trigger;
         if(trigger != undefined){
           const scr = document.createElement('script');
@@ -93,12 +96,12 @@ export class ForInstance extends XtalViewElement<Test>{
             main:  ({target}) => {
                 appendTag(target, this._tag!, {});
             },
-            [PD.is]: ({target}) =>{
-                (target as PD).on = this._viewModel.expectedEvent.name;
+            'p-d': ({target}) =>{
+                (target as any as PDProps).on = this._viewModel.expectedEvent.name;
             },
             details:{'section[data-lhs]':{'json-viewer': ({target}) =>{(<any>target).data = this._viewModel.expectedEvent.detail;}}},
-            [IfDiffThenStiff.is]: ({target}) =>{
-                (target as IfDiffThenStiff).rhs = this._viewModel.expectedEvent.detail;
+            'if-diff-then-stiff': ({target}) =>{
+                (target as any as IfDiffProps).rhs = this._viewModel.expectedEvent.detail;
             }
         });
     }

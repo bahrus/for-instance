@@ -14,11 +14,11 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.97",
-    "trans-render": "0.0.141",
+    "xtal-element": "0.0.99",
+    "trans-render": "0.0.142",
     "@alenaksu/json-viewer": "0.1.0",
     "p-et-alia": "0.0.66",
-    "if-diff": "0.0.40"
+    "if-diff": "0.0.41"
   },
   "devDependencies": {
     "xtal-test": "0.0.31"
