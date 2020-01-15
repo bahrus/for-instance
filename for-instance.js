@@ -101,7 +101,7 @@ export class ForInstance extends XtalViewElement {
                                                 newElement[prop.name] = JSON.parse(prop.default);
                                             }
                                             break;
-                                        case 'string':
+                                        default:
                                             {
                                                 newElement[prop.name] = prop.default;
                                             }
@@ -109,6 +109,9 @@ export class ForInstance extends XtalViewElement {
                                     }
                                 }
                                 break;
+                            default: {
+                                newElement[prop.name] = prop.default;
+                            }
                         }
                     }
                 });

@@ -103,13 +103,16 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
                             (<any>newElement)[prop.name] = JSON.parse(prop.default)
                           }
                           break;
-                          case 'string':{
+                          default:{
                             (<any>newElement)[prop.name] = prop.default;
                           }
                           break;
                         }
                       }
                       break;
+                      default:{
+                        (<any>newElement)[prop.name] = prop.default;
+                      }
                     }
 
                   }
