@@ -67,7 +67,7 @@ export class ForInstance extends XtalViewElement {
         import('p-et-alia/p-d.js');
         import('@alenaksu/json-viewer/build/index.js');
         import('if-diff/if-diff-then-stiff.js');
-        let trigger = this._viewModel.trigger;
+        let trigger = this._viewModel.test.trigger;
         if (trigger != undefined) {
             const scr = document.createElement('script');
             scr.type = 'module';
@@ -89,14 +89,36 @@ export class ForInstance extends XtalViewElement {
                 target.data = this._viewModel;
             },
             main: ({ target }) => {
-                appendTag(target, this._tag, {});
+                const newElement = appendTag(target, this._tag, {});
+                this._viewModel.elementInfo.properties.forEach(prop => {
+                    if (prop.default !== undefined) {
+                        switch (typeof prop.default) {
+                            case 'string':
+                                {
+                                    switch (prop.type) {
+                                        case 'object':
+                                            {
+                                                newElement[prop.name] = JSON.parse(prop.default);
+                                            }
+                                            break;
+                                        case 'string':
+                                            {
+                                                newElement[prop.name] = prop.default;
+                                            }
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                });
             },
             'p-d': ({ target }) => {
-                target.on = this._viewModel.expectedEvent.name;
+                target.on = this._viewModel.test.expectedEvent.name;
             },
-            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = this._viewModel.expectedEvent.detail; } } },
+            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = this._viewModel.test.expectedEvent.detail; } } },
             'if-diff-then-stiff': ({ target }) => {
-                target.rhs = this._viewModel.expectedEvent.detail;
+                target.rhs = this._viewModel.test.expectedEvent.detail;
             }
         });
     }
@@ -133,11 +155,17 @@ export class ForInstance extends XtalViewElement {
                 resp.json().then(data => {
                     var _a, _b;
                     const esi = data;
-                    const ei = (_b = (_a = esi.tags.find(tag => tag.name === this._tag)) === null || _a === void 0 ? void 0 : _a.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
-                    if (ei === undefined) {
+                    const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this._tag);
+                    if (elementInfo === undefined) {
+                        reject('No Element Info Found');
+                        return;
+                    }
+                    const test$ = (_b = elementInfo.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
+                    if (test$ === undefined) {
                         reject('No contract found');
                     }
-                    resolve(JSON.parse(ei));
+                    const test = JSON.parse(test$);
+                    resolve({ test, elementInfo });
                 });
             });
         });

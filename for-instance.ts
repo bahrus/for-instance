@@ -4,8 +4,9 @@ import {ElementInfo, ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
 import {createTemplate, newRenderContext} from 'xtal-element/utils.js';
 import {PDProps} from 'p-et-alia/types.d.js';
 import {IfDiffProps} from 'if-diff/types.d.js';
-import {Test} from './types.js';
+import {ForInstanceViewModel} from './types.js';
 import {appendTag} from 'trans-render/appendTag.js';
+import { Test } from '../event-switch/event-switch.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -42,7 +43,7 @@ const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
 const skip_imports = 'skip-imports';
-export class ForInstance extends XtalViewElement<Test>{
+export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     static get is() {
         return 'for-instance';
     }
@@ -70,7 +71,7 @@ export class ForInstance extends XtalViewElement<Test>{
         import('p-et-alia/p-d.js');
         import ('@alenaksu/json-viewer/build/index.js');
         import ('if-diff/if-diff-then-stiff.js');
-        let trigger = this._viewModel.trigger;
+        let trigger = this._viewModel.test.trigger;
         if(trigger != undefined){
           const scr = document.createElement('script');
           scr.type = 'module';
@@ -92,14 +93,35 @@ export class ForInstance extends XtalViewElement<Test>{
                 (<any>target).data = this._viewModel;
             },
             main:  ({target}) => {
-                appendTag(target, this._tag!, {});
+                const newElement = appendTag(target, this._tag!, {});
+                this._viewModel.elementInfo.properties.forEach(prop =>{
+                  if(prop.default !== undefined){
+                    switch(typeof prop.default){
+                      case 'string':{
+                        switch(prop.type){
+                          case 'object':{
+                            (<any>newElement)[prop.name] = JSON.parse(prop.default)
+                          }
+                          break;
+                          case 'string':{
+                            (<any>newElement)[prop.name] = prop.default;
+                          }
+                          break;
+                        }
+                      }
+                      break;
+                    }
+
+                  }
+
+                })
             },
             'p-d': ({target}) =>{
-                (target as any as PDProps).on = this._viewModel.expectedEvent.name;
+                (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
             },
-            details:{'section[data-lhs]':{'json-viewer': ({target}) =>{(<any>target).data = this._viewModel.expectedEvent.detail;}}},
+            details:{'section[data-lhs]':{'json-viewer': ({target}) =>{(<any>target).data = this._viewModel.test.expectedEvent.detail;}}},
             'if-diff-then-stiff': ({target}) =>{
-                (target as any as IfDiffProps).rhs = this._viewModel.expectedEvent.detail;
+                (target as any as IfDiffProps).rhs = this._viewModel.test.expectedEvent.detail;
             }
         });
     }
@@ -141,15 +163,21 @@ export class ForInstance extends XtalViewElement<Test>{
     }
 
     async init(){
-        return new Promise<Test>((resolve, reject) =>{
+        return new Promise<ForInstanceViewModel>((resolve, reject) =>{
             fetch(this._href!).then(resp =>{
                 resp.json().then(data =>{
                     const esi = data as ElementSetInfo;
-                    const ei = esi.tags.find(tag => tag.name === this._tag)?.properties.find(prop => prop.name === this._contractProp)?.default as string;
-                    if(ei === undefined){
+                    const elementInfo = esi.tags?.find(tag => tag.name === this._tag);
+                    if(elementInfo === undefined){
+                      reject('No Element Info Found');
+                      return;
+                    }
+                    const test$ = elementInfo.properties.find(prop => prop.name === this._contractProp)?.default as string;
+                    if(test$ === undefined){
                       reject('No contract found');
                     }
-                    resolve(JSON.parse(ei) as Test);
+                    const test = JSON.parse(test$) as Test;
+                    resolve({test, elementInfo});
                 })
             })
         })

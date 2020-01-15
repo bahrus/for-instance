@@ -1,3 +1,4 @@
+import {ElementInfo} from 'api-viewer-element/src/lib/types.js';
 export interface ExpectedEvent{
     /** 
      * Name (or "type") of (custom) event 
@@ -26,4 +27,9 @@ export interface Test{
      * Event expected to be fired (possibly as a result of running the script specified by trigger property.)
      */
     expectedEvent: ExpectedEvent,
+}
+
+export interface ForInstanceViewModel{
+    test: Test,
+    elementInfo: ElementInfo
 }
