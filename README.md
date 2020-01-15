@@ -62,68 +62,46 @@ For example, my creator has defined a custom element, xtal-frappe-chart, with cl
 To provide some sample data, why not extend the base class?:
 
 
-```TypeScript
-/**
- * @element xtal-frappe-chart-example1
- */
-export class XtalFrappeChartExample1 extends XtalFrappeChart {
-    static get is() { return 'xtal-frappe-chart-example1'; }
-    connectedCallback(){
-        this.data = {
-            title: "My Awesome Chart",
-            data: {
-                labels: ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
-                    "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
-                datasets: [
-                    {
-                        name: "Some Data", "color": "light-blue",
-                        values: [25, 40, 30, 35, 8, 52, 17, -4]
-                    },
-                    {
-                        name: "Another Set", "color": "violet",
-                        values: [25, 50, 10, 15, 18, 32, 27, 14]
-                    },
-                    {
-                        name: "Yet Another", "color": "blue",
-                        values: [15, 20, 3, -15, 58, 12, -17, 37]
-                    }
-                ]
-            } as TabularData,
-            type: "bar",
-            height: 250,
-            isNavigable: true
-        } as ChartOptions;
-        super.connectedCallback();
-    }
 
-}
-```
-<details>
-    <summary>Some delicate nuances to consider</summary>
-
-At first, I thought that data should be set via a simple property override:
 
 ```TypeScript
 /**
- * @element xtal-frappe-chart-example1
+ * @element xtal-frappe-chart
+ */
+/**
+ * @element xtal-frappe-chart
  */
 export class XtalFrappeChartExample1 extends XtalFrappeChart {
-    static get is() { return 'xtal-frappe-chart-example1'; }
     data = {
-        labels: ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
-                    "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
-        ...
-    }
-    ...
+        title: "My Awesome Chart",
+        data: {
+            labels: ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
+                "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
+            datasets: [
+                {
+                    name: "Some Data", "color": "light-blue",
+                    values: [25, 40, 30, 35, 8, 52, 17, -4]
+                },
+                {
+                    name: "Another Set", "color": "violet",
+                    values: [25, 50, 10, 15, 18, 32, 27, 14]
+                },
+                {
+                    name: "Yet Another", "color": "blue",
+                    values: [15, 20, 3, -15, 58, 12, -17, 37]
+                }
+            ]
+        } as TabularData,
+        type: "bar",
+        height: 250,
+        isNavigable: true
+    } as ChartOptions
 }
 ```
 
-Doing so would result in the web component analyzer tool capturing this default value in the auto-generated json file (also kept separate).  Due to my initial fuzzy thinking, this seemed like a good thing.  But actually:
+Doing so results in the web component analyzer tool capturing this default value in the auto-generated json file (also kept separate - recommended file name:  xtal-frappe-chart-example1.json).  
 
-1.  We really don't need the default initial data captured in the JSON file, in order to document events.  The only benefit I can see of having the default values stored in JSON is it would allow non TypeScript consumers to see examples of valid default data.
-2.  If properties get reflected to attributes, this will actually spawn a browser error (setting attributes from a custom element's constructor seems to be verboten).  Hence it is better to set these values in the overridden connectedCallback(), as far as I can see.
-
-</details>
+I take this JSON file, and create an instance of xtal-frappe-chart, and assign the properties as specified by the auto generated json file.
 
 But this still doesn't answer the question of how to document the structure of custom events the web component spawns.  
 
