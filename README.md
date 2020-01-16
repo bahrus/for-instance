@@ -148,10 +148,10 @@ We define the contract as follows, which the [web component analyzer](https://ww
 
 ```TypeScript
 /**
- * @element xtal-frappe-chart-example1
+ * @element xtal-frappe-chart
  */
 export class XtalFrappeChartExample1 extends XtalFrappeChart {
-    static get is() { return 'xtal-frappe-chart-example1'; }
+    
     ...
 
     selectedElementContract: XtalFrappeChartTest<'selected-element-changed', 'selectedElement'> = {
@@ -225,7 +225,7 @@ Having created a test / example extending web component, I can now bind to it:
   <for-instance 
     href=https://unpkg.com/xtal-frappe-chart@0.0.60/custom-elements-example1.json
     contract-prop=selectedElementContract
-    tag=xtal-frappe-chart-example1
+    tag=xtal-frappe-chart
 ></for-instance>
 ```
 
