@@ -223,7 +223,7 @@ Having created a test / example extending web component, I can now bind to it:
 
 ```html
   <for-instance 
-    href=https://unpkg.com/xtal-frappe-chart@0.0.60/custom-elements-example1.json
+    href=https://unpkg.com/xtal-frappe-chart@0.0.60/xtal-frappe-chart-example1.json
     contract-prop=selectedElementContract
     tag=xtal-frappe-chart
 ></for-instance>
@@ -238,20 +238,21 @@ If the expected event is observed, I emit a child tag:
 <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
 ```
 
-if it does, I give a failing grade:
+if it doesn't fire, I give a failing grade:
 
 ```html
 <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
 ```
 
 
-I assume, initially, the test will fail, so you might see the red tag appear for a bit, until I see the expected event, at which point I switch colors.
+In fact, I assume, initially, the test *will* fail, so you might see the red tag appear for a bit, until I see the expected event, at which point I switch colors.  Guilty until proven innocent.
 
 
 
 ## Viewing for-instance locally
 
 ```
+$ npm install
 $ npm run serve
 ```
 
