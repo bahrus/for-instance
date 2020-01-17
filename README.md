@@ -238,7 +238,7 @@ If the expected event is observed, I emit a child tag:
 <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
 ```
 
-if it doesn't fire, I give a failing grade:
+If it doesn't fire, I give a failing grade:
 
 ```html
 <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
