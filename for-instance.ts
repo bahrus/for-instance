@@ -100,11 +100,16 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
                       case 'string':{
                         switch(prop.type){
                           case 'object':{
-                            (<any>newElement)[prop.name] = JSON.parse(prop.default)
+                            (<any>newElement)[prop.name] = JSON.parse(prop.default);
                           }
                           break;
                           default:{
-                            (<any>newElement)[prop.name] = prop.default;
+                            if(prop.type[0] === '{'){ //example:   "type": "{ [key: string]: number; }",
+                              (<any>newElement)[prop.name] = JSON.parse(prop.default);
+                            }else{
+                              (<any>newElement)[prop.name] = prop.default;
+                            }
+                           
                           }
                           break;
                         }

@@ -103,7 +103,12 @@ export class ForInstance extends XtalViewElement {
                                             break;
                                         default:
                                             {
-                                                newElement[prop.name] = prop.default;
+                                                if (prop.type[0] === '{') { //example:   "type": "{ [key: string]: number; }",
+                                                    newElement[prop.name] = JSON.parse(prop.default);
+                                                }
+                                                else {
+                                                    newElement[prop.name] = prop.default;
+                                                }
                                             }
                                             break;
                                     }
