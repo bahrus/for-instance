@@ -68,9 +68,6 @@ To provide some sample data, why not extend the base class?:
 /**
  * @element xtal-frappe-chart
  */
-/**
- * @element xtal-frappe-chart
- */
 export class XtalFrappeChartExample1 extends XtalFrappeChart {
     data = {
         title: "My Awesome Chart",
