@@ -94,29 +94,22 @@ export class ForInstance extends XtalViewElement {
                     if (prop.default !== undefined) {
                         switch (typeof prop.default) {
                             case 'string':
-                                {
-                                    switch (prop.type) {
-                                        case 'object':
-                                            {
-                                                newElement[prop.name] = JSON.parse(prop.default);
-                                            }
-                                            break;
-                                        default:
-                                            {
-                                                if (prop.type[0] === '{') { //example:   "type": "{ [key: string]: number; }",
-                                                    newElement[prop.name] = JSON.parse(prop.default);
-                                                }
-                                                else {
-                                                    newElement[prop.name] = prop.default;
-                                                }
-                                            }
-                                            break;
-                                    }
+                                switch (prop.type) {
+                                    case 'string':
+                                    case 'object':
+                                        newElement[prop.name] = JSON.parse(prop.default);
+                                        break;
+                                    default:
+                                        if (prop.type[0] === '{') { //example:   "type": "{ [key: string]: number; }",
+                                            newElement[prop.name] = JSON.parse(prop.default);
+                                        }
+                                        else {
+                                            newElement[prop.name] = prop.default;
+                                        }
                                 }
                                 break;
-                            default: {
+                            default:
                                 newElement[prop.name] = prop.default;
-                            }
                         }
                     }
                 });
