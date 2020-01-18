@@ -18,7 +18,7 @@
     "trans-render": "0.0.142",
     "@alenaksu/json-viewer": "0.1.0",
     "p-et-alia": "0.0.66",
-    "if-diff": "0.0.41"
+    "if-diff": "0.0.42"
   },
   "devDependencies": {
     "xtal-test": "0.0.31"
