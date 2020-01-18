@@ -51,7 +51,8 @@ If a vendor and language-neutral way of describing a web component could be esta
 I do not attempt to test anything beyond simple input / output mechanics.  In the case of web components, often that will be a rather trivial test -- often events are simply fired when a property changes.  Typically, in practice, that property will change due to a user action, like clicking on an internal button. 
 
 
-## SYNTAX GALORE
+## [SYNTAX GALORE](https://bahrus.github.io/api-viewer/index.html?npmPackage=for-instance&jsPath=for-instance.js&jsonPath=custom-elements.json)
+
 
 I, *for-instance* don't impose much, if any, requirements on the original custom element definition -- only that it adhere to whatever best practices are in place to promote self-documentation -- JSDocs with [special notation applicable](https://www.npmjs.com/package/web-component-analyzer#%E2%9E%A4-how-to-document-your-components-using-jsdoc) to web components. I don't want to impose any overhead on the payload size of the component itself.
 

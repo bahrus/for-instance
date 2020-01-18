@@ -44,6 +44,10 @@ const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
 const skip_imports = 'skip-imports';
+/**
+ * Test instances of custom element for custom event signature contracts.
+ * @element for-instance
+ */
 export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     static get is() {
         return 'for-instance';
@@ -141,6 +145,10 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     get href() {
       return this._href;
     }
+    /**
+     * URL for custom-elements.json file / stream.
+     * @attr
+     */
     set href(nv) {
       this.attr(href, nv!);
     }
@@ -149,6 +157,10 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     get tag(){
       return this._tag;
     }
+    /**
+     * Name of tag to test / showcase.
+     * @attr
+     */
     set tag(nv){
       this.attr(tag, nv!);
     }
@@ -157,6 +169,10 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     get contractProp(){
       return this._contractProp;
     }
+    /**
+     * Name of property that specifies contract.
+     * @attr contract-prop
+     */
     set contractProp(nv){
       this.attr(contract_prop, nv!);
     }
@@ -165,6 +181,10 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     get skipImports(){
       return this._skipImports;
     }
+    /**
+     * If test page contains needed imports, skip any imports contained in test script.
+     * @attr skip-imports
+     */
     set skipImports(nv){
       this.attr(skip_imports, nv, '');
     }
