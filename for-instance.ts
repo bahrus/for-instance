@@ -4,7 +4,7 @@ import {ElementInfo, ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
 import {createTemplate, newRenderContext} from 'xtal-element/utils.js';
 import {PDProps} from 'p-et-alia/types.d.js';
 import {IfDiffProps} from 'if-diff/types.d.js';
-import {ForInstanceViewModel} from './types.js';
+import {ForInstanceViewModel, Test} from './types.js';
 import {appendTag} from 'trans-render/appendTag.js';
 
 
