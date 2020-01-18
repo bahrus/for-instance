@@ -6,7 +6,6 @@ import {PDProps} from 'p-et-alia/types.d.js';
 import {IfDiffProps} from 'if-diff/types.d.js';
 import {ForInstanceViewModel} from './types.js';
 import {appendTag} from 'trans-render/appendTag.js';
-import { Test } from '../event-switch/event-switch.js';
 
 
 const mainTemplate = createTemplate(/* html */`
