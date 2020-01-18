@@ -2,6 +2,8 @@ import { define } from 'trans-render/define.js';
 import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
 import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
 import { appendTag } from 'trans-render/appendTag.js';
+//json-viewer isn't asynchronous loading friendy
+import '@alenaksu/json-viewer/build/index.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
 <json-viewer></json-viewer>
@@ -65,7 +67,6 @@ export class ForInstance extends XtalViewElement {
     }
     get initRenderContext() {
         import('p-et-alia/p-d.js');
-        import('@alenaksu/json-viewer/build/index.js');
         import('if-diff/if-diff-then-stiff.js');
         let trigger = this._viewModel.test.trigger;
         if (trigger != undefined) {
@@ -117,7 +118,11 @@ export class ForInstance extends XtalViewElement {
             'p-d': ({ target }) => {
                 target.on = this._viewModel.test.expectedEvent.name;
             },
-            details: { 'section[data-lhs]': { 'json-viewer': ({ target }) => { target.data = this._viewModel.test.expectedEvent.detail; } } },
+            details: {
+                'section[data-lhs]': {
+                    'json-viewer': ({ target }) => { target.data = this._viewModel.test.expectedEvent.detail; }
+                }
+            },
             'if-diff-then-stiff': ({ target }) => {
                 target.rhs = this._viewModel.test.expectedEvent.detail;
             }

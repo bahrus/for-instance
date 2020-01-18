@@ -6,6 +6,8 @@ import {PDProps} from 'p-et-alia/types.d.js';
 import {IfDiffProps} from 'if-diff/types.d.js';
 import {ForInstanceViewModel, Test} from './types.js';
 import {appendTag} from 'trans-render/appendTag.js';
+//json-viewer isn't asynchronous loading friendy
+import '@alenaksu/json-viewer/build/index.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -68,7 +70,6 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
 
     get initRenderContext(){
         import('p-et-alia/p-d.js');
-        import ('@alenaksu/json-viewer/build/index.js');
         import ('if-diff/if-diff-then-stiff.js');
         let trigger = this._viewModel.test.trigger;
         if(trigger != undefined){
@@ -121,7 +122,11 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
             'p-d': ({target}) =>{
                 (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
             },
-            details:{'section[data-lhs]':{'json-viewer': ({target}) =>{(<any>target).data = this._viewModel.test.expectedEvent.detail;}}},
+            details:{
+              'section[data-lhs]':{
+                'json-viewer': ({target}) =>{(<any>target).data = this._viewModel.test.expectedEvent.detail;}
+              }
+            },
             'if-diff-then-stiff': ({target}) =>{
                 (target as any as IfDiffProps).rhs = this._viewModel.test.expectedEvent.detail;
             }
