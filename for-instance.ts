@@ -7,7 +7,7 @@ import {IfDiffProps} from 'if-diff/types.d.js';
 import {ForInstanceViewModel, Test} from './types.js';
 import {appendTag} from 'trans-render/appendTag.js';
 //json-viewer isn't asynchronous loading friendy
-import '@alenaksu/json-viewer/build/index.js';
+
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -75,6 +75,7 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     get initRenderContext(){
         import('p-et-alia/p-d.js');
         import ('if-diff/if-diff-then-stiff.js');
+        import('@alenaksu/json-viewer/build/index.js');
         let trigger = this._viewModel.test.trigger;
         if(trigger != undefined){
           const scr = document.createElement('script');
@@ -94,7 +95,7 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
         return newRenderContext({
             mark: this._tag! + ', for instance.',
             'json-viewer': ({target})=>{
-                (<any>target).data = this._viewModel;
+                (<any>target).innerHTML = JSON.stringify(this._viewModel);
             },
             main:  ({target}) => {
                 const newElement = appendTag(target, this._tag!, {});
@@ -128,7 +129,7 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
             },
             details:{
               'section[data-lhs]':{
-                'json-viewer': ({target}) =>{(<any>target).data = this._viewModel.test.expectedEvent.detail;}
+                'json-viewer': ({target}) =>{(<any>target).innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail);}
               }
             },
             'if-diff-then-stiff': ({target}) =>{

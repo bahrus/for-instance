@@ -3,7 +3,6 @@ import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
 import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
 import { appendTag } from 'trans-render/appendTag.js';
 //json-viewer isn't asynchronous loading friendy
-import '@alenaksu/json-viewer/build/index.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
 <json-viewer></json-viewer>
@@ -72,6 +71,7 @@ export class ForInstance extends XtalViewElement {
     get initRenderContext() {
         import('p-et-alia/p-d.js');
         import('if-diff/if-diff-then-stiff.js');
+        import('@alenaksu/json-viewer/build/index.js');
         let trigger = this._viewModel.test.trigger;
         if (trigger != undefined) {
             const scr = document.createElement('script');
@@ -91,7 +91,7 @@ export class ForInstance extends XtalViewElement {
         return newRenderContext({
             mark: this._tag + ', for instance.',
             'json-viewer': ({ target }) => {
-                target.data = this._viewModel;
+                target.innerHTML = JSON.stringify(this._viewModel);
             },
             main: ({ target }) => {
                 const newElement = appendTag(target, this._tag, {});
@@ -124,7 +124,7 @@ export class ForInstance extends XtalViewElement {
             },
             details: {
                 'section[data-lhs]': {
-                    'json-viewer': ({ target }) => { target.data = this._viewModel.test.expectedEvent.detail; }
+                    'json-viewer': ({ target }) => { target.innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail); }
                 }
             },
             'if-diff-then-stiff': ({ target }) => {
