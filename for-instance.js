@@ -2,7 +2,6 @@ import { define } from 'trans-render/define.js';
 import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
 import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
 import { appendTag } from 'trans-render/appendTag.js';
-//json-viewer isn't asynchronous loading friendy
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
 <json-viewer></json-viewer>

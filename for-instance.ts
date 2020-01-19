@@ -6,7 +6,6 @@ import {PDProps} from 'p-et-alia/types.d.js';
 import {IfDiffProps} from 'if-diff/types.d.js';
 import {ForInstanceViewModel, Test} from './types.js';
 import {appendTag} from 'trans-render/appendTag.js';
-//json-viewer isn't asynchronous loading friendy
 
 
 
