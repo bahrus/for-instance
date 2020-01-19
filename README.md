@@ -12,20 +12,23 @@ I, *for-instance*, am cheered to see miraculous progress happening in what I cal
 
 Swagger, a linchpin to making different [micro-services work together](https://swagger.io/blog/api-strategy/microservices-apis-and-swagger/), rests on the OpenAPI schema.
 
-## [Demo](https://jsfiddle.net/bahrus/r8uhgsft/1/)
+## [Demo](https://jsfiddle.net/bahrus/r8uhgsft/6/)
 
 <!--
 ```
 <custom-element-demo>
   <template>
     <div>
-        <for-instance href=https://unpkg.com/xtal-frappe-chart@0.0.62/custom-elements-example1.json
-            prop=selectedElementContract tag=xtal-frappe-chart-example1></for-instance>
+        <for-instance 
+            href=https://unpkg.com/xtal-frappe-chart@0.0.66/xtal-frappe-chart-example1.json
+            contract-prop=selectedElementContract 
+            tag=xtal-frappe-chart>
+        </for-instance>
         <a
             href="https://bahrus.github.io/api-viewer/index.html?npmPackage=xtal-frappe-chart&jsPath=xtal-frappe-chart-example1.js&jsonPath=custom-elements-example1.json">api
             viewer</a>
 
-        <script type=module src=https://unpkg.com/for-instance@0.0.10/for-instance.js?module> </script> 
+        <script type=module src=https://unpkg.com/for-instance@0.0.17/for-instance.js?module> </script> 
     </div> 
   </template>
 </custom-element-demo>

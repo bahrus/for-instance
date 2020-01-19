@@ -220,3 +220,9 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
     }
 }
 define(ForInstance);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "for-instance": ForInstance,
+  }
+}
