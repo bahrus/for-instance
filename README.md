@@ -1,8 +1,10 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/for-instance)
 
-<a href="https://nodei.co/npm/for-instance/"><img src="https://nodei.co/npm/for-instance.png"></a>
+<a href="https://nodei.co/npm/for-instance/"><img src="https://nodei.co/npm/for-instance.png" alt="for instance npm"></a>
 
-<img src="https://badgen.net/bundlephobia/minzip/for-instance">
+<img src="https://badgen.net/bundlephobia/minzip/for-instance" alt="size">
+
+[![Actions Status](https://github.com/bahrus/for-instance/workflows/CI/badge.svg)](https://github.com/bahrus/for-instance/actions?query=workflow%3ACI)
 
 # INTRODUCTION
 
