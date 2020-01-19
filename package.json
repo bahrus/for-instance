@@ -1,6 +1,6 @@
 {
   "name": "for-instance",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Push for the Swaggerization of Web Components",
   "type": "module",
   "main": "for-instance.js",
