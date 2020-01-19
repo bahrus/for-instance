@@ -6,7 +6,7 @@
   "module": "for-instance.js",
   "types": "types.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
     "doc": "wca analyze for-instance.js --outFile custom-elements.json"
   },
@@ -19,7 +19,10 @@
     "trans-render": "0.0.142",
     "@alenaksu/json-viewer": "0.1.0",
     "p-et-alia": "0.0.66",
-    "if-diff": "0.0.42"
+    "if-diff": "0.0.42",
+    "xtal-shell": "0.0.25",
+    "xtal-frappe-chart": "0.0.66",
+    "es-module-shims": "0.4.6"
   },
   "devDependencies": {
     "xtal-test": "0.0.31",
