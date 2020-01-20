@@ -26,7 +26,7 @@
     "es-module-shims": "0.4.6"
   },
   "devDependencies": {
-    "xtal-test": "0.0.32",
+    "xtal-test": "0.0.33",
     "es-module-shims": "0.4.6"
   },
   "author": "anderson.bruce.b@gmail.com",
