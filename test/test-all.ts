@@ -7,11 +7,13 @@ const xt = require('xtal-test/index') as IXtalTestRunner;
         {
             path: 'test/xtal-frappe-chart-test.html',
             expectedNoOfSuccessMarkers: 1,
+            wait: 10
 
         },
         {
             path: 'test/fetch-test.html',
             expectedNoOfSuccessMarkers: 1,
+            wait: 10
         },
         
     ]);
