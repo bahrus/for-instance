@@ -48,6 +48,12 @@ const skip_imports = 'skip-imports';
  * @element for-instance
  */
 export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
+    constructor(){
+      super();
+      import('p-et-alia/p-d.js');
+      import ('if-diff/if-diff-then-stiff.js');
+      import('@alenaksu/json-viewer/build/index.js');
+    }
     static get is() {
         return 'for-instance';
     }
@@ -72,9 +78,7 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
       }
 
     get initRenderContext(){
-        import('p-et-alia/p-d.js');
-        import ('if-diff/if-diff-then-stiff.js');
-        import('@alenaksu/json-viewer/build/index.js');
+
         let trigger = this._viewModel.test.trigger;
         if(trigger != undefined){
           const scr = document.createElement('script');
