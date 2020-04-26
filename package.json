@@ -16,13 +16,13 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.101",
-    "trans-render": "0.0.143",
+    "xtal-element": "0.0.118",
+    "trans-render": "0.0.168",
     "@alenaksu/json-viewer": "0.1.0",
     "p-et-alia": "0.0.74",
-    "if-diff": "0.0.42",
+    "if-diff": "0.0.43",
     "xtal-shell": "0.0.25",
-    "xtal-frappe-chart": "0.0.66",
+    "xtal-frappe-chart": "0.0.69",
     "es-module-shims": "0.4.6"
   },
   "devDependencies": {

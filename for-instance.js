@@ -1,6 +1,6 @@
 import { define } from 'trans-render/define.js';
 import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
-import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
+import { createTemplate } from 'trans-render/createTemplate.js';
 import { appendTag } from 'trans-render/appendTag.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
@@ -42,35 +42,41 @@ const skip_imports = 'skip-imports';
  */
 export class ForInstance extends XtalViewElement {
     constructor() {
-        super(...arguments);
+        super();
         this._skipImports = false;
+        import('p-et-alia/p-d.js');
+        import('if-diff/if-diff-then-stiff.js');
+        import('@alenaksu/json-viewer/build/index.js');
     }
     static get is() {
         return 'for-instance';
     }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
+    //#region required members
+    get readyToInit() {
+        return this._href !== undefined && this._tag !== undefined && this._contractProp !== undefined;
     }
-    get noShadow() { return true; }
-    attributeChangedCallback(n, ov, nv) {
-        switch (n) {
-            case tag:
-            case href:
-                this['_' + n] = nv;
-                break;
-            case contract_prop:
-                this._contractProp = nv;
-                break;
-            case skip_imports:
-                this._skipImports = nv !== null;
-                break;
-        }
-        super.attributeChangedCallback(n, ov, nv);
+    init(signal) {
+        return new Promise((resolve, reject) => {
+            fetch(this._href).then(resp => {
+                resp.json().then(data => {
+                    var _a, _b;
+                    const esi = data;
+                    const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this._tag);
+                    if (elementInfo === undefined) {
+                        reject('No Element Info Found');
+                        return;
+                    }
+                    const test$ = (_b = elementInfo.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
+                    if (test$ === undefined) {
+                        reject('No contract found');
+                    }
+                    const test = JSON.parse(test$);
+                    resolve({ test, elementInfo });
+                });
+            });
+        });
     }
-    get initRenderContext() {
-        import('p-et-alia/p-d.js');
-        import('if-diff/if-diff-then-stiff.js');
-        import('@alenaksu/json-viewer/build/index.js');
+    get readyToRender() {
         let trigger = this._viewModel.test.trigger;
         if (trigger != undefined) {
             const scr = document.createElement('script');
@@ -87,7 +93,13 @@ export class ForInstance extends XtalViewElement {
             scr.innerHTML = trigger;
             document.head.appendChild(scr);
         }
-        return newRenderContext({
+        return true;
+    }
+    get mainTemplate() {
+        return mainTemplate;
+    }
+    get initTransform() {
+        return {
             mark: this._tag + ', for instance.',
             'json-viewer': ({ target }) => {
                 target.innerHTML = JSON.stringify(this._viewModel);
@@ -129,10 +141,34 @@ export class ForInstance extends XtalViewElement {
             'if-diff-then-stiff': ({ target }) => {
                 target.rhs = this._viewModel.test.expectedEvent.detail;
             }
-        });
+        };
     }
-    get mainTemplate() {
-        return mainTemplate;
+    async update(signal) {
+        this.innerHTML = '';
+        return this.init(signal);
+    }
+    //#endregion
+    //#region boilerplate
+    static get observedAttributes() {
+        return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
+    }
+    //#endregion
+    //#region overridden members
+    get noShadow() { return true; }
+    attributeChangedCallback(n, ov, nv) {
+        switch (n) {
+            case tag:
+            case href:
+                this['_' + n] = nv;
+                break;
+            case contract_prop:
+                this._contractProp = nv;
+                break;
+            case skip_imports:
+                this._skipImports = nv !== null;
+                break;
+        }
+        super.attributeChangedCallback(n, ov, nv);
     }
     get href() {
         return this._href;
@@ -173,34 +209,6 @@ export class ForInstance extends XtalViewElement {
      */
     set skipImports(nv) {
         this.attr(skip_imports, nv, '');
-    }
-    async init() {
-        return new Promise((resolve, reject) => {
-            fetch(this._href).then(resp => {
-                resp.json().then(data => {
-                    var _a, _b;
-                    const esi = data;
-                    const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this._tag);
-                    if (elementInfo === undefined) {
-                        reject('No Element Info Found');
-                        return;
-                    }
-                    const test$ = (_b = elementInfo.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
-                    if (test$ === undefined) {
-                        reject('No contract found');
-                    }
-                    const test = JSON.parse(test$);
-                    resolve({ test, elementInfo });
-                });
-            });
-        });
-    }
-    async update() {
-        this.innerHTML = '';
-        return this.init();
-    }
-    get readyToInit() {
-        return this._href !== undefined && this._tag !== undefined && this._contractProp !== undefined;
     }
 }
 define(ForInstance);

@@ -1,12 +1,12 @@
 import { define } from 'trans-render/define.js';
-import {XtalViewElement} from 'xtal-element/xtal-view-element.js';
-import {ElementInfo, ElementSetInfo} from 'api-viewer-element/src/lib/types.js';
-import {createTemplate, newRenderContext} from 'xtal-element/utils.js';
-import {PDProps} from 'p-et-alia/types.d.js';
-import {IfDiffProps} from 'if-diff/types.d.js';
-import {ForInstanceViewModel, Test} from './types.js';
-import {appendTag} from 'trans-render/appendTag.js';
-
+import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
+import { ElementInfo, ElementSetInfo } from 'api-viewer-element/src/lib/types.js';
+import { createTemplate } from 'trans-render/createTemplate.js';
+import { PDProps } from 'p-et-alia/types.d.js';
+import { IfDiffProps } from 'if-diff/types.d.js';
+import { ForInstanceViewModel, Test } from './types.js';
+import { appendTag } from 'trans-render/appendTag.js';
+import { TransformRules } from 'trans-render/init.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -48,180 +48,203 @@ const skip_imports = 'skip-imports';
  * @element for-instance
  */
 export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
-    constructor(){
-      super();
-      import('p-et-alia/p-d.js');
-      import ('if-diff/if-diff-then-stiff.js');
-      import('@alenaksu/json-viewer/build/index.js');
-    }
-    static get is() {
-        return 'for-instance';
-    }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
-    }
-    get noShadow(){return true;}
-    attributeChangedCallback(n: string, ov: string, nv: string) {
-        switch (n) {
-          case tag:
-          case href:
-            (<any>this)['_' + n] = nv;
-            break;
-          case contract_prop:
-            this._contractProp = nv;
-            break;
-          case skip_imports:
-            this._skipImports = nv !== null;
-            break;
-        }
-        super.attributeChangedCallback(n, ov, nv);
-      }
+  constructor() {
+    super();
+    import('p-et-alia/p-d.js');
+    import('if-diff/if-diff-then-stiff.js');
+    import('@alenaksu/json-viewer/build/index.js');
+  }
+  static get is() {
+    return 'for-instance';
+  }
+  //#region required members
 
-    get initRenderContext(){
 
-        let trigger = this._viewModel.test.trigger;
-        if(trigger != undefined){
-          const scr = document.createElement('script');
-          scr.type = 'module';
-          if(this._skipImports){
-            const split = trigger.split('\n');
-            split.forEach((line, idx) =>{
-              if(line.trim().startsWith('import ')){
-                split[idx] = '//' + line;
-              }
-            });
-            trigger = split.join('\n');
+
+  get readyToInit() {
+    return this._href !== undefined && this._tag !== undefined && this._contractProp !== undefined;
+  }
+
+  init(signal:  AbortSignal) {
+    return new Promise<ForInstanceViewModel>((resolve, reject) => {
+      fetch(this._href!).then(resp => {
+        resp.json().then(data => {
+          const esi = data as ElementSetInfo;
+          const elementInfo = esi.tags?.find(tag => tag.name === this._tag);
+          if (elementInfo === undefined) {
+            reject('No Element Info Found');
+            return;
           }
-          scr.innerHTML = trigger;
-          document.head.appendChild(scr);
-        }
-        return newRenderContext({
-            mark: this._tag! + ', for instance.',
-            'json-viewer': ({target})=>{
-                (<any>target).innerHTML = JSON.stringify(this._viewModel);
-            },
-            main:  ({target}) => {
-                const newElement = appendTag(target, this._tag!, {});
-                this._viewModel.elementInfo.properties.forEach(prop =>{
-                  if(prop.default !== undefined){
-                    switch(typeof prop.default){
-                      case 'string':
-                        switch(prop.type){
-                          case 'string':
-                          case 'object':
-                            (<any>newElement)[prop.name] = JSON.parse(prop.default);
-                            break;
-                          default:
-                            if(prop.type[0] === '{'){ //example:   "type": "{ [key: string]: number; }",
-                              (<any>newElement)[prop.name] = JSON.parse(prop.default);
-                            }else{
-                              (<any>newElement)[prop.name] = prop.default;
-                            }
-                        }
-                        break;
-                      default:
-                        (<any>newElement)[prop.name] = prop.default;
-                    }
-
-                  }
-
-                })
-            },
-            'p-d': ({target}) =>{
-                (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
-            },
-            details:{
-              'section[data-lhs]':{
-                'json-viewer': ({target}) =>{(<any>target).innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail);}
-              }
-            },
-            'if-diff-then-stiff': ({target}) =>{
-                (target as any as IfDiffProps).rhs = this._viewModel.test.expectedEvent.detail;
-            }
-        });
-    }
-
-    get mainTemplate(){
-        return mainTemplate;
-    }
-
-    _href: string | undefined;
-    get href() {
-      return this._href;
-    }
-    /**
-     * URL for custom-elements.json file / stream.
-     * @attr
-     */
-    set href(nv) {
-      this.attr(href, nv!);
-    }
-
-    _tag: string | undefined;
-    get tag(){
-      return this._tag;
-    }
-    /**
-     * Name of tag to test / showcase.
-     * @attr
-     */
-    set tag(nv){
-      this.attr(tag, nv!);
-    }
-  
-    _contractProp: string | undefined;
-    get contractProp(){
-      return this._contractProp;
-    }
-    /**
-     * Name of property that specifies contract.
-     * @attr contract-prop
-     */
-    set contractProp(nv){
-      this.attr(contract_prop, nv!);
-    }
-  
-    _skipImports = false;
-    get skipImports(){
-      return this._skipImports;
-    }
-    /**
-     * If test page contains needed imports, skip any imports contained in test script.
-     * @attr skip-imports
-     */
-    set skipImports(nv){
-      this.attr(skip_imports, nv, '');
-    }
-
-    async init(){
-        return new Promise<ForInstanceViewModel>((resolve, reject) =>{
-            fetch(this._href!).then(resp =>{
-                resp.json().then(data =>{
-                    const esi = data as ElementSetInfo;
-                    const elementInfo = esi.tags?.find(tag => tag.name === this._tag);
-                    if(elementInfo === undefined){
-                      reject('No Element Info Found');
-                      return;
-                    }
-                    const test$ = elementInfo.properties.find(prop => prop.name === this._contractProp)?.default as string;
-                    if(test$ === undefined){
-                      reject('No contract found');
-                    }
-                    const test = JSON.parse(test$) as Test;
-                    resolve({test, elementInfo});
-                })
-            })
+          const test$ = elementInfo.properties.find(prop => prop.name === this._contractProp)?.default as string;
+          if (test$ === undefined) {
+            reject('No contract found');
+          }
+          const test = JSON.parse(test$) as Test;
+          resolve({ test, elementInfo });
         })
-    }
+      })
+    })
+  }
 
-    async update(){
-        this.innerHTML = '';
-        return this.init();
+  get readyToRender(){
+    let trigger = this._viewModel.test.trigger;
+    if (trigger != undefined) {
+      const scr = document.createElement('script');
+      scr.type = 'module';
+      if (this._skipImports) {
+        const split = trigger.split('\n');
+        split.forEach((line, idx) => {
+          if (line.trim().startsWith('import ')) {
+            split[idx] = '//' + line;
+          }
+        });
+        trigger = split.join('\n');
+      }
+      scr.innerHTML = trigger;
+      document.head.appendChild(scr);
     }
+    return true;
+  }
 
-    get readyToInit(){
-        return this._href !== undefined && this._tag !==undefined && this._contractProp !== undefined;
+  get mainTemplate() {
+    return mainTemplate;
+  }
+
+  get initTransform(){
+    return {
+      mark: this._tag! + ', for instance.',
+      'json-viewer': ({target}) => {
+        (<any>target).innerHTML = JSON.stringify(this._viewModel);
+      },
+      main: ({ target }) => {
+        const newElement = appendTag(target, this._tag!, {});
+        this._viewModel.elementInfo.properties.forEach(prop => {
+          if (prop.default !== undefined) {
+            switch (typeof prop.default) {
+              case 'string':
+                switch (prop.type) {
+                  case 'string':
+                  case 'object':
+                    (<any>newElement)[prop.name] = JSON.parse(prop.default);
+                    break;
+                  default:
+                    if (prop.type[0] === '{') { //example:   "type": "{ [key: string]: number; }",
+                      (<any>newElement)[prop.name] = JSON.parse(prop.default);
+                    } else {
+                      (<any>newElement)[prop.name] = prop.default;
+                    }
+                }
+                break;
+              default:
+                (<any>newElement)[prop.name] = prop.default;
+            }
+
+          }
+
+        })
+      },
+      'p-d': ({ target }) => {
+        (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
+      },
+      details: {
+        'section[data-lhs]': {
+          'json-viewer': ({ target }) => { (<any>target).innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail); }
+        }
+      },
+      'if-diff-then-stiff': ({ target }) => {
+        (target as any as IfDiffProps).rhs = this._viewModel.test.expectedEvent.detail;
+      }
+    } as TransformRules
+  }
+
+  async update(signal: AbortSignal) {
+    this.innerHTML = '';
+    return this.init(signal);
+  }
+
+  //#endregion
+  //#region boilerplate
+  static get observedAttributes() {
+    return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
+  }
+  //#endregion
+
+  //#region overridden members
+  get noShadow() { return true; }
+
+  attributeChangedCallback(n: string, ov: string, nv: string) {
+    switch (n) {
+      case tag:
+      case href:
+        (<any>this)['_' + n] = nv;
+        break;
+      case contract_prop:
+        this._contractProp = nv;
+        break;
+      case skip_imports:
+        this._skipImports = nv !== null;
+        break;
     }
+    super.attributeChangedCallback(n, ov, nv);
+  }
+  //#endregion
+
+
+
+
+
+
+  _href: string | undefined;
+  get href() {
+    return this._href;
+  }
+  /**
+   * URL for custom-elements.json file / stream.
+   * @attr
+   */
+  set href(nv) {
+    this.attr(href, nv!);
+  }
+
+  _tag: string | undefined;
+  get tag() {
+    return this._tag;
+  }
+  /**
+   * Name of tag to test / showcase.
+   * @attr
+   */
+  set tag(nv) {
+    this.attr(tag, nv!);
+  }
+
+  _contractProp: string | undefined;
+  get contractProp() {
+    return this._contractProp;
+  }
+  /**
+   * Name of property that specifies contract.
+   * @attr contract-prop
+   */
+  set contractProp(nv) {
+    this.attr(contract_prop, nv!);
+  }
+
+  _skipImports = false;
+  get skipImports() {
+    return this._skipImports;
+  }
+  /**
+   * If test page contains needed imports, skip any imports contained in test script.
+   * @attr skip-imports
+   */
+  set skipImports(nv) {
+    this.attr(skip_imports, nv, '');
+  }
+
+
+
+
 }
 define(ForInstance);
 
