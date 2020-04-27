@@ -130,9 +130,10 @@ export class ForInstance extends XtalViewElement {
                     }
                 });
             },
-            'p-d': ({ target }) => {
-                target.on = this._viewModel.test.expectedEvent.name;
-            },
+            // 'p-d': ({ target }) => {
+            //   (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
+            // },
+            'p-d': [{ on: this._viewModel.test.expectedEvent.name }],
             details: {
                 'section[data-lhs]': {
                     'json-viewer': ({ target }) => { target.innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail); }

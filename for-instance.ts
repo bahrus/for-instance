@@ -6,7 +6,7 @@ import { PDProps } from 'p-et-alia/types.d.js';
 import { IfDiffProps } from 'if-diff/types.d.js';
 import { ForInstanceViewModel, Test } from './types.js';
 import { appendTag } from 'trans-render/appendTag.js';
-import { TransformRules } from 'trans-render/init.d.js';
+import { TransformRules, PSettings } from 'trans-render/init.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -143,9 +143,10 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
 
         })
       },
-      'p-d': ({ target }) => {
-        (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
-      },
+      // 'p-d': ({ target }) => {
+      //   (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
+      // },
+      'p-d':[{on: this._viewModel.test.expectedEvent.name}] as PSettings<PDProps>,
       details: {
         'section[data-lhs]': {
           'json-viewer': ({ target }) => { (<any>target).innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail); }
