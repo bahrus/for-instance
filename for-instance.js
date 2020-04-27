@@ -101,9 +101,7 @@ export class ForInstance extends XtalViewElement {
     get initTransform() {
         return {
             mark: this._tag + ', for instance.',
-            'json-viewer': ({ target }) => {
-                target.innerHTML = JSON.stringify(this._viewModel);
-            },
+            'json-viewer': [{ innerHTML: JSON.stringify(this._viewModel) }],
             main: ({ target }) => {
                 const newElement = appendTag(target, this._tag, {});
                 this._viewModel.elementInfo.properties.forEach(prop => {
@@ -130,18 +128,13 @@ export class ForInstance extends XtalViewElement {
                     }
                 });
             },
-            // 'p-d': ({ target }) => {
-            //   (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
-            // },
             'p-d': [{ on: this._viewModel.test.expectedEvent.name }],
             details: {
                 'section[data-lhs]': {
-                    'json-viewer': ({ target }) => { target.innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail); }
+                    'json-viewer': [{ innerHTML: JSON.stringify(this._viewModel.test.expectedEvent.detail) }]
                 }
             },
-            'if-diff-then-stiff': ({ target }) => {
-                target.rhs = this._viewModel.test.expectedEvent.detail;
-            }
+            'if-diff-then-stiff': [{ rhs: this._viewModel.test.expectedEvent.detail }]
         };
     }
     async update(signal) {

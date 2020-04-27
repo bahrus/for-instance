@@ -6,7 +6,7 @@ import { PDProps } from 'p-et-alia/types.d.js';
 import { IfDiffProps } from 'if-diff/types.d.js';
 import { ForInstanceViewModel, Test } from './types.js';
 import { appendTag } from 'trans-render/appendTag.js';
-import { TransformRules, PSettings } from 'trans-render/init.d.js';
+import { TransformRules, PSettings, Partial } from 'trans-render/init.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -113,9 +113,7 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
   get initTransform(){
     return {
       mark: this._tag! + ', for instance.',
-      'json-viewer': ({target}) => {
-        (<any>target).innerHTML = JSON.stringify(this._viewModel);
-      },
+      'json-viewer': [{innerHTML: JSON.stringify(this._viewModel)}]  as PSettings<Partial<HTMLElement>>,
       main: ({ target }) => {
         const newElement = appendTag(target, this._tag!, {});
         this._viewModel.elementInfo.properties.forEach(prop => {
@@ -143,18 +141,13 @@ export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
 
         })
       },
-      // 'p-d': ({ target }) => {
-      //   (target as any as PDProps).on = this._viewModel.test.expectedEvent.name;
-      // },
       'p-d':[{on: this._viewModel.test.expectedEvent.name}] as PSettings<PDProps>,
       details: {
         'section[data-lhs]': {
-          'json-viewer': ({ target }) => { (<any>target).innerHTML = JSON.stringify(this._viewModel.test.expectedEvent.detail); }
+          'json-viewer': [{innerHTML: JSON.stringify(this._viewModel.test.expectedEvent.detail)}]  as PSettings<Partial<HTMLElement>>
         }
       },
-      'if-diff-then-stiff': ({ target }) => {
-        (target as any as IfDiffProps).rhs = this._viewModel.test.expectedEvent.detail;
-      }
+      'if-diff-then-stiff': [{rhs: this._viewModel.test.expectedEvent.detail}] as PSettings<IfDiffProps>
     } as TransformRules
   }
 
