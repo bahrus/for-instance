@@ -1,5 +1,5 @@
 import { define } from 'trans-render/define.js';
-import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
+import { XtalFetchViewElement } from 'xtal-element/xtal-fetch-view-element.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { appendTag } from 'trans-render/appendTag.js';
 const mainTemplate = createTemplate(/* html */ `
@@ -40,7 +40,7 @@ const skip_imports = 'skip-imports';
  * Test instances of custom element for custom event signature contracts.
  * @element for-instance
  */
-export class ForInstance extends XtalViewElement {
+export class ForInstance extends XtalFetchViewElement {
     constructor() {
         super();
         this._skipImports = false;

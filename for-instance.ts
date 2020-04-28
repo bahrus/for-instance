@@ -1,12 +1,13 @@
 import { define } from 'trans-render/define.js';
 import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
+import { XtalFetchViewElement } from 'xtal-element/xtal-fetch-view-element.js';
 import { ElementInfo, ElementSetInfo } from 'api-viewer-element/src/lib/types.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { PDProps } from 'p-et-alia/types.d.js';
 import { IfDiffProps } from 'if-diff/types.d.js';
 import { ForInstanceViewModel, Test } from './types.js';
 import { appendTag } from 'trans-render/appendTag.js';
-import { TransformRules, PSettings, Partial } from 'trans-render/init.d.js';
+import { TransformRules, PSettings } from 'trans-render/init.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -47,7 +48,7 @@ const skip_imports = 'skip-imports';
  * Test instances of custom element for custom event signature contracts.
  * @element for-instance
  */
-export class ForInstance extends XtalViewElement<ForInstanceViewModel>{
+export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   constructor() {
     super();
     import('p-et-alia/p-d.js');
