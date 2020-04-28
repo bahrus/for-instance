@@ -62,28 +62,24 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
 
 
 
-
-
-  init(signal:  AbortSignal) {
-    return new Promise<ForInstanceViewModel>((resolve, reject) => {
-      fetch(this._href!).then(resp => {
-        resp.json().then(data => {
-          const esi = data as ElementSetInfo;
-          const elementInfo = esi.tags?.find(tag => tag.name === this._tag);
-          if (elementInfo === undefined) {
-            reject('No Element Info Found');
-            return;
-          }
-          const test$ = elementInfo.properties.find(prop => prop.name === this._contractProp)?.default as string;
-          if (test$ === undefined) {
-            reject('No contract found');
-          }
-          const test = JSON.parse(test$) as Test;
-          resolve({ test, elementInfo });
-        })
-      })
-    })
+  filterData(data: any){
+    const esi = data as ElementSetInfo;
+    const elementInfo = esi.tags?.find(tag => tag.name === this._tag);
+    if (elementInfo === undefined) {
+      // reject('No Element Info Found');
+      return {test: {} as Test, elementInfo: {} as ElementInfo};
+      //TODO
+    }
+    const test$ = elementInfo.properties.find(prop => prop.name === this._contractProp)?.default as string;
+    if (test$ === undefined) {
+      return {test: {} as Test, elementInfo: {} as ElementInfo};
+      //reject('No contract found');
+      //TODO
+    }
+    const test = JSON.parse(test$) as Test;
+    return { test, elementInfo };
   }
+
 
   get readyToRender(){
     let trigger = this._viewModel.test.trigger;

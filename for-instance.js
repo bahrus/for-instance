@@ -52,26 +52,23 @@ export class ForInstance extends XtalFetchViewElement {
         return 'for-instance';
     }
     //#region required members
-    init(signal) {
-        return new Promise((resolve, reject) => {
-            fetch(this._href).then(resp => {
-                resp.json().then(data => {
-                    var _a, _b;
-                    const esi = data;
-                    const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this._tag);
-                    if (elementInfo === undefined) {
-                        reject('No Element Info Found');
-                        return;
-                    }
-                    const test$ = (_b = elementInfo.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
-                    if (test$ === undefined) {
-                        reject('No contract found');
-                    }
-                    const test = JSON.parse(test$);
-                    resolve({ test, elementInfo });
-                });
-            });
-        });
+    filterData(data) {
+        var _a, _b;
+        const esi = data;
+        const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this._tag);
+        if (elementInfo === undefined) {
+            // reject('No Element Info Found');
+            return { test: {}, elementInfo: {} };
+            //TODO
+        }
+        const test$ = (_b = elementInfo.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
+        if (test$ === undefined) {
+            return { test: {}, elementInfo: {} };
+            //reject('No contract found');
+            //TODO
+        }
+        const test = JSON.parse(test$);
+        return { test, elementInfo };
     }
     get readyToRender() {
         let trigger = this._viewModel.test.trigger;
