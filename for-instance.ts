@@ -40,7 +40,7 @@ const mainTemplate = createTemplate(/* html */`
     </template>
 </div>
 `);
-const href = 'href';
+//const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
 const skip_imports = 'skip-imports';
@@ -62,9 +62,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
 
 
 
-  get readyToInit() {
-    return this._href !== undefined && this._tag !== undefined && this._contractProp !== undefined;
-  }
+
 
   init(signal:  AbortSignal) {
     return new Promise<ForInstanceViewModel>((resolve, reject) => {
@@ -160,7 +158,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   //#endregion
   //#region boilerplate
   static get observedAttributes() {
-    return super.observedAttributes.concat([href, tag, contract_prop, skip_imports]);
+    return super.observedAttributes.concat([tag, contract_prop, skip_imports]);
   }
   //#endregion
 
@@ -170,7 +168,6 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   attributeChangedCallback(n: string, ov: string, nv: string) {
     switch (n) {
       case tag:
-      case href:
         (<any>this)['_' + n] = nv;
         break;
       case contract_prop:
@@ -182,24 +179,12 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
     }
     super.attributeChangedCallback(n, ov, nv);
   }
+
+  get readyToInit() {
+    return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
+  }
   //#endregion
 
-
-
-
-
-
-  _href: string | undefined;
-  get href() {
-    return this._href;
-  }
-  /**
-   * URL for custom-elements.json file / stream.
-   * @attr
-   */
-  set href(nv) {
-    this.attr(href, nv!);
-  }
 
   _tag: string | undefined;
   get tag() {
@@ -236,9 +221,6 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   set skipImports(nv) {
     this.attr(skip_imports, nv, '');
   }
-
-
-
 
 }
 define(ForInstance);
