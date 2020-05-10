@@ -1,13 +1,12 @@
 import { define } from 'trans-render/define.js';
-import { XtalViewElement } from 'xtal-element/xtal-view-element.js';
-import { XtalFetchViewElement } from 'xtal-element/xtal-fetch-view-element.js';
+import { XtalFetchViewElement } from 'xtal-element/XtalFetchViewElement.js';
 import { ElementInfo, ElementSetInfo } from 'api-viewer-element/src/lib/types.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { PDProps } from 'p-et-alia/types.d.js';
 import { IfDiffProps } from 'if-diff/types.d.js';
 import { ForInstanceViewModel, Test } from './types.js';
 import { appendTag } from 'trans-render/appendTag.js';
-import { TransformRules, PSettings } from 'trans-render/init.d.js';
+import { TransformRules, PSettings } from 'trans-render/types.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -58,14 +57,16 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   static get is() {
     return 'for-instance';
   }
-  //#region required members
 
+  get readyToInit() {
+    return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
+  }
 
-
-  filterData(data: any){
+  filterInitData(data: any){
     const esi = data as ElementSetInfo;
     const elementInfo = esi.tags?.find(tag => tag.name === this._tag);
     if (elementInfo === undefined) {
+      
       // reject('No Element Info Found');
       return {test: {} as Test, elementInfo: {} as ElementInfo};
       //TODO
@@ -146,10 +147,6 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
     } as TransformRules
   }
 
-  async update(signal: AbortSignal) {
-    this.innerHTML = '';
-    return this.init(signal);
-  }
 
   //#endregion
   //#region boilerplate
@@ -176,9 +173,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
     super.attributeChangedCallback(n, ov, nv);
   }
 
-  get readyToInit() {
-    return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
-  }
+
   //#endregion
 
 

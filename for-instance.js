@@ -1,5 +1,5 @@
 import { define } from 'trans-render/define.js';
-import { XtalFetchViewElement } from 'xtal-element/xtal-fetch-view-element.js';
+import { XtalFetchViewElement } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { appendTag } from 'trans-render/appendTag.js';
 const mainTemplate = createTemplate(/* html */ `
@@ -51,8 +51,10 @@ export class ForInstance extends XtalFetchViewElement {
     static get is() {
         return 'for-instance';
     }
-    //#region required members
-    filterData(data) {
+    get readyToInit() {
+        return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
+    }
+    filterInitData(data) {
         var _a, _b;
         const esi = data;
         const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this._tag);
@@ -131,10 +133,6 @@ export class ForInstance extends XtalFetchViewElement {
             'if-diff-then-stiff': [{ rhs: this._viewModel.test.expectedEvent.detail }]
         };
     }
-    async update(signal) {
-        this.innerHTML = '';
-        return this.init(signal);
-    }
     //#endregion
     //#region boilerplate
     static get observedAttributes() {
@@ -156,9 +154,6 @@ export class ForInstance extends XtalFetchViewElement {
                 break;
         }
         super.attributeChangedCallback(n, ov, nv);
-    }
-    get readyToInit() {
-        return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
     }
     get tag() {
         return this._tag;
