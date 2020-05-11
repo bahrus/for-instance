@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "xtal-element": "0.0.129",
-    "trans-render": "0.0.175",
+    "trans-render": "0.0.177",
     "@alenaksu/json-viewer": "0.1.0",
     "p-et-alia": "0.0.76",
     "if-diff": "0.0.44",

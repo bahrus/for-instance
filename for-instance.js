@@ -1,6 +1,7 @@
 import { define } from 'trans-render/define.js';
 import { XtalFetchViewElement } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
+import { prependTag } from 'trans-render/prependTag.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
 <json-viewer></json-viewer>
@@ -100,10 +101,7 @@ export class ForInstance extends XtalFetchViewElement {
             mark: this._tag + ', for instance.',
             'json-viewer': [{ innerHTML: JSON.stringify(this._viewModel) }],
             main: ({ target }) => {
-                //const newElement = appendTag(target, this._tag!);
-                const newElement = document.createElement(this._tag);
-                newElement.setAttribute('disabled', '2');
-                target.prepend(newElement);
+                const newElement = prependTag(target, this._tag, [, , { disabled: '2' }], {});
                 this._viewModel.elementInfo.properties.forEach(prop => {
                     if (prop.default !== undefined) {
                         switch (typeof prop.default) {
