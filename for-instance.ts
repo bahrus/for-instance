@@ -12,9 +12,11 @@ import { TransformRules, PSettings } from 'trans-render/types.d.js';
 const mainTemplate = createTemplate(/* html */`
 <mark></mark>
 <json-viewer></json-viewer>
-<main></main>
-<p-d to=details care-of=[-data] val=detail m=1></p-d>
-<p-d to=[-lhs] val=detail m=2></p-d> 
+<main>
+  <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
+  <p-d from=main to=[-lhs] val=detail m=2></p-d> 
+</main>
+
 <details>
     <summary>Event Details</summary>
     <section data-lhs>
@@ -111,7 +113,10 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
       mark: this._tag! + ', for instance.',
       'json-viewer': [{innerHTML: JSON.stringify(this._viewModel)}]  as PSettings<Partial<HTMLElement>>,
       main: ({ target }) => {
-        const newElement = appendTag(target, this._tag!, {});
+        //const newElement = appendTag(target, this._tag!);
+        const newElement = document.createElement(this._tag!);
+        newElement.setAttribute('disabled', '2');
+        target.prepend(newElement);
         this._viewModel.elementInfo.properties.forEach(prop => {
           if (prop.default !== undefined) {
             switch (typeof prop.default) {
@@ -137,7 +142,9 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
 
         })
       },
-      'p-d':[{on: this._viewModel.test.expectedEvent.name}] as PSettings<PDProps>,
+      '"':{
+        'p-d':[{on: this._viewModel.test.expectedEvent.name}] as PSettings<PDProps>,
+      },
       details: {
         'section[data-lhs]': {
           'json-viewer': [{innerHTML: JSON.stringify(this._viewModel.test.expectedEvent.detail)}]  as PSettings<Partial<HTMLElement>>

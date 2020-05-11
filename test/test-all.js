@@ -9,7 +9,7 @@ const xt = require('xtal-test/index');
         {
             path: 'test/fetch-test.html',
             expectedNoOfSuccessMarkers: 1,
-            wait: 5000
+            wait: 10000
         },
     ]);
     if (passed)

@@ -1,13 +1,14 @@
 import { define } from 'trans-render/define.js';
 import { XtalFetchViewElement } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
-import { appendTag } from 'trans-render/appendTag.js';
 const mainTemplate = createTemplate(/* html */ `
 <mark></mark>
 <json-viewer></json-viewer>
-<main></main>
-<p-d to=details care-of=[-data] val=detail m=1></p-d>
-<p-d to=[-lhs] val=detail m=2></p-d> 
+<main>
+  <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
+  <p-d from=main to=[-lhs] val=detail m=2></p-d> 
+</main>
+
 <details>
     <summary>Event Details</summary>
     <section data-lhs>
@@ -99,7 +100,10 @@ export class ForInstance extends XtalFetchViewElement {
             mark: this._tag + ', for instance.',
             'json-viewer': [{ innerHTML: JSON.stringify(this._viewModel) }],
             main: ({ target }) => {
-                const newElement = appendTag(target, this._tag, {});
+                //const newElement = appendTag(target, this._tag!);
+                const newElement = document.createElement(this._tag);
+                newElement.setAttribute('disabled', '2');
+                target.prepend(newElement);
                 this._viewModel.elementInfo.properties.forEach(prop => {
                     if (prop.default !== undefined) {
                         switch (typeof prop.default) {
@@ -124,7 +128,9 @@ export class ForInstance extends XtalFetchViewElement {
                     }
                 });
             },
-            'p-d': [{ on: this._viewModel.test.expectedEvent.name }],
+            '"': {
+                'p-d': [{ on: this._viewModel.test.expectedEvent.name }],
+            },
             details: {
                 'section[data-lhs]': {
                     'json-viewer': [{ innerHTML: JSON.stringify(this._viewModel.test.expectedEvent.detail) }]

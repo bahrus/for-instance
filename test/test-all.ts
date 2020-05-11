@@ -13,7 +13,7 @@ const xt = require('xtal-test/index') as IXtalTestRunner;
         {
             path: 'test/fetch-test.html',
             expectedNoOfSuccessMarkers: 1,
-            wait: 5000
+            wait: 10000
         },
         
     ]);
