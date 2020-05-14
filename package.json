@@ -15,7 +15,7 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.129",
+    "xtal-element": "0.0.139",
     "trans-render": "0.0.177",
     "@alenaksu/json-viewer": "0.1.0",
     "p-et-alia": "0.0.76",
