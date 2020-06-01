@@ -56,9 +56,8 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
     import('if-diff/if-diff-then-stiff.js');
     import('@alenaksu/json-viewer/build/index.js');
   }
-  static get is() {
-    return 'for-instance';
-  }
+  
+  static is = 'for-instance';
 
   get readyToInit() {
     return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
@@ -85,6 +84,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
 
 
   get readyToRender(){
+    if(this.viewModel === undefined) return false;
     let trigger = this._viewModel.test.trigger;
     if (trigger != undefined) {
       const scr = document.createElement('script');
@@ -160,7 +160,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   //#endregion
 
   //#region overridden members
-  get noShadow() { return true; }
+  noShadow = true;
 
   attributeChangedCallback(n: string, ov: string, nv: string) {
     switch (n) {
