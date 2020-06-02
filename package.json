@@ -19,7 +19,7 @@
     "trans-render": "0.0.184",
     "@alenaksu/json-viewer": "0.1.0",
     "p-et-alia": "0.0.91",
-    "if-diff": "0.0.51",
+    "if-diff": "0.0.55",
     "xtal-shell": "0.0.25",
     "xtal-frappe-chart": "0.0.71",
     "es-module-shims": "0.4.6"

@@ -1,5 +1,5 @@
 import { define } from 'trans-render/define.js';
-import { XtalFetchViewElement } from 'xtal-element/XtalFetchViewElement.js';
+import { XtalFetchViewElement, AttributeProps, mergeProps } from 'xtal-element/XtalFetchViewElement.js';
 import { ElementInfo, ElementSetInfo } from 'api-viewer-element/src/lib/types.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { PDProps } from 'p-et-alia/types.d.js';
@@ -59,20 +59,52 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   
   static is = 'for-instance';
 
+    /**
+   * Name of tag to test / showcase.
+   * @attr
+   */
+  tag: string | undefined;
+
+  /**
+   * Name of property that specifies contract.
+   * @attr contract-prop
+   */
+  contractProp: string | undefined;
+
+
+  /**
+   * If test page contains needed imports, skip any imports contained in test script.
+   * @attr skip-imports
+   */
+  skipImports = false;
+
+  noShadow = true;
+
+
+
+  static attributeProps = ({skipImports, tag, contractProp}: ForInstance) =>{
+    const ap = {
+      bool: [skipImports],
+      str: [tag, contractProp],
+      reflect: [skipImports, tag, contract_prop]
+    } as AttributeProps;
+    return mergeProps(ap, XtalFetchViewElement.props) as AttributeProps;
+  }
+
   get readyToInit() {
-    return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
+    return super.readyToInit && this.tag !== undefined && this.contractProp !== undefined;
   }
 
   filterInitData(data: any){
     const esi = data as ElementSetInfo;
-    const elementInfo = esi.tags?.find(tag => tag.name === this._tag);
+    const elementInfo = esi.tags?.find(tag => tag.name === this.tag);
     if (elementInfo === undefined) {
       
       // reject('No Element Info Found');
       return {test: {} as Test, elementInfo: {} as ElementInfo};
       //TODO
     }
-    const test$ = elementInfo.properties.find(prop => prop.name === this._contractProp)?.default as string;
+    const test$ = elementInfo.properties.find(prop => prop.name === this.contractProp)?.default as string;
     if (test$ === undefined) {
       return {test: {} as Test, elementInfo: {} as ElementInfo};
       //reject('No contract found');
@@ -85,11 +117,11 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
 
   get readyToRender(){
     if(this.viewModel === undefined) return false;
-    let trigger = this._viewModel.test.trigger;
+    let trigger = this.viewModel.test.trigger;
     if (trigger != undefined) {
       const scr = document.createElement('script');
       scr.type = 'module';
-      if (this._skipImports) {
+      if (this.skipImports) {
         const split = trigger.split('\n');
         split.forEach((line, idx) => {
           if (line.trim().startsWith('import ')) {
@@ -110,11 +142,11 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
 
   get initTransform(){
     return {
-      mark: this._tag! + ', for instance.',
+      mark: this.tag! + ', for instance.',
       'json-viewer': [{innerHTML: JSON.stringify(this._viewModel)}]  as PSettings<Partial<HTMLElement>>,
       main: ({ target }) => {
-        const newElement = prependTag(target, this._tag!, [,,{disabled:'2'}], {});
-        this._viewModel.elementInfo.properties.forEach(prop => {
+        const newElement = prependTag(target, this.tag!, [,,{disabled:'2'}], {});
+        this.viewModel.elementInfo.properties.forEach(prop => {
           if (prop.default !== undefined) {
             switch (typeof prop.default) {
               case 'string':
@@ -147,75 +179,14 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
           'json-viewer': [{innerHTML: JSON.stringify(this._viewModel.test.expectedEvent.detail)}]  as PSettings<Partial<HTMLElement>>
         }
       },
-      'if-diff-then-stiff': [{rhs: this._viewModel.test.expectedEvent.detail}] as PSettings<IfDiffProps>
+      'if-diff-then-stiff': [{rhs: this.viewModel.test.expectedEvent.detail}] as PSettings<IfDiffProps>
     } as TransformRules
   }
 
 
-  //#endregion
-  //#region boilerplate
-  static get observedAttributes() {
-    return super.observedAttributes.concat([tag, contract_prop, skip_imports]);
-  }
-  //#endregion
-
-  //#region overridden members
-  noShadow = true;
-
-  attributeChangedCallback(n: string, ov: string, nv: string) {
-    switch (n) {
-      case tag:
-        (<any>this)['_' + n] = nv;
-        break;
-      case contract_prop:
-        this._contractProp = nv;
-        break;
-      case skip_imports:
-        this._skipImports = nv !== null;
-        break;
-    }
-    super.attributeChangedCallback(n, ov, nv);
-  }
 
 
-  //#endregion
 
-
-  _tag: string | undefined;
-  get tag() {
-    return this._tag;
-  }
-  /**
-   * Name of tag to test / showcase.
-   * @attr
-   */
-  set tag(nv) {
-    this.attr(tag, nv!);
-  }
-
-  _contractProp: string | undefined;
-  get contractProp() {
-    return this._contractProp;
-  }
-  /**
-   * Name of property that specifies contract.
-   * @attr contract-prop
-   */
-  set contractProp(nv) {
-    this.attr(contract_prop, nv!);
-  }
-
-  _skipImports = false;
-  get skipImports() {
-    return this._skipImports;
-  }
-  /**
-   * If test page contains needed imports, skip any imports contained in test script.
-   * @attr skip-imports
-   */
-  set skipImports(nv) {
-    this.attr(skip_imports, nv, '');
-  }
 
 }
 define(ForInstance);

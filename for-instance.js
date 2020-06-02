@@ -1,5 +1,5 @@
 import { define } from 'trans-render/define.js';
-import { XtalFetchViewElement } from 'xtal-element/XtalFetchViewElement.js';
+import { XtalFetchViewElement, mergeProps } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { prependTag } from 'trans-render/prependTag.js';
 const mainTemplate = createTemplate(/* html */ `
@@ -46,27 +46,29 @@ let ForInstance = /** @class */ (() => {
     class ForInstance extends XtalFetchViewElement {
         constructor() {
             super();
-            //#endregion
-            //#region overridden members
+            /**
+             * If test page contains needed imports, skip any imports contained in test script.
+             * @attr skip-imports
+             */
+            this.skipImports = false;
             this.noShadow = true;
-            this._skipImports = false;
             import('p-et-alia/p-d.js');
             import('if-diff/if-diff-then-stiff.js');
             import('@alenaksu/json-viewer/build/index.js');
         }
         get readyToInit() {
-            return super.readyToInit && this._tag !== undefined && this._contractProp !== undefined;
+            return super.readyToInit && this.tag !== undefined && this.contractProp !== undefined;
         }
         filterInitData(data) {
             var _a, _b;
             const esi = data;
-            const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this._tag);
+            const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this.tag);
             if (elementInfo === undefined) {
                 // reject('No Element Info Found');
                 return { test: {}, elementInfo: {} };
                 //TODO
             }
-            const test$ = (_b = elementInfo.properties.find(prop => prop.name === this._contractProp)) === null || _b === void 0 ? void 0 : _b.default;
+            const test$ = (_b = elementInfo.properties.find(prop => prop.name === this.contractProp)) === null || _b === void 0 ? void 0 : _b.default;
             if (test$ === undefined) {
                 return { test: {}, elementInfo: {} };
                 //reject('No contract found');
@@ -78,11 +80,11 @@ let ForInstance = /** @class */ (() => {
         get readyToRender() {
             if (this.viewModel === undefined)
                 return false;
-            let trigger = this._viewModel.test.trigger;
+            let trigger = this.viewModel.test.trigger;
             if (trigger != undefined) {
                 const scr = document.createElement('script');
                 scr.type = 'module';
-                if (this._skipImports) {
+                if (this.skipImports) {
                     const split = trigger.split('\n');
                     split.forEach((line, idx) => {
                         if (line.trim().startsWith('import ')) {
@@ -101,11 +103,11 @@ let ForInstance = /** @class */ (() => {
         }
         get initTransform() {
             return {
-                mark: this._tag + ', for instance.',
+                mark: this.tag + ', for instance.',
                 'json-viewer': [{ innerHTML: JSON.stringify(this._viewModel) }],
                 main: ({ target }) => {
-                    const newElement = prependTag(target, this._tag, [, , { disabled: '2' }], {});
-                    this._viewModel.elementInfo.properties.forEach(prop => {
+                    const newElement = prependTag(target, this.tag, [, , { disabled: '2' }], {});
+                    this.viewModel.elementInfo.properties.forEach(prop => {
                         if (prop.default !== undefined) {
                             switch (typeof prop.default) {
                                 case 'string':
@@ -137,60 +139,19 @@ let ForInstance = /** @class */ (() => {
                         'json-viewer': [{ innerHTML: JSON.stringify(this._viewModel.test.expectedEvent.detail) }]
                     }
                 },
-                'if-diff-then-stiff': [{ rhs: this._viewModel.test.expectedEvent.detail }]
+                'if-diff-then-stiff': [{ rhs: this.viewModel.test.expectedEvent.detail }]
             };
-        }
-        //#endregion
-        //#region boilerplate
-        static get observedAttributes() {
-            return super.observedAttributes.concat([tag, contract_prop, skip_imports]);
-        }
-        attributeChangedCallback(n, ov, nv) {
-            switch (n) {
-                case tag:
-                    this['_' + n] = nv;
-                    break;
-                case contract_prop:
-                    this._contractProp = nv;
-                    break;
-                case skip_imports:
-                    this._skipImports = nv !== null;
-                    break;
-            }
-            super.attributeChangedCallback(n, ov, nv);
-        }
-        get tag() {
-            return this._tag;
-        }
-        /**
-         * Name of tag to test / showcase.
-         * @attr
-         */
-        set tag(nv) {
-            this.attr(tag, nv);
-        }
-        get contractProp() {
-            return this._contractProp;
-        }
-        /**
-         * Name of property that specifies contract.
-         * @attr contract-prop
-         */
-        set contractProp(nv) {
-            this.attr(contract_prop, nv);
-        }
-        get skipImports() {
-            return this._skipImports;
-        }
-        /**
-         * If test page contains needed imports, skip any imports contained in test script.
-         * @attr skip-imports
-         */
-        set skipImports(nv) {
-            this.attr(skip_imports, nv, '');
         }
     }
     ForInstance.is = 'for-instance';
+    ForInstance.attributeProps = ({ skipImports, tag, contractProp }) => {
+        const ap = {
+            bool: [skipImports],
+            str: [tag, contractProp],
+            reflect: [skipImports, tag, contract_prop]
+        };
+        return mergeProps(ap, XtalFetchViewElement.props);
+    };
     return ForInstance;
 })();
 export { ForInstance };
