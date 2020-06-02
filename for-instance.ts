@@ -1,5 +1,4 @@
-import { define } from 'trans-render/define.js';
-import { XtalFetchViewElement, AttributeProps, mergeProps } from 'xtal-element/XtalFetchViewElement.js';
+import { XtalFetchViewElement, AttributeProps, mergeProps, define } from 'xtal-element/XtalFetchViewElement.js';
 import { ElementInfo, ElementSetInfo } from 'api-viewer-element/src/lib/types.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { PDProps } from 'p-et-alia/types.d.js';

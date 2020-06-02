@@ -1,5 +1,4 @@
-import { define } from 'trans-render/define.js';
-import { XtalFetchViewElement, mergeProps } from 'xtal-element/XtalFetchViewElement.js';
+import { XtalFetchViewElement, mergeProps, define } from 'xtal-element/XtalFetchViewElement.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { prependTag } from 'trans-render/prependTag.js';
 const mainTemplate = createTemplate(/* html */ `
