@@ -4,7 +4,7 @@ const xt = require('xtal-test/index');
         {
             path: 'test/xtal-frappe-chart-test.html',
             expectedNoOfSuccessMarkers: 1,
-            wait: 5000
+            wait: 10000
         },
         {
             path: 'test/fetch-test.html',
