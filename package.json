@@ -15,18 +15,18 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "xtal-element": "0.0.183",
-    "trans-render": "0.0.184",
+    "xtal-element": "0.0.257",
+    "trans-render": "0.0.233",
     "@alenaksu/json-viewer": "0.1.0",
-    "p-et-alia": "0.0.91",
-    "if-diff": "0.0.60",
+    "p-et-alia": "0.0.106",
+    "if-diff": "0.0.61",
     "xtal-shell": "0.0.25",
-    "xtal-frappe-chart": "0.0.71",
-    "es-module-shims": "0.4.6"
+    "xtal-frappe-chart": "0.0.74",
+    "es-module-shims": "0.5.0"
   },
   "devDependencies": {
-    "xtal-test": "0.0.44",
-    "es-module-shims": "0.4.6"
+    "xtal-test": "0.0.46",
+    "es-module-shims": "0.5.0"
   },
   "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",

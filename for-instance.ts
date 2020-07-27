@@ -142,7 +142,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   get initTransform(){
     return {
       mark: this.tag! + ', for instance.',
-      'json-viewer': [{innerHTML: JSON.stringify(this._viewModel)}]  as PSettings<Partial<HTMLElement>>,
+      'json-viewer': [{innerHTML: JSON.stringify(this.viewModel)}]  as PSettings<Partial<HTMLElement>>,
       main: ({ target }) => {
         const newElement = prependTag(target, this.tag!, [,,{disabled:'2'}], {});
         this.viewModel.elementInfo.properties.forEach(prop => {
@@ -171,20 +171,16 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
         })
       },
       '"':{
-        'p-d':[{on: this._viewModel.test.expectedEvent.name}] as PSettings<PDProps>,
+        'p-d':[{on: this.viewModel.test.expectedEvent.name}] as PSettings<PDProps>,
       },
       details: {
         'section[data-lhs]': {
-          'json-viewer': [{innerHTML: JSON.stringify(this._viewModel.test.expectedEvent.detail)}]  as PSettings<Partial<HTMLElement>>
+          'json-viewer': [{innerHTML: JSON.stringify(this.viewModel.test.expectedEvent.detail)}]  as PSettings<Partial<HTMLElement>>
         }
       },
       'if-diff-then-stiff': [{rhs: this.viewModel.test.expectedEvent.detail}] as PSettings<IfDiffProps>
     } as TransformRules
   }
-
-
-
-
 
 
 }

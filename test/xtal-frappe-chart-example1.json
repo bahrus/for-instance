@@ -1,68 +1,69 @@
 {
-    "version": "experimental",
-    "tags": [
-      {
-        "name": "xtal-frappe-chart",
-        "attributes": [
-          {
-            "name": "disabled",
-            "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-            "type": "boolean"
-          }
-        ],
-        "properties": [
-          {
-            "name": "selectedElementContract",
-            "type": "object",
-            "default": "{\"trigger\":\"\\n        import 'https://unpkg.com/xtal-shell/$hell.js?module';\\n        import 'https://unpkg.com/xtal-frappe-chart/xtal-frappe-chart.js?module';\\n        setTimeout(() =>{\\n            $hell.$0=document.querySelector('xtal-frappe-chart');\\n            $hell.cd('div#target/div/svg/g[0]/g[2]/rect[2]');\\n            setTimeout(() =>{\\n              $hell.$0.dispatchEvent(new Event('click'));\\n            }, 500);\\n            \\n          }, 3000);\\n        \",\"expectedEvent\":{\"name\":\"selected-element-changed\",\"detail\":{\"value\":{\"values\":[30,10,3],\"label\":\"6am-9am\",\"index\":2}},\"associatedPropName\":\"selectedElement\"}}"
-          },
-          {
-            "name": "value",
-            "type": "SelectedElement"
-          },
-          {
-            "name": "newDataPoint",
-            "description": "Add new data point to chart",
-            "type": "IAddDataPointParams"
-          },
-          {
-            "name": "staleDataPoint",
-            "description": "Remove data point from chart",
-            "type": "number"
-          },
-          {
-            "name": "updateData",
-            "description": "Update Data"
-          },
-          {
-            "name": "evCount",
-            "description": "Tracks how many times each event type was called.",
-            "type": "{ [key: string]: number; }",
-            "default": "{}"
-          },
-          {
-            "name": "disabled",
-            "attribute": "disabled",
-            "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-            "type": "boolean"
-          },
-          {
-            "name": "data",
-            "description": "Data to chart",
-            "type": "object",
-            "default": "{\"title\":\"My Awesome Chart\",\"data\":{\"labels\":[\"12am-3am\",\"3am-6am\",\"6am-9am\",\"9am-12pm\",\"12pm-3pm\",\"3pm-6pm\",\"6pm-9pm\",\"9pm-12am\"],\"datasets\":[{\"name\":\"Some Data\",\"color\":\"light-blue\",\"values\":[25,40,30,35,8,52,17,null]},{\"name\":\"Another Set\",\"color\":\"violet\",\"values\":[25,50,10,15,18,32,27,14]},{\"name\":\"Yet Another\",\"color\":\"blue\",\"values\":[15,20,3,null,58,12,null,37]}]},\"type\":\"bar\",\"height\":250,\"isNavigable\":true}"
-          },
-          {
-            "name": "selectedElement",
-            "type": "SelectedElement"
-          }
-        ],
-        "events": [
-          {
-            "name": "selected-element-changed",
-            "description": "fires when user selects chart data element"
-          }
-        ]
-      }
-    ]
-  }
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "xtal-frappe-chart",
+      "path": "./xtal-frappe-chart-example1.js",
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "selectedElementContract",
+          "type": "object",
+          "default": "{\"trigger\":\"\\n        import 'https://unpkg.com/xtal-shell/$hell.js?module';\\n        import 'https://unpkg.com/xtal-frappe-chart/xtal-frappe-chart.js?module';\\n        setTimeout(() =>{\\n            $hell.$0=document.querySelector('xtal-frappe-chart');\\n            $hell.cd('div#target/div/svg/g[0]/g[2]/rect[2]');\\n            setTimeout(() =>{\\n              $hell.$0.dispatchEvent(new Event('click'));\\n            }, 500);\\n            \\n          }, 3000);\\n        \",\"expectedEvent\":{\"name\":\"selected-element-changed\",\"detail\":{\"value\":{\"values\":[30,-10,-3],\"label\":\"6am-9am\",\"index\":2}},\"associatedPropName\":\"selectedElement\"}}"
+        },
+        {
+          "name": "value",
+          "type": "SelectedElement"
+        },
+        {
+          "name": "newDataPoint",
+          "description": "Add new data point to chart",
+          "type": "IAddDataPointParams"
+        },
+        {
+          "name": "staleDataPoint",
+          "description": "Remove data point from chart",
+          "type": "number"
+        },
+        {
+          "name": "updateData",
+          "description": "Update Data"
+        },
+        {
+          "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "type": "{ [key: string]: number; }",
+          "default": "{}"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
+        },
+        {
+          "name": "data",
+          "description": "Data to chart",
+          "type": "object",
+          "default": "{\"title\":\"My Awesome Chart\",\"data\":{\"labels\":[\"12am-3am\",\"3am-6am\",\"6am-9am\",\"9am-12pm\",\"12pm-3pm\",\"3pm-6pm\",\"6pm-9pm\",\"9pm-12am\"],\"datasets\":[{\"name\":\"Some Data\",\"color\":\"light-blue\",\"values\":[25,40,30,35,8,52,17,-4]},{\"name\":\"Another Set\",\"color\":\"violet\",\"values\":[25,50,-10,15,18,32,27,14]},{\"name\":\"Yet Another\",\"color\":\"blue\",\"values\":[15,20,-3,-15,58,12,-17,37]}]},\"type\":\"bar\",\"height\":250,\"isNavigable\":true}"
+        },
+        {
+          "name": "selectedElement",
+          "type": "SelectedElement"
+        }
+      ],
+      "events": [
+        {
+          "name": "selected-element-changed",
+          "description": "fires when user selects chart data element"
+        }
+      ]
+    }
+  ]
+}
