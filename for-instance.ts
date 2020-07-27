@@ -152,7 +152,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
                 switch (prop.type) {
                   case 'string':
                   case 'object':
-                  case 'undefined':
+                  case undefined:
                     (<any>newElement)[prop.name] = JSON.parse(prop.default);
                     break;
                   default:
