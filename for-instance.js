@@ -109,6 +109,11 @@ export class ForInstance extends XtalFetchViewElement {
                     if (prop.default !== undefined) {
                         switch (typeof prop.default) {
                             case 'string':
+                                if (typeof (prop.type) === 'string') {
+                                    if (prop.type.indexOf('=>') > -1) {
+                                        return;
+                                    }
+                                }
                                 switch (prop.type) {
                                     case 'string':
                                     case 'object':
