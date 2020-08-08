@@ -1,11 +1,10 @@
-import { XtalFetchViewElement, AttributeProps, mergeProps, define } from 'xtal-element/XtalFetchViewElement.js';
+import { XtalFetchViewElement, AttributeProps, mergeProps, define, TransformValueOptions, PSettings, RenderContext } from 'xtal-element/XtalFetchViewElement.js';
 import { ElementInfo, ElementSetInfo } from 'api-viewer-element/src/lib/types.js';
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { PDProps } from 'p-et-alia/types.d.js';
 import { IfDiffProps } from 'if-diff/types.d.js';
 import { ForInstanceViewModel, Test } from './types.js';
 import { prependTag } from 'trans-render/prependTag.js';
-import { TransformRules, PSettings } from 'trans-render/types.d.js';
 
 
 const mainTemplate = createTemplate(/* html */`
@@ -143,8 +142,8 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
     return {
       mark: this.tag! + ', for instance.',
       'json-viewer': [{innerHTML: JSON.stringify(this.viewModel)}]  as PSettings<Partial<HTMLElement>>,
-      main: ({ target }) => {
-        const newElement = prependTag(target, this.tag!, [,,{disabled:'2'}], {});
+      main: ({ target }: RenderContext<HTMLElement>) => {
+        const newElement = prependTag(target!, this.tag!, [,,{disabled:'2'}], {});
         this.viewModel.elementInfo.properties.forEach(prop => {
           if (prop.default !== undefined) {
             switch (typeof prop.default) {
@@ -185,7 +184,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
         }
       },
       'if-diff-then-stiff': [{rhs: this.viewModel.test.expectedEvent.detail}] as PSettings<IfDiffProps>
-    } as TransformRules
+    } as TransformValueOptions
   }
 
 
