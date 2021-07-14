@@ -1,16 +1,17 @@
 {
 	"compilerOptions": {
-		"target": "ES2018",
-		"module":"esnext",
+		"target": "ESNext",
+		"module":"ESNext",
 		"sourceMap": false,
-		"experimentalDecorators": true,
+		"experimentalDecorators": false,
 		"strict": true,
 		"newLine": "LF",
 		"watch": true
 	},
+	"files": [
+		"for-instance.ts"
+	],
 	"exclude":[
-		"build",
-		"bower_components",
 		"node_modules"
 	]
 
