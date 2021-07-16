@@ -8,7 +8,7 @@
 
 # INTRODUCTION
 
-I, *for-instance*, am cheered to see miraculous progress happening in what I call the "[Swaggering](https://swagger.io/) of web components".
+I, *for-instance*, am cheered to see the miraculous [arrival](https://custom-elements-manifest.open-wc.org/) of what I call the "[Swaggering](https://swagger.io/) of web components".
 
 Swagger, a linchpin to making different [micro-services work together](https://swagger.io/blog/api-strategy/microservices-apis-and-swagger/), rests on the OpenAPI schema.
 
@@ -35,9 +35,10 @@ Swagger, a linchpin to making different [micro-services work together](https://s
 ```
 -->
 
-## INNUMERABLE ANTECEDENTS
 
-Likewise, work is well-underway to [define something similar](https://github.com/webcomponents/custom-elements-json/tree/schema-1) for micro-front ends in their purest form -- web components.  The [web component analyzer](https://www.npmjs.com/package/web-component-analyzer) can generate these JSON files automatically from the source code, based on JSDocs.  It includes support for documenting default values of properties, without which my mission would be impossible to fulfill.
+
+
+Likewise, work that can unite the web component community has now become a fait accompli (but continuing to improve) for micro-front ends in their purest form -- web components.  The [custom element manifest analyzer](https://custom-elements-manifest.open-wc.org/analyzer/getting-started/) can generate these JSON files automatically from the source code, based on JSDocs.  It includes support for documenting default values of properties, without which my mission would be impossible to fulfill.
 
 So how do I, *for-instance*, fit in? 
 
@@ -50,8 +51,6 @@ I believe there's a significant missing language (or custom element?) feature in
 ## WHAT TO DO?
 
 So I attempt to compensate for this lack of support.  I do so by running tests, as specified in a companion json file.  I treat a web component as a function of its attributes / properties / light children / user interactions, where the output of those "functions/web components" are events.  I confirm that expected events are fired matching the specified signature.  This would provide confidence that there is a [contract that consuming applications can rely on](https://martinfowler.com/articles/micro-frontends.html#Cross-applicationCommunication).
-
-If a vendor and language-neutral way of describing a web component could be established, it can open the doors to a whole variety of applications, including [documentation / playground support](https://api-viewer-element.netlify.com/), [I](https://github.com/Microsoft/vscode-html-languageservice/blob/master/docs/customData.md)[D](https://github.com/JetBrains/web-types)[E](https://twitter.com/webcomp_dev/status/1201901343922937856)'s,  browser extensions that work well with all web component libraries, visual designers, etc.  It could even be leveraged easily from web assembly.  Trying to do the same with JS reflection would require everyone conforming to a particular, static structure, a feat of cat-herding purrportions.
 
 I do not attempt to test anything beyond simple input / output mechanics.  In the case of web components, often that will be a rather trivial test -- often events are simply fired when a property changes.  Typically, in practice, that property will change due to a user action, like clicking on an internal button. 
 
