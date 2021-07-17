@@ -11,7 +11,7 @@ import('@alenaksu/json-viewer/build/index.js');
 const mainTemplate = html`
 <p-p-x from-parent-or-host observe-prop=href to=[-href] m=1></p-p-x>
 <xtal-fetch-get fetch -href></xtal-fetch-get>
-<p-d-x on=result-changed to=[-data] val-from-target=result val-filter=$.modules.[*].declarations[?(@.tagName)]></p-d-x>
+<p-d-x on=result-changed to=[-data] val-from-target=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]"></p-d-x>
 <mark></mark>
 <json-viewer -data></json-viewer>
 <main>
