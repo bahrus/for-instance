@@ -2,16 +2,18 @@
 import {html} from 'xtal-element/lib/html.js';
 import('pass-prop/p-p-x.js');
 import('xtal-fetch/xtal-fetch-get.js');
+import('pass-down/p-d.js');
 import {ForInstanceProps} from './types.d.js';
 import {define} from 'carbon-copy/c-c.js';
 import {CCProps} from 'carbon-copy/types.d.js';
+import('@alenaksu/json-viewer/build/index.js');
 
 const mainTemplate = html`
 <p-p-x from-parent-or-host observe-prop=href to=[-href] m=1></p-p-x>
 <xtal-fetch-get fetch -href></xtal-fetch-get>
-
+<p-d on=result-changed to=[-data] val-from-target=result></p-d>
 <mark></mark>
-<json-viewer></json-viewer>
+<json-viewer -data></json-viewer>
 <main>
   <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
   <p-d from=main to=[-lhs] val=detail m=2></p-d> 
