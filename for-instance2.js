@@ -9,14 +9,14 @@ import('aggregator-fn/ag-fn.js');
 const mainTemplate = html `
 <p-p-x from-parent-or-host observe-prop=href to=[-href] m=1></p-p-x>
 <xtal-fetch-get fetch -href></xtal-fetch-get>
-<p-d-x on=result-changed to=[-declarations] m=1 val-from-target=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]"></p-d-x>
+<p-d-x val-from-target=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
 <ag-fn -declarations><script nomodule>
     ({declarations}) =>{
         console.log(declarations);
         return declarations[0];
     }
 </script></ag-fn>
-<p-d on=value-changed to=[-data] m=1></p-d>
+<p-d val-from-target=value to=[-data] m=1></p-d>
 <mark></mark>
 <json-viewer -data></json-viewer>
 <main>
