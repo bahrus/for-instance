@@ -27,9 +27,34 @@ export interface Test{
      * Event expected to be fired (possibly as a result of running the script specified by trigger property.)
      */
     expectedEvent: ExpectedEvent,
+
+
 }
 
 export interface ForInstanceViewModel{
     test: Test,
     elementInfo: ElementInfo
+}
+
+export interface ForInstanceProps extends HTMLElement{
+  
+  /**
+   * Name of tag to test / showcase.
+   * @attr
+   */
+  tag: string | undefined;
+
+   /**
+   * Name of property that specifies contract.
+   * @attr contract-prop
+   */
+   contractProp: string | undefined;
+
+   /**
+   * If test page contains needed imports, skip any imports contained in test script.
+   * @attr skip-imports
+   */
+   skipImports: boolean | undefined;
+
+   href: string,
 }

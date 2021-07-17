@@ -1,38 +1,5 @@
 import { XtalFetchViewElement, mergeProps, define } from 'xtal-element/XtalFetchViewElement.js';
-import { createTemplate } from 'trans-render/createTemplate.js';
 import { prependTag } from 'trans-render/prependTag.js';
-const mainTemplate = createTemplate(/* html */ `
-<mark></mark>
-<json-viewer></json-viewer>
-<main>
-  <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
-  <p-d from=main to=[-lhs] val=detail m=2></p-d> 
-</main>
-
-<details>
-    <summary>Event Details</summary>
-    <section data-lhs>
-        <h4>Expected Event Detail</h4>
-        <json-viewer></json-viewer>
-    </section>
-    <section>
-        <h4>Actual Event Detail</h4>
-        <json-viewer -data></json-viewer>
-    </section>
-</details>
-<if-diff-then-stiff if -lhs equals -rhs data-key-name=success></if-diff-then-stiff>
-<if-diff-then-stiff if -lhs not_equals -rhs data-key-name=failure></if-diff-then-stiff>
-<div data-success=0>
-    <template>
-        <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
-    </template>
-</div>
-<div data-failure=0>
-    <template>
-      <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
-    </template>
-</div>
-`);
 //const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
@@ -44,11 +11,6 @@ const skip_imports = 'skip-imports';
 export class ForInstance extends XtalFetchViewElement {
     constructor() {
         super();
-        /**
-         * If test page contains needed imports, skip any imports contained in test script.
-         * @attr skip-imports
-         */
-        this.skipImports = false;
         this.noShadow = true;
         import('p-et-alia/p-d.js');
         import('if-diff/if-diff-then-stiff.js');
@@ -58,15 +20,14 @@ export class ForInstance extends XtalFetchViewElement {
         return super.readyToInit && this.tag !== undefined && this.contractProp !== undefined;
     }
     filterInitData(data) {
-        var _a, _b;
         const esi = data;
-        const elementInfo = (_a = esi.tags) === null || _a === void 0 ? void 0 : _a.find(tag => tag.name === this.tag);
+        const elementInfo = esi.tags?.find(tag => tag.name === this.tag);
         if (elementInfo === undefined) {
             // reject('No Element Info Found');
             return { test: {}, elementInfo: {} };
             //TODO
         }
-        const test$ = (_b = elementInfo.properties.find(prop => prop.name === this.contractProp)) === null || _b === void 0 ? void 0 : _b.default;
+        const test$ = elementInfo.properties.find(prop => prop.name === this.contractProp)?.default;
         if (test$ === undefined) {
             return { test: {}, elementInfo: {} };
             //reject('No contract found');

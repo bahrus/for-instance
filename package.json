@@ -15,13 +15,16 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
+    "carbon-copy": "0.1.78",
     "xtal-element": "0.0.414",
+    "xtal-fetch": "0.0.92",
+    "pass-prop": "0.0.15",
     "trans-render": "0.0.291",
     "@alenaksu/json-viewer": "0.2.0",
-    "p-et-alia": "0.0.120",
+    "pass-down": "0.0.59",
     "if-diff": "0.0.95",
     "xtal-shell": "0.0.25",
-    "xtal-frappe-chart": "0.0.84",
+    "xtal-frappe-chart": "0.0.84"
   },
   "devDependencies": {
     "xtal-test": "0.0.51"

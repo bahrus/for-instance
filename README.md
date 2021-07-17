@@ -58,11 +58,11 @@ I do not attempt to test anything beyond simple input / output mechanics.  In th
 ## [SYNTAX GALORE](https://bahrus.github.io/api-viewer/index.html?npmPackage=for-instance&jsPath=for-instance.js&jsonPath=custom-elements.json)
 
 
-I, *for-instance* don't impose much, if any, requirements on the original custom element definition -- only that it adhere to whatever best practices are in place to promote self-documentation -- JSDocs with [special notation applicable](https://www.npmjs.com/package/web-component-analyzer#%E2%9E%A4-how-to-document-your-components-using-jsdoc) to web components. I don't want to impose any overhead on the payload size of the component itself.
+I, *for-instance,* don't impose much, if any, requirements on the original custom element definition -- only that it adhere to whatever best practices are in place to promote self-documentation -- JSDocs with [special notation applicable](https://www.npmjs.com/package/web-component-analyzer#%E2%9E%A4-how-to-document-your-components-using-jsdoc) to web components. I don't want to impose any overhead on the payload size of the component itself.
 
 But web components can be easily extended.
 
-For example, my creator has defined a custom element, xtal-frappe-chart, with class XtalFrappeChart.  It contains no default data, so adding an instance of xtal-frappe-chart, without specifying what data to chart, doesn't do anything.  Nothing will come of nothing.
+Let's take the example of, xtal-frappe-chart, with class XtalFrappeChart.  It contains no default data, so adding an instance of xtal-frappe-chart, without specifying what data to chart, doesn't do anything.  Nothing will come of nothing.
 
 To provide some sample data, why not extend the base class?:
 

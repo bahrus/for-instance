@@ -3,42 +3,11 @@ import { ElementInfo, ElementSetInfo } from 'api-viewer-element/src/lib/types.js
 import { createTemplate } from 'trans-render/createTemplate.js';
 import { PDProps } from 'p-et-alia/types.d.js';
 import { IfDiffProps } from 'if-diff/types.d.js';
-import { ForInstanceViewModel, Test } from './types.js';
+import { ForInstanceViewModel, Test, ForInstanceProps } from './types.js';
 import { prependTag } from 'trans-render/prependTag.js';
 
 
-const mainTemplate = createTemplate(/* html */`
-<mark></mark>
-<json-viewer></json-viewer>
-<main>
-  <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
-  <p-d from=main to=[-lhs] val=detail m=2></p-d> 
-</main>
 
-<details>
-    <summary>Event Details</summary>
-    <section data-lhs>
-        <h4>Expected Event Detail</h4>
-        <json-viewer></json-viewer>
-    </section>
-    <section>
-        <h4>Actual Event Detail</h4>
-        <json-viewer -data></json-viewer>
-    </section>
-</details>
-<if-diff-then-stiff if -lhs equals -rhs data-key-name=success></if-diff-then-stiff>
-<if-diff-then-stiff if -lhs not_equals -rhs data-key-name=failure></if-diff-then-stiff>
-<div data-success=0>
-    <template>
-        <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
-    </template>
-</div>
-<div data-failure=0>
-    <template>
-      <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
-    </template>
-</div>
-`);
 //const href = 'href';
 const tag = 'tag';
 const contract_prop = 'contract-prop';
@@ -57,24 +26,7 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
   
   static is = 'for-instance';
 
-    /**
-   * Name of tag to test / showcase.
-   * @attr
-   */
-  tag: string | undefined;
 
-  /**
-   * Name of property that specifies contract.
-   * @attr contract-prop
-   */
-  contractProp: string | undefined;
-
-
-  /**
-   * If test page contains needed imports, skip any imports contained in test script.
-   * @attr skip-imports
-   */
-  skipImports = false;
 
   noShadow = true;
 
@@ -187,8 +139,10 @@ export class ForInstance extends XtalFetchViewElement<ForInstanceViewModel>{
     } as TransformValueOptions
   }
 
-
 }
+
+export interface ForInstance extends ForInstanceProps{}
+
 define(ForInstance);
 
 declare global {
