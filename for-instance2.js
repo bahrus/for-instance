@@ -5,10 +5,18 @@ import('xtal-fetch/xtal-fetch-get.js');
 import('pass-down/p-d-x.js');
 import { define } from 'carbon-copy/c-c.js';
 import('@alenaksu/json-viewer/build/index.js');
+import('aggregator-fn/ag-fn.js');
 const mainTemplate = html `
 <p-p-x from-parent-or-host observe-prop=href to=[-href] m=1></p-p-x>
 <xtal-fetch-get fetch -href></xtal-fetch-get>
-<p-d-x on=result-changed to=[-data] val-from-target=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]"></p-d-x>
+<p-d-x on=result-changed to=[-declarations] m=1 val-from-target=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]"></p-d-x>
+<ag-fn -declarations><script nomodule>
+    ({declarations}) =>{
+        console.log(declarations);
+        return declarations[0];
+    }
+</script></ag-fn>
+<p-d on=value-changed to=[-data] m=1></p-d>
 <mark></mark>
 <json-viewer -data></json-viewer>
 <main>

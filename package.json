@@ -24,7 +24,8 @@
     "pass-down": "0.0.59",
     "if-diff": "0.0.95",
     "xtal-shell": "0.0.25",
-    "xtal-frappe-chart": "0.0.84"
+    "xtal-frappe-chart": "0.0.84",
+    "aggregator-fn": "0.0.29"
   },
   "devDependencies": {
     "xtal-test": "0.0.51"
