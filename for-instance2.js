@@ -2,13 +2,13 @@
 import { html } from 'xtal-element/lib/html.js';
 import('pass-prop/p-p-x.js');
 import('xtal-fetch/xtal-fetch-get.js');
-import('pass-down/p-d.js');
+import('pass-down/p-d-x.js');
 import { define } from 'carbon-copy/c-c.js';
 import('@alenaksu/json-viewer/build/index.js');
 const mainTemplate = html `
 <p-p-x from-parent-or-host observe-prop=href to=[-href] m=1></p-p-x>
 <xtal-fetch-get fetch -href></xtal-fetch-get>
-<p-d on=result-changed to=[-data] val-from-target=result></p-d>
+<p-d-x on=result-changed to=[-data] val-from-target=result val-filter=$.modules.[*].declarations[?(@.tagName)]></p-d-x>
 <mark></mark>
 <json-viewer -data></json-viewer>
 <main>
