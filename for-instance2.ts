@@ -1,28 +1,30 @@
 //import {xc, PropDefMap, PropDef} from 'xtal-element/lib/XtalCore.js';
 import {html} from 'xtal-element/lib/html.js';
-import('pass-prop/p-p-x.js');
+//import('pass-prop/p-p-x.js');
 import('xtal-fetch/xtal-fetch-get.js');
 import('pass-down/p-d-x.js');
-import {ForInstanceProps} from './types.d.js';
 import {define} from 'carbon-copy/c-c.js';
 import {CCProps} from 'carbon-copy/types.d.js';
 import('@alenaksu/json-viewer/build/index.js');
 import('aggregator-fn/ag-fn.js');
+import('ref-to/ref-to.js');
+import('xt-f/xt-f.js');
 
 const mainTemplate = html`
-<p-p-x from-parent-or-host observe-prop=href to=[-href] m=1></p-p-x>
-<xtal-fetch-get fetch -href></xtal-fetch-get>
-<p-d-x val-from-target=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
+<xtal-fetch-get fetch href={{href}}></xtal-fetch-get>
+<p-d-x vft=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
 <ag-fn -declarations><script nomodule>
     ({declarations}) =>{
-        console.log(declarations);
         return declarations[0];
     }
 </script></ag-fn>
-<p-d val-from-target=value to=[-data] m=1></p-d>
+<p-d vft=value to=[-data] m=1></p-d>
 <mark></mark>
 <json-viewer -data></json-viewer>
 <main>
+  <ref-to a={{tag}}></ref-to>
+  <p-d vft=deref to=[-piped-chunk] m=1></p-d>
+  <xt-f -piped-chunk></xt-f> 
   <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
   <p-d from=main to=[-lhs] val=detail m=2></p-d> 
 </main>
