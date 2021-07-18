@@ -22,7 +22,7 @@ const mainTemplate = html `
 <json-viewer -data></json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
 <p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
-<ag-fn -data tag='"{{tag}}"' ><script nomodule>
+<ag-fn -data  tag='"{{tag}}"' ><script nomodule>
     ({data, tag}) => {
         if(data === undefined) return;
         const events = data.events;
@@ -30,7 +30,10 @@ const mainTemplate = html `
         if(events === undefined) return;
         const returnObj = events.map(event  => ({
             on: event.name,
-            observe: tag
+            observe: tag,
+            to: 'details',
+            careOf: '[-data]',
+            val: 'detail'
         }));
         console.log(returnObj);
         return returnObj;
@@ -65,7 +68,8 @@ const mainTemplate = html `
         }
         const contracts = fields.filter(x => x.name===contractProp && x.kind ==='field');
         if(contracts.length === 1){
-            const defaultVal = contracts[0]?.default;
+            console.log(contracts[0]);
+            const defaultVal = contracts[0].default;
             if(defaultVal !== undefined){
                 const defaultObj = eval('(' + defaultVal + ')');
                 let trigger = defaultObj?.trigger;
