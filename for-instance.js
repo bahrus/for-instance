@@ -29,11 +29,8 @@ const mainTemplate = html `
         console.log({data, events, tag});
         if(events === undefined) return;
         const returnObj = events.map(event  => ({
-            on: event.name,
-            observe: tag,
-            to: 'details',
-            careOf: '[-data]',
-            val: 'detail'
+            event: event,
+            tag: tag,
         }));
         console.log(returnObj);
         return returnObj;
@@ -97,7 +94,7 @@ const mainTemplate = html `
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
-<i-bid -list tag=p-d></i-bid>
+<i-bid -list tag=target-listeners></i-bid>
 <!-- <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
 <p-d from=main to=[-lhs] val=detail m=2></p-d>  -->
 
@@ -125,9 +122,19 @@ const mainTemplate = html `
       <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
     </template>
 </div>
+
+
 `;
 define('for-instance', mainTemplate, {
     stringProps: ['tag', 'href', 'contractProp'],
     boolProps: ['skipImports'],
     noshadow: true
+});
+const targetListenersTemplate = html `
+    <p-d on={{event.name}} observe={{tag}} from=target-listeners to=details care-of=[-data] val=detail ></p-d>
+`;
+define('target-listeners', targetListenersTemplate, {
+    objProps: ['event'],
+    stringProps: ['tag'],
+    noshadow: true,
 });
