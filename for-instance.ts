@@ -1,8 +1,7 @@
-//import {xc, PropDefMap, PropDef} from 'xtal-element/lib/XtalCore.js';
 import {html} from 'xtal-element/lib/html.js';
 import('pass-prop/p-p.js');
 import('xtal-fetch/xtal-fetch-get.js');
-import('pass-down/p-d-x.js');
+import('pass-down/p-d.js');
 import {define} from 'carbon-copy/c-c.js';
 import {CCProps} from 'carbon-copy/types.d.js';
 import('@alenaksu/json-viewer/build/index.js');
@@ -17,7 +16,6 @@ const mainTemplate = html`
 <p-d vft to=[-pack] m=1></p-d>
 <ag-fn -pack tag='"{{tag}}"'><script nomodule>
     ({pack, tag}) =>{
-        console.log({pack, tag});
         if(tag === undefined || pack === undefined || pack.modules === undefined) return;
         if(pack.modules === undefined) return;
         for(const mod of pack.modules){
@@ -35,10 +33,8 @@ const mainTemplate = html`
 <p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
 <ag-fn -data  tag='"{{tag}}"' ><script nomodule>
     ({data, tag}) => {
-        console.log({data, tag});
         if(data === undefined) return;
         const events = data.events;
-        console.log({data, events, tag});
         if(events === undefined) return;
         const returnObj = events.map(event  => ({
             event: event,
@@ -50,7 +46,6 @@ const mainTemplate = html`
 <p-d vft to=[-list] m=1></p-d>
 <ag-fn -data -contract-prop -skip-imports><script nomodule>
     ({data, contractProp, skipImports, self}) => {
-        console.log({data, contractProp, skipImports});
         if(data === undefined || data.members === undefined || contractProp === undefined) return;
         const fields = data.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private'));
         const propVals = {};
@@ -96,8 +91,6 @@ const mainTemplate = html`
                     scr.innerHTML = trigger;
                     document.head.appendChild(scr);
                 }
-                console.log(defaultObj.expectedEvent);
-                console.log(self);
                 self.expectedEvent = defaultObj.expectedEvent;
                 self.dispatchEvent(new CustomEvent('expected-event-changed',{
                     detail: {
@@ -115,8 +108,7 @@ const mainTemplate = html`
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
 <i-bid -list tag=target-listeners></i-bid>
-<!-- <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
-<p-d from=main to=[-lhs] val=detail m=2></p-d>  -->
+
 
 
 <details>
