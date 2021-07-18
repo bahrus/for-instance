@@ -1,6 +1,12 @@
 {
   "name": "for-instance",
   "version": "0.0.33",
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "micro-frontends",
+    "integration-testing"
+  ],
   "description": "Push for the Swaggerization of Web Components",
   "main": "for-instance.js",
   "module": "for-instance.js",
@@ -11,6 +17,15 @@
     "serve": "node node_modules/xtal-test/serve.js",
     "doc": "custom-elements-manifest analyze"
   },
+  "exports":{
+    ".": "./for-instance.js",
+    "./for-instance.js": "./for-instance.js"
+  },
+  "files":[
+    "f*.*",
+    "types.d.ts",
+    "custom-elements.json"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/for-instance.git"

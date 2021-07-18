@@ -38,7 +38,7 @@ Swagger, a linchpin to making different [micro-services work together](https://s
 
 
 
-Likewise, work that can unite the web component community has now become a fait accompli (but continuing to improve) for micro-front ends in their purest form -- web components.  The [custom element manifest analyzer](https://custom-elements-manifest.open-wc.org/analyzer/getting-started/) can generate these JSON files automatically from the source code, based on JSDocs.  It includes support for documenting default values of properties, without which my mission would be impossible to fulfill.
+Likewise, work that can unite the web component community has now become a fait accompli (but continuing to improve) for micro-frontends in their purest form -- web components.  The [custom element manifest analyzer](https://custom-elements-manifest.open-wc.org/analyzer/getting-started/) can generate these JSON files automatically from the source code, based on JSDocs.  It includes support for documenting default values of properties, without which my mission would be impossible to fulfill.
 
 So how do I, *for-instance*, fit in? 
 
