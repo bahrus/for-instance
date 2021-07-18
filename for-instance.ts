@@ -112,5 +112,6 @@ const mainTemplate = html`
 `;
 define('for-instance', mainTemplate, {
     stringProps: ['tag', 'href', 'contractProp'],
-    boolProps: ['skipImports']
+    boolProps: ['skipImports'],
+    noshadow: true
 } as CCProps);
