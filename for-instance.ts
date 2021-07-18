@@ -101,7 +101,7 @@ const mainTemplate = html`
     }
 </script></ag-fn>
 <p-d vft to={{tag}} prop=...></p-d>
-<p-d vft=expectedEvent to=[-rhs]></p-d>
+<p-d on=expected-event-changed to=[-rhs] m=2 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
@@ -126,7 +126,7 @@ const mainTemplate = html`
         <div mark style="background-color: green; color: white;">Event specified by contract detected.</div>
     </template>
 </if-diff>
-<if-diff iff -lhs not_equals -rhs>
+<if-diff iff -lhs not-equals -rhs>
     <template>
         <div err style="background-color: red; color: white;">Event specified by contract not detected.</div>
     </template>
