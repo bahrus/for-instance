@@ -26,7 +26,7 @@ const mainTemplate = html `
     ({data, contractProp, skipImports}) => {
         console.log({data, contractProp, skipImports});
         if(data === undefined || data.members === undefined || contractProp === undefined) return;
-        const fields = data.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private');
+        const fields = data.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private'));
         const propVals = {};
         for(const field of fields){
             if(field.default !== undefined){
