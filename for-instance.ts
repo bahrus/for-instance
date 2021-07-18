@@ -41,7 +41,7 @@ const mainTemplate = html`
 </script></ag-fn>
 <p-d vft to=[-list] m=1></p-d>
 <ag-fn -data -contract-prop -skip-imports><script nomodule>
-    ({data, contractProp, skipImports}) => {
+    ({data, contractProp, skipImports, self}) => {
         if(data === undefined || data.members === undefined || contractProp === undefined) return;
         const fields = data.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private'));
         const propVals = {};
@@ -88,12 +88,20 @@ const mainTemplate = html`
                     document.head.appendChild(scr);
                 }
                 console.log(defaultObj.expectedEvent);
+                console.log(self);
+                self.expectedEvent = defaultObj.expectedEvent;
+                self.dispatchEvent(new CustomEvent('expected-event-changed',{
+                    detail: {
+                        value: self.expectedEvent,
+                    }
+                }));
             }
         }
         return propVals;
     }
 </script></ag-fn>
 <p-d vft to={{tag}} prop=...></p-d>
+<p-d vft=expectedEvent to=[-rhs]></p-d>
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
@@ -113,12 +121,12 @@ const mainTemplate = html`
         <json-viewer -data></json-viewer>
     </section>
 </details>
-<if-diff if -lhs equals -rhs>
+<if-diff iff -lhs equals -rhs>
     <template>
         <div mark style="background-color: green; color: white;">Event specified by contract detected.</div>
     </template>
 </if-diff>
-<if-diff if -lhs not_equals -rhs>
+<if-diff iff -lhs not_equals -rhs>
     <template>
         <div err style="background-color: red; color: white;">Event specified by contract not detected.</div>
     </template>
