@@ -17,7 +17,7 @@ const mainTemplate = html `
         return declarations[0];
     }
 </script></ag-fn>
-<p-d vft=value to=[-data] m=2></p-d>
+<p-d vft to=[-data] m=2></p-d>
 <mark></mark>
 <json-viewer -data></json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
@@ -79,7 +79,7 @@ const mainTemplate = html `
         return propVals;
     }
 </script></ag-fn>
-<p-d vft=value to={{tag}} prop=...></p-d>
+<p-d vft to={{tag}} prop=...></p-d>
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
