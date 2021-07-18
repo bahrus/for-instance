@@ -17,6 +17,7 @@ const mainTemplate = html`
 <p-d-x vft val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
 <ag-fn -declarations><script nomodule>
     ({declarations}) =>{
+        console.log({declarations});
         return declarations[0];
     }
 </script></ag-fn>
