@@ -46,12 +46,27 @@ const mainTemplate = html`
             } 
 
         }
-        console.log({propVals});
-        const contract = fields.filter(x => x.name===contractProp && x.kind ==='field');
-        console.log(contract);
-        console.log(contract[0].default);
+        const contracts = fields.filter(x => x.name===contractProp && x.kind ==='field');
+        if(contracts.length === 1){
+            const defaultVal = contracts[0]?.default;
+            console.log({defaultVal});
+            if(defaultVal !== undefined){
+                const defaultObj = eval('(' + defaultVal + ')');
+                console.log(defaultObj);
+                const trigger = defaultObj?.trigger;
+                console.log(trigger);
+                if(trigger !== undefined){
+                    const scr = document.createElement('script');
+                    scr.type = 'module';
+                    scr.innerHTML = trigger;
+                    document.head.appendChild(scr);
+                }
+            }
+        }
+        return propVals;
     }
 </script></ag-fn>
+<p-d vft=value to={{tag}} prop=...></p-d>
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
