@@ -147,3 +147,9 @@ define('target-listeners', targetListenersTemplate, {
     stringProps: ['tag'],
     noshadow: true,
 } as CCProps);
+
+// declare global {
+//     interface HTMLElementTagNameMap {
+//         'pass-down': ForInstance;
+//     }
+// }

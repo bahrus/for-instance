@@ -43,7 +43,7 @@
     "ib-id": "0.0.58",
     "aggregator-fn": "0.0.31",
     "xt-f": "0.0.3",
-    "ref-to": "0.0.6"
+    "ref-to": "0.0.7"
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",

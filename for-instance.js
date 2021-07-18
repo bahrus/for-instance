@@ -144,3 +144,8 @@ define('target-listeners', targetListenersTemplate, {
     stringProps: ['tag'],
     noshadow: true,
 });
+// declare global {
+//     interface HTMLElementTagNameMap {
+//         'pass-down': ForInstance;
+//     }
+// }
