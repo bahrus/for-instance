@@ -14,11 +14,18 @@ import('if-diff/if-diff.js');
 
 const mainTemplate = html`
 <xtal-fetch-get fetch href={{href}}></xtal-fetch-get>
-<p-d-x vft val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
-<ag-fn -declarations><script nomodule>
-    ({declarations}) =>{
-        console.log({declarations});
-        return declarations[0];
+<p-d vft to=[-pack] m=1></p-d>
+<ag-fn -pack tag='"{{tag}}"'><script nomodule>
+    ({pack, tag}) =>{
+        console.log({pack, tag});
+        if(tag === undefined || pack === undefined || pack.modules === undefined) return;
+        if(pack.modules === undefined) return;
+        for(const mod of pack.modules){
+            if(mod.declarations === undefined) continue;
+            for(const declaration of mod.declarations){
+                if(declaration.tagName === tag) return declaration;
+            }
+        }
     }
 </script></ag-fn>
 <p-d vft to=[-data] m=3></p-d>
