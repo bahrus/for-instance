@@ -1,0 +1,883 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "types.d.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-frappe-chart-example1.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "XtalFrappeChartExample1",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-frappe-chart-example1'",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "chartTitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"My Awesome Chart\""
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "object"
+              },
+              "default": "{\n        labels: [\"12am-3am\", \"3am-6am\", \"6am-9am\", \"9am-12pm\",\n            \"12pm-3pm\", \"3pm-6pm\", \"6pm-9pm\", \"9pm-12am\"],\n        datasets: [\n            {\n                name: \"Some Data\", \"color\": \"light-blue\",\n                values: [25, 40, 30, 35, 8, 52, 17, -4]\n            },\n            {\n                name: \"Another Set\", \"color\": \"violet\",\n                values: [25, 50, -10, 15, 18, 32, 27, 14]\n            },\n            {\n                name: \"Yet Another\", \"color\": \"blue\",\n                values: [15, 20, -3, -15, 58, 12, -17, 37]\n            }\n        ]\n    }"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"bar\""
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "default": "250"
+            },
+            {
+              "kind": "field",
+              "name": "isNavigable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "selectedElementContract",
+              "type": {
+                "text": "object"
+              },
+              "default": "{\n        trigger: /* JS */ `\r\n        import 'https://cdn.skypack.dev/xtal-shell/$hell.js?module';\r\n        import 'https://cdn.skypack.dev/xtal-frappe-chart/xtal-frappe-chart-example1.js';\r\n        setTimeout(() =>{\r\n            $hell.$0=document.querySelector('xtal-frappe-chart-example1');\r\n            $hell.cd('div#target/div/svg/g[0]/g[2]/rect[2]');\r\n            setTimeout(() =>{\r\n              $hell.$0.dispatchEvent(new Event('click'));\r\n            }, 500);\r\n            \r\n          }, 3000);\r\n        `,\n        expectedEvent: {\n            name: 'selected-element-changed',\n            detail: {\n                value: {\n                    values: [30, -10, -3],\n                    label: \"6am-9am\",\n                    index: 2,\n                }\n            },\n            associatedPropName: 'selectedElement'\n        }\n    }"
+            },
+            {
+              "kind": "field",
+              "name": "refs",
+              "default": "{targetId: ''}",
+              "privacy": "private",
+              "type": {
+                "text": "object"
+              },
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\r\n    xp.manageMainTemplate,\r\n    xp.createShadow,\r\n    linkChart,\r\n    addDataPoint,\r\n    removeDataPoint\r\n]",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "default": "new xc.Rx(this)",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "SelectedElement"
+              },
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "selectedElement",
+              "type": {
+                "text": "SelectedElement"
+              },
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isReallyConnected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "chart",
+              "type": {
+                "text": "Chart"
+              },
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "handleDataSelect",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "prop",
+                  "type": {
+                    "text": "PropDef"
+                  }
+                },
+                {
+                  "name": "nv",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "mainTemplate",
+              "default": "html`\r\n<style>\r\n:host{display:block;}\r\n.chart-container{position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif}.chart-container .axis,.chart-container .chart-label{fill:#555b51}.chart-container .axis line,.chart-container .chart-label line{stroke:#dadada}.chart-container .dataset-units circle{stroke:#fff;stroke-width:2}.chart-container .dataset-units path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container .dataset-path{stroke-width:2px}.chart-container .path-group path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container line.dashed{stroke-dasharray:5,3}.chart-container .axis-line .specific-value{text-anchor:start}.chart-container .axis-line .y-line{text-anchor:end}.chart-container .axis-line .x-line{text-anchor:middle}.chart-container .legend-dataset-text{fill:#6c7680;font-weight:600}.graph-svg-tip{position:absolute;z-index:99999;padding:10px;font-size:12px;color:#959da5;text-align:center;background:rgba(0,0,0,.8);border-radius:3px}.graph-svg-tip ul{padding-left:0;display:flex}.graph-svg-tip ol{padding-left:0;display:flex}.graph-svg-tip ul.data-point-list li{min-width:90px;flex:1;font-weight:600}.graph-svg-tip strong{color:#dfe2e5;font-weight:600}.graph-svg-tip .svg-pointer{position:absolute;height:5px;margin:0 0 0 -5px;content:' ';border:5px solid transparent;border-top-color:rgba(0,0,0,.8)}.graph-svg-tip.comparison{padding:0;text-align:left;pointer-events:none}.graph-svg-tip.comparison .title{display:block;padding:10px;margin:0;font-weight:600;line-height:1;pointer-events:none}.graph-svg-tip.comparison ul{margin:0;white-space:nowrap;list-style:none}.graph-svg-tip.comparison li{display:inline-block;padding:5px 10px}\r\n</style>\r\n<div id=target></div>\r\n`",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "XtalFrappeChart",
+            "module": "/xtal-frappe-chart.js"
+          },
+          "tagName": "xtal-frappe-chart-example1",
+          "customElement": true,
+          "events": [
+            {
+              "description": "fires when user selects chart data element",
+              "name": "selected-element-changed",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "XtalFrappeChartExample1",
+          "declaration": {
+            "name": "XtalFrappeChartExample1",
+            "module": "xtal-frappe-chart-example1.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-frappe-chart-example1.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "XtalFrappeChartExample1",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-frappe-chart-example1'",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "chartTitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"My Awesome Chart\""
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "default": "{\r\n        labels: [\"12am-3am\", \"3am-6am\", \"6am-9am\", \"9am-12pm\",\r\n            \"12pm-3pm\", \"3pm-6pm\", \"6pm-9pm\", \"9pm-12am\"],\r\n        datasets: [\r\n            {\r\n                name: \"Some Data\", \"color\": \"light-blue\",\r\n                values: [25, 40, 30, 35, 8, 52, 17, -4]\r\n            },\r\n            {\r\n                name: \"Another Set\", \"color\": \"violet\",\r\n                values: [25, 50, -10, 15, 18, 32, 27, 14]\r\n            },\r\n            {\r\n                name: \"Yet Another\", \"color\": \"blue\",\r\n                values: [15, 20, -3, -15, 58, 12, -17, 37]\r\n            }\r\n        ]\r\n    }"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "default": "\"bar\""
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "default": "250"
+            },
+            {
+              "kind": "field",
+              "name": "isNavigable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "selectedElementContract",
+              "type": {
+                "text": "XtalFrappeChartTest<'selected-element-changed', 'selectedElement'>"
+              },
+              "default": "{\r\n        trigger: /* JS */`\r\n        import 'https://cdn.skypack.dev/xtal-shell/$hell.js?module';\r\n        import 'https://cdn.skypack.dev/xtal-frappe-chart/xtal-frappe-chart-example1.js';\r\n        setTimeout(() =>{\r\n            $hell.$0=document.querySelector('xtal-frappe-chart-example1');\r\n            $hell.cd('div#target/div/svg/g[0]/g[2]/rect[2]');\r\n            setTimeout(() =>{\r\n              $hell.$0.dispatchEvent(new Event('click'));\r\n            }, 500);\r\n            \r\n          }, 3000);\r\n        `,\r\n        expectedEvent:{\r\n            name: 'selected-element-changed',\r\n            detail: {\r\n                value: {\r\n                    values: [30, -10, -3],\r\n                    label: \"6am-9am\",\r\n                    index: 2,\r\n                }\r\n            },\r\n            associatedPropName: 'selectedElement'\r\n        }\r\n    }"
+            },
+            {
+              "kind": "field",
+              "name": "refs",
+              "default": "{targetId: ''}",
+              "privacy": "private",
+              "type": {
+                "text": "object"
+              },
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\r\n    xp.manageMainTemplate,\r\n    xp.createShadow,\r\n    linkChart,\r\n    addDataPoint,\r\n    removeDataPoint\r\n]",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "default": "new xc.Rx(this)",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "SelectedElement"
+              },
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "selectedElement",
+              "type": {
+                "text": "SelectedElement"
+              },
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isReallyConnected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "chart",
+              "type": {
+                "text": "Chart"
+              },
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "handleDataSelect",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "prop",
+                  "type": {
+                    "text": "PropDef"
+                  }
+                },
+                {
+                  "name": "nv",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "mainTemplate",
+              "default": "html`\r\n<style>\r\n:host{display:block;}\r\n.chart-container{position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif}.chart-container .axis,.chart-container .chart-label{fill:#555b51}.chart-container .axis line,.chart-container .chart-label line{stroke:#dadada}.chart-container .dataset-units circle{stroke:#fff;stroke-width:2}.chart-container .dataset-units path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container .dataset-path{stroke-width:2px}.chart-container .path-group path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container line.dashed{stroke-dasharray:5,3}.chart-container .axis-line .specific-value{text-anchor:start}.chart-container .axis-line .y-line{text-anchor:end}.chart-container .axis-line .x-line{text-anchor:middle}.chart-container .legend-dataset-text{fill:#6c7680;font-weight:600}.graph-svg-tip{position:absolute;z-index:99999;padding:10px;font-size:12px;color:#959da5;text-align:center;background:rgba(0,0,0,.8);border-radius:3px}.graph-svg-tip ul{padding-left:0;display:flex}.graph-svg-tip ol{padding-left:0;display:flex}.graph-svg-tip ul.data-point-list li{min-width:90px;flex:1;font-weight:600}.graph-svg-tip strong{color:#dfe2e5;font-weight:600}.graph-svg-tip .svg-pointer{position:absolute;height:5px;margin:0 0 0 -5px;content:' ';border:5px solid transparent;border-top-color:rgba(0,0,0,.8)}.graph-svg-tip.comparison{padding:0;text-align:left;pointer-events:none}.graph-svg-tip.comparison .title{display:block;padding:10px;margin:0;font-weight:600;line-height:1;pointer-events:none}.graph-svg-tip.comparison ul{margin:0;white-space:nowrap;list-style:none}.graph-svg-tip.comparison li{display:inline-block;padding:5px 10px}\r\n</style>\r\n<div id=target></div>\r\n`",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "XtalFrappeChart",
+            "module": "/xtal-frappe-chart.js"
+          },
+          "tagName": "xtal-frappe-chart-example1",
+          "customElement": true,
+          "events": [
+            {
+              "description": "fires when user selects chart data element",
+              "name": "selected-element-changed",
+              "inheritedFrom": {
+                "name": "XtalFrappeChart",
+                "module": "xtal-frappe-chart.ts"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "XtalFrappeChartExample1",
+          "declaration": {
+            "name": "XtalFrappeChartExample1",
+            "module": "xtal-frappe-chart-example1.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-frappe-chart.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Web component wrapper around the cool Frappe chart (https://frappe.io/charts) library.",
+          "name": "XtalFrappeChart",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-frappe-chart'",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "refs",
+              "default": "{ targetId: '' }",
+              "privacy": "private",
+              "type": {
+                "text": "object"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\n    xp.manageMainTemplate,\n    xp.createShadow,\n    linkChart,\n    addDataPoint,\n    removeDataPoint\n]",
+              "privacy": "private",
+              "type": {
+                "text": "array"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "default": "new xc.Rx(this)",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "value"
+            },
+            {
+              "kind": "field",
+              "name": "selectedElement"
+            },
+            {
+              "kind": "field",
+              "name": "isReallyConnected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "chart",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleDataSelect",
+              "parameters": [
+                {
+                  "name": "e"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "name"
+                },
+                {
+                  "name": "prop"
+                },
+                {
+                  "name": "nv"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "mainTemplate",
+              "default": "html `\r\n<style>\r\n:host{display:block;}\r\n.chart-container{position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif}.chart-container .axis,.chart-container .chart-label{fill:#555b51}.chart-container .axis line,.chart-container .chart-label line{stroke:#dadada}.chart-container .dataset-units circle{stroke:#fff;stroke-width:2}.chart-container .dataset-units path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container .dataset-path{stroke-width:2px}.chart-container .path-group path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container line.dashed{stroke-dasharray:5,3}.chart-container .axis-line .specific-value{text-anchor:start}.chart-container .axis-line .y-line{text-anchor:end}.chart-container .axis-line .x-line{text-anchor:middle}.chart-container .legend-dataset-text{fill:#6c7680;font-weight:600}.graph-svg-tip{position:absolute;z-index:99999;padding:10px;font-size:12px;color:#959da5;text-align:center;background:rgba(0,0,0,.8);border-radius:3px}.graph-svg-tip ul{padding-left:0;display:flex}.graph-svg-tip ol{padding-left:0;display:flex}.graph-svg-tip ul.data-point-list li{min-width:90px;flex:1;font-weight:600}.graph-svg-tip strong{color:#dfe2e5;font-weight:600}.graph-svg-tip .svg-pointer{position:absolute;height:5px;margin:0 0 0 -5px;content:' ';border:5px solid transparent;border-top-color:rgba(0,0,0,.8)}.graph-svg-tip.comparison{padding:0;text-align:left;pointer-events:none}.graph-svg-tip.comparison .title{display:block;padding:10px;margin:0;font-weight:600;line-height:1;pointer-events:none}.graph-svg-tip.comparison ul{margin:0;white-space:nowrap;list-style:none}.graph-svg-tip.comparison li{display:inline-block;padding:5px 10px}\r\n</style>\r\n<div id=target></div>\r\n`",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "fires when user selects chart data element",
+              "name": "selected-element-changed"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "xtal-frappe-chart",
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "addDataPoint",
+          "parameters": [
+            {
+              "name": "{ newDataPoint, chart }"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "removeDataPoint",
+          "parameters": [
+            {
+              "name": "{ staleDataPoint, chart }"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "linkChart",
+          "parameters": [
+            {
+              "name": "{ data, chartTitle, height, colors, type, domCache, isReallyConnected, toolTipOptions, self }"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "XtalFrappeChart",
+          "declaration": {
+            "name": "XtalFrappeChart",
+            "module": "xtal-frappe-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "addDataPoint",
+          "declaration": {
+            "name": "addDataPoint",
+            "module": "xtal-frappe-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "removeDataPoint",
+          "declaration": {
+            "name": "removeDataPoint",
+            "module": "xtal-frappe-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "linkChart",
+          "declaration": {
+            "name": "linkChart",
+            "module": "xtal-frappe-chart.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "xtal-frappe-chart.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Web component wrapper around the cool Frappe chart (https://frappe.io/charts) library.",
+          "name": "XtalFrappeChart",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'xtal-frappe-chart'",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "refs",
+              "default": "{targetId: ''}",
+              "privacy": "private",
+              "type": {
+                "text": "object"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\r\n    xp.manageMainTemplate,\r\n    xp.createShadow,\r\n    linkChart,\r\n    addDataPoint,\r\n    removeDataPoint\r\n]",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "default": "new xc.Rx(this)",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "SelectedElement"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "selectedElement",
+              "type": {
+                "text": "SelectedElement"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isReallyConnected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "chart",
+              "type": {
+                "text": "Chart"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleDataSelect",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "prop",
+                  "type": {
+                    "text": "PropDef"
+                  }
+                },
+                {
+                  "name": "nv",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "mainTemplate",
+              "default": "html`\r\n<style>\r\n:host{display:block;}\r\n.chart-container{position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif}.chart-container .axis,.chart-container .chart-label{fill:#555b51}.chart-container .axis line,.chart-container .chart-label line{stroke:#dadada}.chart-container .dataset-units circle{stroke:#fff;stroke-width:2}.chart-container .dataset-units path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container .dataset-path{stroke-width:2px}.chart-container .path-group path{fill:none;stroke-opacity:1;stroke-width:2px}.chart-container line.dashed{stroke-dasharray:5,3}.chart-container .axis-line .specific-value{text-anchor:start}.chart-container .axis-line .y-line{text-anchor:end}.chart-container .axis-line .x-line{text-anchor:middle}.chart-container .legend-dataset-text{fill:#6c7680;font-weight:600}.graph-svg-tip{position:absolute;z-index:99999;padding:10px;font-size:12px;color:#959da5;text-align:center;background:rgba(0,0,0,.8);border-radius:3px}.graph-svg-tip ul{padding-left:0;display:flex}.graph-svg-tip ol{padding-left:0;display:flex}.graph-svg-tip ul.data-point-list li{min-width:90px;flex:1;font-weight:600}.graph-svg-tip strong{color:#dfe2e5;font-weight:600}.graph-svg-tip .svg-pointer{position:absolute;height:5px;margin:0 0 0 -5px;content:' ';border:5px solid transparent;border-top-color:rgba(0,0,0,.8)}.graph-svg-tip.comparison{padding:0;text-align:left;pointer-events:none}.graph-svg-tip.comparison .title{display:block;padding:10px;margin:0;font-weight:600;line-height:1;pointer-events:none}.graph-svg-tip.comparison ul{margin:0;white-space:nowrap;list-style:none}.graph-svg-tip.comparison li{display:inline-block;padding:5px 10px}\r\n</style>\r\n<div id=target></div>\r\n`",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "fires when user selects chart data element",
+              "name": "selected-element-changed"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "xtal-frappe-chart",
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "addDataPoint",
+          "parameters": [
+            {
+              "name": "{newDataPoint, chart}",
+              "type": {
+                "text": "XtalFrappeChart"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "removeDataPoint",
+          "parameters": [
+            {
+              "name": "{staleDataPoint, chart}",
+              "type": {
+                "text": "XtalFrappeChart"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "linkChart",
+          "parameters": [
+            {
+              "name": "{data, chartTitle, height, colors, type, domCache, isReallyConnected, toolTipOptions, self}",
+              "type": {
+                "text": "XtalFrappeChart"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "XtalFrappeChart",
+          "declaration": {
+            "name": "XtalFrappeChart",
+            "module": "xtal-frappe-chart.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "addDataPoint",
+          "declaration": {
+            "name": "addDataPoint",
+            "module": "xtal-frappe-chart.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "removeDataPoint",
+          "declaration": {
+            "name": "removeDataPoint",
+            "module": "xtal-frappe-chart.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "linkChart",
+          "declaration": {
+            "name": "linkChart",
+            "module": "xtal-frappe-chart.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "test/test-all.js",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}

@@ -6,11 +6,11 @@ const xt = require('xtal-test/index');
             expectedNoOfSuccessMarkers: 1,
             wait: 10000
         },
-        {
-            path: 'test/fetch-test.html',
-            expectedNoOfSuccessMarkers: 1,
-            wait: 10000
-        },
+        // {
+        //     path: 'test/fetch-test.html',
+        //     expectedNoOfSuccessMarkers: 1,
+        //     wait: 10000
+        // },
     ]);
     if (passed)
         console.log("Tests Passed.  Have a nice day.");
