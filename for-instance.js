@@ -25,7 +25,7 @@ const mainTemplate = html `
 <p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
 <ag-fn -data  tag='"{{tag}}"' ><script nomodule>
     ({data, tag}) => {
-        console.log({data, tag})
+        console.log({data, tag});
         if(data === undefined) return;
         const events = data.events;
         console.log({data, events, tag});
@@ -40,7 +40,7 @@ const mainTemplate = html `
 <p-d vft to=[-list] m=1></p-d>
 <ag-fn -data -contract-prop -skip-imports><script nomodule>
     ({data, contractProp, skipImports, self}) => {
-        console.log{data, contractProp, skipImports};
+        console.log({data, contractProp, skipImports});
         if(data === undefined || data.members === undefined || contractProp === undefined) return;
         const fields = data.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private'));
         const propVals = {};
