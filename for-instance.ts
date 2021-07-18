@@ -23,9 +23,10 @@ const mainTemplate = html`
 <mark></mark>
 <json-viewer -data></json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
-<ag-fn -data -contract-prop><script nomodule>
-    ({data, contractProp}) => {
-        console.log({data, contractProp});
+<p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
+<ag-fn -data -contract-prop -skip-imports><script nomodule>
+    ({data, contractProp, skipImports}) => {
+        console.log({data, contractProp, skipImports});
         if(data === undefined || data.members === undefined || contractProp === undefined) return;
         const fields = data.members.filter(x=> x.kind ==='field' && !x.static);
         const propVals = {};
@@ -53,7 +54,17 @@ const mainTemplate = html`
             if(defaultVal !== undefined){
                 const defaultObj = eval('(' + defaultVal + ')');
                 console.log(defaultObj);
-                const trigger = defaultObj?.trigger;
+                let trigger = defaultObj?.trigger;
+                console.log(trigger);
+                if(skipImports){
+                    const split = trigger.split('\\n');
+                    split.forEach((line, idx) => {
+                        if (line.trim().startsWith('import ')) {
+                            split[idx] = '//' + line;
+                        }
+                    });
+                    trigger = split.join('\\n');
+                }
                 console.log(trigger);
                 if(trigger !== undefined){
                     const scr = document.createElement('script');
@@ -103,29 +114,3 @@ define('for-instance', mainTemplate, {
     stringProps: ['tag', 'href', 'contractProp'],
     boolProps: ['skipImports']
 } as CCProps);
-
-// /** */
-// export class ForInstance extends HTMLElement{
-//     static is = 'for-instance';
-
-// }
-// const baseProp: PropDef = {
-//     dry: true,
-//     async: true,
-// }
-// const strProp1: PropDef = {
-//     ...baseProp,
-//     type: String,
-// }
-// const boolProp1: PropDef = {
-//     ...baseProp,
-//     type: Boolean,
-// }
-// const propDefs: PropDefMap<ForInstance> = {
-//     tag: strProp1,
-//     href: strProp1,
-//     contractProp: strProp1,
-//     skipImports: boolProp1,
-// };
-//xc.define(ForInstance);
-//export interface ForInstance extends ForInstanceProps{}
