@@ -9,6 +9,7 @@ import('aggregator-fn/ag-fn.js');
 import('ref-to/ref-to.js');
 import('xt-f/xt-f.js');
 import('ib-id/i-bid.js');
+import('if-diff/if-diff.js');
 const mainTemplate = html `
 <xtal-fetch-get fetch href={{href}}></xtal-fetch-get>
 <p-d-x vft val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
@@ -65,7 +66,6 @@ const mainTemplate = html `
         }
         const contracts = fields.filter(x => x.name===contractProp && x.kind ==='field');
         if(contracts.length === 1){
-            console.log(contracts[0]);
             const defaultVal = contracts[0].default;
             if(defaultVal !== undefined){
                 const defaultObj = eval('(' + defaultVal + ')');
@@ -85,6 +85,7 @@ const mainTemplate = html `
                     scr.innerHTML = trigger;
                     document.head.appendChild(scr);
                 }
+                console.log(defaultObj.expectedEvent);
             }
         }
         return propVals;
@@ -110,20 +111,16 @@ const mainTemplate = html `
         <json-viewer -data></json-viewer>
     </section>
 </details>
-<if-diff-then-stiff if -lhs equals -rhs data-key-name=success></if-diff-then-stiff>
-<if-diff-then-stiff if -lhs not_equals -rhs data-key-name=failure></if-diff-then-stiff>
-<div data-success=0>
+<if-diff if -lhs equals -rhs>
     <template>
-        <div mark style="background-color: green; color: white;">selectedElementContract succeeded.</div>
+        <div mark style="background-color: green; color: white;">Event specified by contract detected.</div>
     </template>
-</div>
-<div data-failure=0>
+</if-diff>
+<if-diff if -lhs not_equals -rhs>
     <template>
-      <div err style="background-color: red; color: white;">selectedElementContract failed.</div>
+        <div err style="background-color: red; color: white;">Event specified by contract not detected.</div>
     </template>
-</div>
-
-
+</if-diff>
 `;
 define('for-instance', mainTemplate, {
     stringProps: ['tag', 'href', 'contractProp'],
@@ -131,7 +128,8 @@ define('for-instance', mainTemplate, {
     noshadow: true
 });
 const targetListenersTemplate = html `
-    <p-d on={{event.name}} observe={{tag}} from=target-listeners to=details care-of=[-data] val=detail ></p-d>
+    <p-d on={{event.name}} observe={{tag}} from=target-listeners to=details care-of=[-data] val=detail m=1></p-d>
+    <p-d on={{event.name}} observe={{tag}} from=target-listeners to=[-lhs] val=detail m=2></p-d>
 `;
 define('target-listeners', targetListenersTemplate, {
     objProps: ['event'],
