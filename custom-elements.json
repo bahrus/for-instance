@@ -1,104 +1,36 @@
 {
-  "version": "experimental",
-  "tags": [
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
     {
-      "name": "for-instance",
-      "description": "Test instances of custom element for custom event signature contracts.",
-      "attributes": [
-        {
-          "name": "href",
-          "description": "URL for custom-elements.json file / stream."
-        },
-        {
-          "name": "tag",
-          "description": "Name of tag to test / showcase."
-        },
-        {
-          "name": "contract-prop",
-          "description": "Name of property that specifies contract."
-        },
-        {
-          "name": "skip-imports",
-          "description": "If test page contains needed imports, skip any imports contained in test script.",
-          "type": "boolean"
-        },
-        {
-          "name": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
-        }
-      ],
-      "properties": [
-        {
-          "name": "href",
-          "attribute": "href",
-          "description": "URL for custom-elements.json file / stream."
-        },
-        {
-          "name": "tag",
-          "attribute": "tag",
-          "description": "Name of tag to test / showcase."
-        },
-        {
-          "name": "contractProp",
-          "attribute": "contract-prop",
-          "description": "Name of property that specifies contract."
-        },
-        {
-          "name": "skipImports",
-          "attribute": "skip-imports",
-          "description": "If test page contains needed imports, skip any imports contained in test script.",
-          "type": "boolean"
-        },
-        {
-          "name": "viewModel",
-          "type": "ViewModel"
-        },
-        {
-          "name": "noShadow",
-          "type": "boolean"
-        },
-        {
-          "name": "renderOptions",
-          "type": "RenderOptions"
-        },
-        {
-          "name": "mainTemplate",
-          "type": "HTMLTemplateElement"
-        },
-        {
-          "name": "readyToInit",
-          "type": "boolean"
-        },
-        {
-          "name": "initRenderContext",
-          "type": "RenderContext"
-        },
-        {
-          "name": "updateRenderContext",
-          "type": "RenderContext | null"
-        },
-        {
-          "name": "eventContext",
-          "type": "EventContext | null"
-        },
-        {
-          "name": "root",
-          "type": "HTMLElement | ShadowRoot"
-        },
-        {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "type": "{ [key: string]: number; }",
-          "default": "{}"
-        },
-        {
-          "name": "disabled",
-          "attribute": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
-        }
-      ]
+      "kind": "javascript-module",
+      "path": "for-instance.js",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "for-instance.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "types.d.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "test/test-all.js",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "test/test-all.ts",
+      "declarations": [],
+      "exports": []
     }
   ]
 }

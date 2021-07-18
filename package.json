@@ -7,8 +7,9 @@
   "types": "types.d.ts",
   "scripts": {
     "test": "node test/test-all.js",
+    "package-check": "package-check",
     "serve": "node node_modules/xtal-test/serve.js",
-    "doc": "wca analyze for-instance.js --outFile custom-elements.json"
+    "doc": "custom-elements-manifest analyze"
   },
   "repository": {
     "type": "git",
@@ -30,12 +31,15 @@
     "ref-to": "0.0.6"
   },
   "devDependencies": {
-    "xtal-test": "0.0.51"
+    "@skypack/package-check": "0.2.2",
+    "xtal-test": "0.0.51",
+    "@custom-elements-manifest/analyzer": "0.4.12"
   },
   "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bahrus/for-instance/issues"
   },
-  "homepage": "https://github.com/bahrus/for-instance#readme"
+  "homepage": "https://github.com/bahrus/for-instance#readme",
+  "customElements": "custom-elements.json"
 }
