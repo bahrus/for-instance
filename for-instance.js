@@ -11,7 +11,7 @@ import('xt-f/xt-f.js');
 import('ib-id/i-bid.js');
 const mainTemplate = html `
 <xtal-fetch-get fetch href={{href}}></xtal-fetch-get>
-<p-d-x vft=result val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
+<p-d-x vft val-filter="$.modules.[*].declarations[?(@.tagName=='{{tag}}')]" to=[-declarations] m=1></p-d-x>
 <ag-fn -declarations><script nomodule>
     ({declarations}) =>{
         return declarations[0];
