@@ -17,14 +17,28 @@ const mainTemplate = html `
         return declarations[0];
     }
 </script></ag-fn>
-<p-d vft to=[-data] m=2></p-d>
+<p-d vft to=[-data] m=3></p-d>
 <mark></mark>
 <json-viewer -data></json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
 <p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
+<ag-fn -data tag='"{{tag}}"' ><script nomodule>
+    ({data, tag}) => {
+        if(data === undefined) return;
+        const events = data.events;
+        console.log({data, events, tag});
+        if(events === undefined) return;
+        const returnObj = events.map(event  => ({
+            on: event.name,
+            observe: tag
+        }));
+        console.log(returnObj);
+        return returnObj;
+    }
+</script></ag-fn>
+<p-d vft to=[-list] m=1></p-d>
 <ag-fn -data -contract-prop -skip-imports><script nomodule>
     ({data, contractProp, skipImports}) => {
-        console.log({data, contractProp, skipImports});
         if(data === undefined || data.members === undefined || contractProp === undefined) return;
         const fields = data.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private'));
         const propVals = {};
@@ -52,12 +66,9 @@ const mainTemplate = html `
         const contracts = fields.filter(x => x.name===contractProp && x.kind ==='field');
         if(contracts.length === 1){
             const defaultVal = contracts[0]?.default;
-            console.log({defaultVal});
             if(defaultVal !== undefined){
                 const defaultObj = eval('(' + defaultVal + ')');
-                console.log(defaultObj);
                 let trigger = defaultObj?.trigger;
-                console.log(trigger);
                 if(skipImports){
                     const split = trigger.split('\\n');
                     split.forEach((line, idx) => {
@@ -67,7 +78,6 @@ const mainTemplate = html `
                     });
                     trigger = split.join('\\n');
                 }
-                console.log(trigger);
                 if(trigger !== undefined){
                     const scr = document.createElement('script');
                     scr.type = 'module';
@@ -83,7 +93,7 @@ const mainTemplate = html `
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
-<i-bid -list><p-d></p-d></i-bid>
+<i-bid -list tag=p-d></i-bid>
 <!-- <p-d from=main to=details care-of=[-data] val=detail m=1></p-d>
 <p-d from=main to=[-lhs] val=detail m=2></p-d>  -->
 
