@@ -1,6 +1,6 @@
 {
   "name": "for-instance",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "keywords": [
     "web-components",
     "custom-elements",
@@ -17,11 +17,11 @@
     "serve": "node node_modules/xtal-test/serve.js",
     "doc": "custom-elements-manifest analyze"
   },
-  "exports":{
+  "exports": {
     ".": "./for-instance.js",
     "./for-instance.js": "./for-instance.js"
   },
-  "files":[
+  "files": [
     "f*.*",
     "types.d.ts",
     "custom-elements.json"
