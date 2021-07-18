@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-
 <body>
-
-    <div>
-        <for-instance 
-            href=https://unpkg.com/xtal-frappe-chart@0.0.66/xtal-frappe-chart-example1.json
-            contract-prop=selectedElementContract 
-            tag=xtal-frappe-chart>
-        </for-instance>
-        <a
-            href="https://bahrus.github.io/api-viewer/index.html?npmPackage=xtal-frappe-chart&jsPath=xtal-frappe-chart-example1.js&jsonPath=custom-elements-example1.json">api
-            viewer</a>
-
-        <script type=module src=https://unpkg.com/for-instance@0.0.17/for-instance.js?module> </script> 
-        <!-- <script type=module src=https://cdn.pika.dev/-/for-instance/0.0.18/dist-es2019/for-instance.min.js></script> -->
-    </div> 
+    <!-- <for-instance 
+        href=https://unpkg.com/xtal-frappe-chart@0.0.90/custom-elements.json 
+        tag=xtal-frappe-chart-example1 
+        contract-prop=selectedElementContract
+    ></for-instance> -->
+    <for-instance 
+        href=https://cdn.skypack.dev/xtal-frappe-chart@0.0.90/custom-elements.json 
+        tag=xtal-frappe-chart-example1 
+        contract-prop=selectedElementContract
+    ></for-instance>
+    <script type=module crossorigin>
+        import 'https://cdn.skypack.dev/for-instance';
+    </script>
 </body>
-            
 </html>

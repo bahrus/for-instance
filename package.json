@@ -42,7 +42,7 @@
     "xtal-shell": "0.0.25",
     "ib-id": "0.0.58",
     "aggregator-fn": "0.0.31",
-    "xt-f": "0.0.2",
+    "xt-f": "0.0.3",
     "ref-to": "0.0.6"
   },
   "devDependencies": {
