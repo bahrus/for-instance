@@ -34,11 +34,15 @@ const mainTemplate = html `
                 if(field.type !== undefined && field.type.text !== undefined){
                     switch(field.type.text){
                         case 'boolean':
-                            val = val === 'true';
+                        case 'number':
+                            val = JSON.parse(val);
                             break;
+                        case 'string':
                         case 'object':
                             val = eval('(' + val + ')'); //yikes
                             break;
+                        case 'number':
+                            val = parse
                     }
                 }
                 propVals[field.name] = val;
