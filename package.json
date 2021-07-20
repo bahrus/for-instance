@@ -31,17 +31,17 @@
     "url": "git+https://github.com/bahrus/for-instance.git"
   },
   "dependencies": {
-    "carbon-copy": "0.1.78",
-    "xtal-element": "0.0.416",
+    "carbon-copy": "0.1.79",
+    "xtal-element": "0.0.417",
     "xtal-fetch": "0.0.92",
     "pass-prop": "0.0.19",
     "trans-render": "0.0.291",
-    "@alenaksu/json-viewer": "0.2.0",
+    "@alenaksu/json-viewer": "0.3.1",
     "pass-down": "0.0.71",
-    "if-diff": "0.0.95",
+    "if-diff": "0.0.101",
     "xtal-shell": "0.0.25",
     "ib-id": "0.0.58",
-    "aggregator-fn": "0.0.35",
+    "aggregator-fn": "0.0.36",
     "xt-f": "0.0.3",
     "ref-to": "0.0.7"
   },
