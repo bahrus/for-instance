@@ -4,7 +4,7 @@ import('xtal-fetch/xtal-fetch-get.js');
 import('pass-down/p-d.js');
 import {define} from 'carbon-copy/c-c.js';
 import {CCProps} from 'carbon-copy/types.d.js';
-import('@alenaksu/json-viewer/build/index.js');
+import('@alenaksu/json-viewer/dist/index.js');
 import('aggregator-fn/ag-fn.js');
 import('ref-to/ref-to.js');
 import('xt-f/xt-f.js');
@@ -103,7 +103,8 @@ const mainTemplate = html`
     }
 </script></ag-fn>
 <p-d vft to={{tag}} prop=...></p-d>
-<p-d on=expected-event-changed to=[-rhs] m=2 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
+<p-d on=expected-event-changed to=[-rhs] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
+<p-d on=expected-event-changed to=details.expected care-of=[-data] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
@@ -113,9 +114,9 @@ const mainTemplate = html`
 
 <details>
     <summary>Event Details</summary>
-    <section data-lhs>
+    <section class=expected>
         <h4>Expected Event Detail</h4>
-        <json-viewer></json-viewer>
+        <json-viewer -data></json-viewer>
     </section>
     <section>
         <h4>Actual Event Detail</h4>
