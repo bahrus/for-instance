@@ -62,8 +62,6 @@ const mainTemplate = html`
                         case 'object':
                             val = eval('(' + val + ')'); //yikes
                             break;
-                        case 'number':
-                            val = parse
                     }
                 }
                 propVals[field.name] = val;
@@ -104,7 +102,7 @@ const mainTemplate = html`
 </script></ag-fn>
 <p-d vft to={{tag}} prop=...></p-d>
 <p-d on=expected-event-changed to=[-rhs] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
-<p-d on=expected-event-changed to=details.expected care-of=[-data] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
+<p-d on=expected-event-changed to=details.expected care-of=[-data] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail debug></p-d>
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
