@@ -26,7 +26,7 @@ const mainTemplate = html `
 </script></ag-fn>
 <p-d vft to=[-data] m=3></p-d>
 <mark></mark>
-<!-- <json-viewer -data></json-viewer> -->
+<json-viewer -data>{}</json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
 <p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
 <ag-fn -data  tag={{tag}} ><script nomodule>
@@ -112,11 +112,11 @@ const mainTemplate = html `
     <summary>Event Details</summary>
     <section class=expected>
         <h4>Expected Event Detail</h4>
-        <!-- <json-viewer -data></json-viewer> -->
+        <json-viewer -data>{}</json-viewer>
     </section>
     <section>
         <h4>Actual Event Detail</h4>
-        <!-- <json-viewer -data></json-viewer> -->
+        <json-viewer -data>{}</json-viewer>
     </section>
 </details>
 <if-diff iff -lhs equals -rhs>
