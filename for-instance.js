@@ -13,20 +13,7 @@ const mainTemplate = html `
 <wc-info-fetch fetch href={{href}} tag={{tag}}></wc-info-fetch>
 <p-d vft to=[-pack] m=1></p-d>
 <p-d vft=customElement to=[-data] m=1></p-d>
-<!-- <ag-fn -pack tag={{tag}}><script nomodule>
-    ({pack, tag}) =>{
-        if(tag === undefined || pack === undefined || pack.modules === undefined) return;
-        if(pack.modules === undefined) return;
-        for(const mod of pack.modules){
-            if(mod.declarations === undefined) continue;
-            for(const declaration of mod.declarations){
-                if(declaration.tagName === tag) return declaration;
-            }
-        }
-    }
-</script></ag-fn>
-<p-d vft to=[-data] m=3></p-d> -->
-<mark></mark>
+<mark>{{tag}}</mark>
 <json-viewer -data>{}</json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
 <p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
