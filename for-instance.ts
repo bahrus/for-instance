@@ -1,6 +1,5 @@
 import {html} from 'xtal-element/lib/html.js';
 import('pass-prop/p-p.js');
-import('xtal-fetch/xtal-fetch-get.js');
 import('pass-down/p-d.js');
 import('@alenaksu/json-viewer/dist/index.js');
 import('aggregator-fn/ag-fn.js');
@@ -8,11 +7,12 @@ import('ref-to/ref-to.js');
 import('xt-f/xt-f.js');
 import('ib-id/i-bid.js');
 import('if-diff/if-diff.js');
+import('wc-info/wc-info-fetch.js');
 import {def} from 'd-fine/def.js';
 import {ForInstanceFetchProps, ForInstanceListenersProps, ForInstanceProps} from './types.d.js';
 
 const mainTemplate = html`
-<xtal-fetch-get fetch href={{href}}></xtal-fetch-get>
+<wc-info-fetch fetch href={{href}}></wc-info-fetch>
 <p-d vft to=[-pack] m=1></p-d>
 <ag-fn -pack tag={{tag}}><script nomodule>
     ({pack, tag}) =>{
@@ -28,7 +28,7 @@ const mainTemplate = html`
 </script></ag-fn>
 <p-d vft to=[-data] m=3></p-d>
 <mark></mark>
-<json-viewer -data></json-viewer>
+<!-- <json-viewer -data></json-viewer> -->
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
 <p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
 <ag-fn -data  tag={{tag}} ><script nomodule>
@@ -102,7 +102,7 @@ const mainTemplate = html`
 </script></ag-fn>
 <p-d vft to={{tag}} prop=...></p-d>
 <p-d on=expected-event-changed to=[-rhs] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
-<p-d on=expected-event-changed to=details.expected care-of=[-data] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail debug></p-d>
+<p-d on=expected-event-changed to=details.expected care-of=[-data] m=1 initVal=expectedEvent.detail val=target.expectedEvent.detail></p-d>
 <ref-to a={{tag}}></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
@@ -114,11 +114,11 @@ const mainTemplate = html`
     <summary>Event Details</summary>
     <section class=expected>
         <h4>Expected Event Detail</h4>
-        <json-viewer -data></json-viewer>
+        <!-- <json-viewer -data></json-viewer> -->
     </section>
     <section>
         <h4>Actual Event Detail</h4>
-        <json-viewer -data></json-viewer>
+        <!-- <json-viewer -data></json-viewer> -->
     </section>
 </details>
 <if-diff iff -lhs equals -rhs>
