@@ -1,4 +1,5 @@
-import {ElementInfo} from 'api-viewer-element/src/lib/types.js';
+//import {ElementInfo} from 'api-viewer-element/src/lib/types.js';
+import { WCInfoFetchProps } from 'wc-info/types.d.js';
 export interface ExpectedEvent{
     /** 
      * Name (or "type") of (custom) event 
@@ -36,6 +37,11 @@ export interface ForInstanceViewModel{
     elementInfo: ElementInfo
 }
 
+export interface ForInstanceListenersProps{
+    event: Event,
+    tag: string,
+}
+
 export interface ForInstanceProps extends HTMLElement{
   
   /**
@@ -57,4 +63,12 @@ export interface ForInstanceProps extends HTMLElement{
    skipImports: boolean | undefined;
 
    href: string,
+}
+
+export interface ForInstanceFetchProps extends WCInfoFetchProps{
+    /**
+   * Name of property that specifies contract.
+   * @attr contract-prop
+   */
+   contractProp: string | undefined;
 }

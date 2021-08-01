@@ -2,14 +2,14 @@ import {html} from 'xtal-element/lib/html.js';
 import('pass-prop/p-p.js');
 import('xtal-fetch/xtal-fetch-get.js');
 import('pass-down/p-d.js');
-import {define} from 'carbon-copy/c-c.js';
-import {CCProps} from 'carbon-copy/types.d.js';
 import('@alenaksu/json-viewer/dist/index.js');
 import('aggregator-fn/ag-fn.js');
 import('ref-to/ref-to.js');
 import('xt-f/xt-f.js');
 import('ib-id/i-bid.js');
 import('if-diff/if-diff.js');
+import {def} from 'd-fine/def.js';
+import {ForInstanceFetchProps, ForInstanceListenersProps, ForInstanceProps} from './types.d.js';
 
 const mainTemplate = html`
 <xtal-fetch-get fetch href={{href}}></xtal-fetch-get>
@@ -132,24 +132,28 @@ const mainTemplate = html`
     </template>
 </if-diff>
 `;
-define('for-instance', mainTemplate, {
-    stringProps: ['tag', 'href', 'contractProp'],
+export const ForInstance = def<ForInstanceProps>(mainTemplate, {
+    as:'for-instance',
+    strProps: ['tag', 'href', 'contractProp'],
     boolProps: ['skipImports'],
     noshadow: true
-} as CCProps);
+});
+
+export interface ForInstance extends ForInstanceProps{};
 
 const targetListenersTemplate = html`
     <p-d on={{event.name}} observe={{tag}} from=target-listeners to=details care-of=[-data] val=detail m=1></p-d>
     <p-d on={{event.name}} observe={{tag}} from=target-listeners to=[-lhs] val=detail m=2></p-d>
 `;
-define('target-listeners', targetListenersTemplate, {
+def<ForInstanceListenersProps>(targetListenersTemplate, {
+    as: 'target-listeners',
     objProps: ['event'],
-    stringProps: ['tag'],
+    strProps: ['tag'],
     noshadow: true,
-} as CCProps);
+});
 
-// declare global {
-//     interface HTMLElementTagNameMap {
-//         'pass-down': ForInstance;
-//     }
-// }
+declare global {
+    interface HTMLElementTagNameMap {
+        'for-instance': ForInstance;
+    }
+}
