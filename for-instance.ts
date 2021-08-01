@@ -12,9 +12,10 @@ import {def} from 'd-fine/def.js';
 import {ForInstanceFetchProps, ForInstanceListenersProps, ForInstanceProps} from './types.d.js';
 
 const mainTemplate = html`
-<wc-info-fetch fetch href={{href}}></wc-info-fetch>
+<wc-info-fetch fetch href={{href}} tag={{tag}}></wc-info-fetch>
 <p-d vft to=[-pack] m=1></p-d>
-<ag-fn -pack tag={{tag}}><script nomodule>
+<p-d vft=customElement to=[-data] m=1></p-d>
+<!-- <ag-fn -pack tag={{tag}}><script nomodule>
     ({pack, tag}) =>{
         if(tag === undefined || pack === undefined || pack.modules === undefined) return;
         if(pack.modules === undefined) return;
@@ -26,7 +27,7 @@ const mainTemplate = html`
         }
     }
 </script></ag-fn>
-<p-d vft to=[-data] m=3></p-d>
+<p-d vft to=[-data] m=3></p-d> -->
 <mark></mark>
 <json-viewer -data>{}</json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>

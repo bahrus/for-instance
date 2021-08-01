@@ -44,7 +44,7 @@
     "aggregator-fn": "0.0.37",
     "xt-f": "0.0.3",
     "ref-to": "0.0.7",
-    "wc-info": "0.0.120"
+    "wc-info": "0.0.121"
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",
