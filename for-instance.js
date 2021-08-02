@@ -12,7 +12,7 @@ import { def } from 'd-fine/def.js';
 const mainTemplate = html `
 <wc-info-fetch fetch href={{href}} tag={{tag}}></wc-info-fetch>
 <p-d vft to=[-pack] m=1></p-d>
-<p-d vft=customElement to=[-data] m=1></p-d>
+<p-d vft=customElement to=[-data] m=2></p-d>
 <mark>{{tag}}</mark>
 <json-viewer -data>{}</json-viewer>
 <p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
