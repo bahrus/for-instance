@@ -9,7 +9,7 @@
 		"watch": true
 	},
 	"files": [
-		"for-instance.ts"
+		"for-instance2.ts"
 	],
 	"exclude":[
 		"node_modules"
