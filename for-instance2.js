@@ -3,21 +3,17 @@ import { html } from 'trans-render/lib/html.js';
 import('wc-info/wc-info-fetch.js');
 import('pass-prop/p-p.js');
 import('pass-down/p-d.js');
+import('ref-to/ref-to.js');
+import('xt-f/xt-f.js');
 import('xtal-editor/src/xtal-editor.js');
 import('ib-id/i-bid.js');
 const mainTemplate = html `
-<p-p observe-host vft=href to=[-href] m=1></p-p>
-<p-p observe-host vft=tag to=[-tag] m=1></p-p>
 <wc-info-fetch fetch -href -tag></wc-info-fetch>
-<p-d vft to=[-pack] m=1></p-d>
 <p-d vft=customElement to=[-value] m=1></p-d>
 <p-d vft=customElement to=[-custom-element] m=1></p-d>
-<p-p vft=tag to=[-text-content] m=1></p-p>
-<p-p vft=tag to=[-tag] m=1></p-p>
-<mark -text-content></mark>
+<mark></mark>
 <xtal-editor read-only -value open></xtal-editor>
-<p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
-<p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
+
 <ag-fn -custom-element  -tag ><script nomodule>
     ({customElement, tag}) => {
         if(customElement === undefined) return;
@@ -31,6 +27,8 @@ const mainTemplate = html `
     }
 </script></ag-fn>
 <p-d vft to=[-list] m=1></p-d>
+<p-p from-parent-or-host observe-prop=contractProp to=[-contract-prop] m=1></p-p>
+<p-p from-parent-or-host observe-prop=skipImports to=[-skip-imports] m=1></p-p>
 <ag-fn -data -contract-prop -skip-imports><script nomodule>
     ({data, contractProp, skipImports, self}) => {
         if(data === undefined || data.members === undefined || contractProp === undefined) return;
@@ -87,11 +85,11 @@ const mainTemplate = html `
         return propVals;
     }
 </script></ag-fn>
-<p-d vft to={{tag}} prop=...></p-d>
+<p-d vft -to prop=...></p-d>
 <p-d on=expected-event-changed to=[-rhs] m=2 vft=expectedEvent.detail></p-d>
 <p-d on=expected-event-changed to=[-iff] m=2 vft=expectedEvent.detail></p-d>
 <p-d on=expected-event-changed to=details.expected care-of=[-data] m=1 vft=expectedEvent.detail></p-d>
-<ref-to a={{tag}}></ref-to>
+<ref-to -a></ref-to>
 <p-d vft=deref to=[-piped-chunk] m=1></p-d>
 <xt-f -piped-chunk></xt-f>
 <i-bid -list tag=target-listeners></i-bid>
@@ -120,7 +118,14 @@ const mainTemplate = html `
     </template>
 </if-diff>
 `;
-def(mainTemplate, [], {}, true, {
+const transform = {
+    '[-to]': 'tag',
+    '[-a]': 'tag',
+    '[-tag]': 'tag',
+    'mark': 'tag',
+    '[-href]': 'href',
+};
+def(mainTemplate, [], transform, true, {
     config: {
         tagName: 'for-instance',
         propDefaults: {
