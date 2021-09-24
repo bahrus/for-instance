@@ -32,10 +32,10 @@ export interface Test{
 
 }
 
-export interface ForInstanceViewModel{
-    test: Test,
-    elementInfo: ElementInfo
-}
+// export interface ForInstanceViewModel{
+//     test: Test,
+//     elementInfo: ElementInfo
+// }
 
 export interface ForInstanceListenersProps{
     event: Event,
