@@ -37,13 +37,13 @@
     "pass-prop": "0.0.35",
     "trans-render": "0.0.411",
     "xtal-editor": "0.0.59",
-    "pass-down": "0.0.112",
+    "pass-down": "0.0.113",
     "if-diff": "0.0.114",
     "xtal-shell": "0.0.25",
     "ib-id": "0.0.79",
     "aggregator-fn": "0.0.37",
     "xt-f": "0.0.3",
-    "ref-to": "0.0.7",
+    "ref-to": "0.0.8",
     "wc-info": "0.0.125"
   },
   "devDependencies": {
