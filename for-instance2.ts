@@ -7,20 +7,21 @@ import('aggregator-fn/ag-fn.js');
 import('ref-to/ref-to.js');
 import('xtal-editor/src/xtal-editor.js');
 import('ib-id/i-bid.js');
+import('if-diff/if-diff.js');
 import {ForInstanceProps} from './types.d.js';
 
 const mainTemplate = html`
 <wc-info-fetch fetch -href -tag></wc-info-fetch>
 <p-d vft=customElement to=[-value] m=1></p-d>
-
+<p-d vft=customElement to=[-custom-element] m=2></p-d>
 <mark></mark>
 <xtal-editor read-only -value open></xtal-editor>
 
 
-<ag-fn -data -contract-prop -skip-imports><script nomodule>
-    ({data, contractProp, skipImports, self}) => {
-        if(data === undefined || data.members === undefined || contractProp === undefined) return;
-        const fields = data.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private'));
+<ag-fn -custom-element -contract-prop -skip-imports><script nomodule>
+    ({customElement, contractProp, skipImports, self}) => {
+        if(customElement === undefined || customElement.members === undefined || contractProp === undefined) return;
+        const fields = customElement.members.filter(x=> x.kind ==='field' && !x.static && !(x.privacy==='private'));
         const propVals = {};
         for(const field of fields){
             if(field.default !== undefined){
@@ -81,7 +82,8 @@ const mainTemplate = html`
 
 
 <template data-from=eventListeners>
-    <p-d -observe -on to=details care-of=.actual[-value] val=.></p-d>
+    <p-d -observe -on to=details care-of=.actual[-value] val=detail></p-d>
+    <p-d -observe -on to=[-lhs] val=detail></p-d>
 </template>
 <details>
     <summary>Event Details</summary>
@@ -94,7 +96,7 @@ const mainTemplate = html`
         <xtal-editor class=actual -value>{}</xtal-editor>
     </section>
 </details>
-<p-d observe=wc-info-fetch vft=customElement to=[-custom-element] m=1></p-d>
+
 <!-- extract events -->
 <ag-fn -custom-element  -tag ><script nomodule>
     ({customElement, tag}) => {
@@ -122,12 +124,12 @@ const mainTemplate = html`
 
 
 
-<if-diff -iff -lhs equals -rhs>
+<if-diff -iff -lhs includes -rhs>
     <template>
         <div mark style="background-color: green; color: white;">Event specified by contract detected.</div>
     </template>
 </if-diff>
-<if-diff -iff -lhs not-equals -rhs>
+<if-diff -iff -lhs not-includes -rhs>
     <template>
         <div err style="background-color: red; color: white;">Event specified by contract not detected.</div>
     </template>
@@ -141,7 +143,7 @@ const transform = {
     'mark': 'tag',
     '[-href]': 'href',
     '[-contract-prop]': 'contractProp',
-    '[skip-imports]': 'skipImports'
+    '[-skip-imports]': 'skipImports'
 
 };
 def(mainTemplate,[],transform,true,{
@@ -150,7 +152,8 @@ def(mainTemplate,[],transform,true,{
         propDefaults:{
             tag: '',
             href: '',
-            contractProp: ''
+            contractProp: '',
+            skipImports: false,
         }
     }
 });
